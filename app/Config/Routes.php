@@ -84,7 +84,7 @@ $routes->get('/ugovoroRadu/(:any)', 'AdminController::ugovoroRaduPdf/$1',['filte
 $routes->get('/ugovoroRaduPrint/(:any)', 'AdminController::ugovoroRaduPdf/$1',['filter' => 'authGuard']);
 $routes->get('/aneksUgovora/(:any)', 'AdminController::aneksUgovoraPdf/$1',['filter' => 'authGuard']);
 $routes->get('/ugovoroNajmu', 'AdminController::ugovoroNajmu',['filter' => 'authGuard']);
-$routes->get('/ugovoroNajmu/(:any)', 'AdminController::ugovoroNajmu/$1',['filter' => 'authGuard']);
+$routes->get('/ugovoroNajmu/(:any)', 'AdminController::ugovoroNajmuPdf/$1',['filter' => 'authGuard']);
 $routes->get('/kreirajRaskid/(:any)', 'AdminController::kreirajRaskid/$1',['filter' => 'authGuard']);
 $routes->get('/radniOdnos', 'AdminController::radniOdnos',['filter' => 'authGuard']);
 $routes->get('/radniOdnos/(:any)', 'AdminController::radniOdnos/$1',['filter' => 'authGuard']);
