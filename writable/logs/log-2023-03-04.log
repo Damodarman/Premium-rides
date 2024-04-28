@@ -1,0 +1,80 @@
+CRITICAL - 2023-03-04 10:55:57 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 409.
+ 1 APPPATH/Controllers/AdminController.php(409): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 409)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:02:10 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 413.
+ 1 APPPATH/Controllers/AdminController.php(413): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 413)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:04:03 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 413.
+ 1 APPPATH/Controllers/AdminController.php(413): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 413)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:06:11 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 413.
+ 1 APPPATH/Controllers/AdminController.php(413): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 413)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:09:42 --> file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1677948302.736520.json): Failed to open stream: No such file or directory
+in SYSTEMPATH/Debug/Toolbar/Collectors/History.php on line 82.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1677948302.736520.json): Failed to open stream: No such file or directory', 'SYSTEMPATH/Debug/Toolbar/Collectors/History.php', 82)
+ 2 SYSTEMPATH/Debug/Toolbar/Collectors/History.php(82): file_get_contents('ROOTPATH/writable/debugbar/debugbar_1677948302.736520.json')
+ 3 SYSTEMPATH/Debug/Toolbar.php(500): CodeIgniter\Debug\Toolbar\Collectors\History->setFiles('1677949778.894407', 20)
+ 4 SYSTEMPATH/Debug/Toolbar.php(477): CodeIgniter\Debug\Toolbar->format([...], 'html')
+ 5 APPPATH/Config/Events.php(46): CodeIgniter\Debug\Toolbar->respond()
+ 6 SYSTEMPATH/Events/Events.php(149): CodeIgniter\Events\Events::Config\{closure}()
+ 7 SYSTEMPATH/CodeIgniter.php(328): CodeIgniter\Events\Events::trigger('pre_system')
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:11:08 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 415.
+ 1 APPPATH/Controllers/AdminController.php(415): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 415)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:11:45 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 415.
+ 1 APPPATH/Controllers/AdminController.php(415): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 415)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:11:46 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 415.
+ 1 APPPATH/Controllers/AdminController.php(415): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 415)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:11:51 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 415.
+ 1 APPPATH/Controllers/AdminController.php(415): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 415)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:11:52 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 415.
+ 1 APPPATH/Controllers/AdminController.php(415): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 415)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroRadu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-03-04 11:31:07 --> Trying to access array offset on value of type null
+in APPPATH/Controllers/AdminController.php on line 542.
+ 1 APPPATH/Controllers/AdminController.php(542): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'APPPATH/Controllers/AdminController.php', 542)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroNajmu('33')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

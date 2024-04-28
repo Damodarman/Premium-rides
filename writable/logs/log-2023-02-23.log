@@ -1,0 +1,68 @@
+CRITICAL - 2023-02-23 07:55:37 --> Undefined variable $svrha
+in APPPATH/Views/adminDashboard/header.php on line 42.
+ 1 APPPATH/Views/adminDashboard/header.php(42): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $svrha', 'APPPATH/Views/adminDashboard/header.php', 42)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/header.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/header', [], true)
+ 5 APPPATH/Controllers/AdminController.php(493): view('adminDashboard/header', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroNajmu('5')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-23 07:55:58 --> Undefined variable $svrha
+in APPPATH/Views/adminDashboard/header.php on line 42.
+ 1 APPPATH/Views/adminDashboard/header.php(42): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $svrha', 'APPPATH/Views/adminDashboard/header.php', 42)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/header.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/header', [], true)
+ 5 APPPATH/Controllers/AdminController.php(493): view('adminDashboard/header', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroNajmu('5')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-23 07:55:59 --> Undefined variable $svrha
+in APPPATH/Views/adminDashboard/header.php on line 42.
+ 1 APPPATH/Views/adminDashboard/header.php(42): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $svrha', 'APPPATH/Views/adminDashboard/header.php', 42)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/header.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/header', [], true)
+ 5 APPPATH/Controllers/AdminController.php(493): view('adminDashboard/header', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->ugovoroNajmu('5')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-23 09:43:22 --> Undefined variable $data
+in APPPATH/Controllers/AdminController.php on line 800.
+ 1 APPPATH/Controllers/AdminController.php(800): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $data', 'APPPATH/Controllers/AdminController.php', 800)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->knjigovodstvo()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-23 09:44:04 --> Undefined variable $page
+in APPPATH/Views/adminDashboard/header.php on line 8.
+ 1 APPPATH/Views/adminDashboard/header.php(8): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $page', 'APPPATH/Views/adminDashboard/header.php', 8)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/header.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/header', [], true)
+ 5 APPPATH/Controllers/AdminController.php(803): view('adminDashboard/header', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->knjigovodstvo()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-23 09:44:30 --> Undefined constant "App\Controllers\Knjigovodstvo"
+in APPPATH/Controllers/AdminController.php on line 802.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->knjigovodstvo()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-23 09:44:45 --> Undefined variable $fleet
+in APPPATH/Views/adminDashboard/navBar.php on line 3.
+ 1 APPPATH/Views/adminDashboard/navBar.php(3): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $fleet', 'APPPATH/Views/adminDashboard/navBar.php', 3)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/navBar.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/navBar', [], true)
+ 5 APPPATH/Controllers/AdminController.php(805): view('adminDashboard/navBar')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->knjigovodstvo()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="AbstractLogger.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531130000000" Dst="1" />
+<file name="InvalidArgumentException.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531130000000" Dst="1" />
+<file name="LICENSE" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531130000000" Dst="1" />
+<file name="LoggerAwareInterface.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531130000000" Dst="1" />
+<file name="LoggerAwareTrait.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531130000000" Dst="1" />
+<file name="LoggerInterface.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531130000000" Dst="1" />
+<file name="LoggerTrait.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531140000000" Dst="1" />
+<file name="LogLevel.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531140000000" Dst="1" />
+<file name="NullLogger.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531140000000" Dst="1" />
+</dwsync>

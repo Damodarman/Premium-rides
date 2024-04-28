@@ -1,0 +1,78 @@
+CRITICAL - 2023-01-10 06:28:45 --> Undefined property: App\Controllers\AdminController::$load
+in APPPATH/Controllers/AdminController.php on line 20.
+ 1 APPPATH/Controllers/AdminController.php(20): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: App\\Controllers\\AdminController::$load', 'APPPATH/Controllers/AdminController.php', 20)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-10 08:42:05 --> Undefined variable $uberReport
+in APPPATH/Views/adminDashboard/importUber.php on line 46.
+ 1 APPPATH/Views/adminDashboard/importUber.php(46): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $uberReport', 'APPPATH/Views/adminDashboard/importUber.php', 46)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/importUber.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/importUber', [], true)
+ 5 APPPATH/Controllers/AdminController.php(20): view('adminDashboard/importUber')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberImport()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-10 08:44:35 --> Undefined variable $uberReport
+in APPPATH/Views/adminDashboard/importUber.php on line 46.
+ 1 APPPATH/Views/adminDashboard/importUber.php(46): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $uberReport', 'APPPATH/Views/adminDashboard/importUber.php', 46)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/importUber.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/importUber', [], true)
+ 5 APPPATH/Controllers/AdminController.php(20): view('adminDashboard/importUber')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberImport()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-10 08:45:50 --> Undefined variable $uberReport
+in APPPATH/Views/adminDashboard/importUber.php on line 57.
+ 1 APPPATH/Views/adminDashboard/importUber.php(57): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $uberReport', 'APPPATH/Views/adminDashboard/importUber.php', 57)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/importUber.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/importUber', [], true)
+ 5 APPPATH/Controllers/AdminController.php(20): view('adminDashboard/importUber')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberImport()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-10 08:46:44 --> Cannot access offset of type string on string
+in APPPATH/Views/adminDashboard/importUber.php on line 73.
+ 1 SYSTEMPATH/View/View.php(213): include()
+ 2 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/importUber', [], true)
+ 4 APPPATH/Controllers/AdminController.php(77): view('adminDashboard/importUber', [...])
+ 5 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 6 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 7 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-10 09:39:21 --> Array to string conversion
+in APPPATH/Controllers/AdminController.php on line 64.
+ 1 APPPATH/Controllers/AdminController.php(64): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'APPPATH/Controllers/AdminController.php', 64)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-10 09:40:07 --> Undefined array key "UUID_Vozaca"
+in APPPATH/Controllers/AdminController.php on line 64.
+ 1 APPPATH/Controllers/AdminController.php(64): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "UUID_Vozaca"', 'APPPATH/Controllers/AdminController.php', 64)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-10 09:40:50 --> Trying to access array offset on value of type int
+in APPPATH/Controllers/AdminController.php on line 64.
+ 1 APPPATH/Controllers/AdminController.php(64): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type int', 'APPPATH/Controllers/AdminController.php', 64)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-10 09:41:26 --> Undefined array key "UUID_Vozaca"
+in APPPATH/Controllers/AdminController.php on line 64.
+ 1 APPPATH/Controllers/AdminController.php(64): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "UUID_Vozaca"', 'APPPATH/Controllers/AdminController.php', 64)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

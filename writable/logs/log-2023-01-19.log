@@ -1,0 +1,162 @@
+CRITICAL - 2023-01-19 04:08:07 --> round(): Argument #1 ($num) must be of type int|float, string given
+in APPPATH/Controllers/AdminController.php on line 136.
+ 1 APPPATH/Controllers/AdminController.php(136): round('ROOTPATH/public', 2)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 04:09:14 --> number_format(): Argument #1 ($num) must be of type float, string given
+in APPPATH/Controllers/AdminController.php on line 136.
+ 1 APPPATH/Controllers/AdminController.php(136): number_format('ROOTPATH/public', 2, 'ROOTPATH/public', ',')
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 04:18:25 --> syntax error, unexpected token "else"
+in APPPATH/Controllers/AdminController.php on line 101.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(259): CodeIgniter\Autoloader\Autoloader->includeFile('APPPATH/Controllers/AdminController.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(237): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\AdminController')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\AdminController')
+ 4 SYSTEMPATH/CodeIgniter.php(877): class_exists('\\App\\Controllers\\AdminController', true)
+ 5 SYSTEMPATH/CodeIgniter.php(469): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 04:29:55 --> Cannot use object of type CodeIgniter\HTTP\Files\UploadedFile as array
+in APPPATH/Controllers/AdminController.php on line 35.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 04:32:36 --> Undefined variable $original_name
+in APPPATH/Controllers/AdminController.php on line 35.
+ 1 APPPATH/Controllers/AdminController.php(35): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $original_name', 'APPPATH/Controllers/AdminController.php', 35)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 05:02:41 --> Undefined array key "original_name"
+in APPPATH/Controllers/AdminController.php on line 102.
+ 1 APPPATH/Controllers/AdminController.php(102): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "original_name"', 'APPPATH/Controllers/AdminController.php', 102)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 05:15:03 --> Undefined variable $settype
+in APPPATH/Controllers/AdminController.php on line 92.
+ 1 APPPATH/Controllers/AdminController.php(92): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $settype', 'APPPATH/Controllers/AdminController.php', 92)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 08:52:32 --> Object of class App\Models\UberReportModel could not be converted to string
+in APPPATH/Controllers/AdminController.php on line 74.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 08:53:59 --> Call to undefined method App\Models\UberReportModel::selectAllResults
+in SYSTEMPATH/Model.php on line 774.
+ 1 APPPATH/Controllers/AdminController.php(73): CodeIgniter\Model->__call('selectAllResults', [])
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->uberReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 08:55:13 --> syntax error, unexpected token "->", expecting identifier or variable or "{" or "$"
+in APPPATH/Controllers/AdminController.php on line 73.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(259): CodeIgniter\Autoloader\Autoloader->includeFile('APPPATH/Controllers/AdminController.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(237): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\AdminController')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\AdminController')
+ 4 SYSTEMPATH/CodeIgniter.php(877): class_exists('\\App\\Controllers\\AdminController', true)
+ 5 SYSTEMPATH/CodeIgniter.php(469): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 08:58:11 --> syntax error, unexpected token ")"
+in APPPATH/Controllers/AdminController.php on line 73.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(259): CodeIgniter\Autoloader\Autoloader->includeFile('APPPATH/Controllers/AdminController.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(237): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\AdminController')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\AdminController')
+ 4 SYSTEMPATH/CodeIgniter.php(877): class_exists('\\App\\Controllers\\AdminController', true)
+ 5 SYSTEMPATH/CodeIgniter.php(469): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 09:23:26 --> Undefined variable $uberReport
+in APPPATH/Controllers/AdminController.php on line 169.
+ 1 APPPATH/Controllers/AdminController.php(169): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $uberReport', 'APPPATH/Controllers/AdminController.php', 169)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 10:03:13 --> syntax error, unexpected token ")", expecting "("
+in APPPATH/Controllers/AdminController.php on line 144.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(259): CodeIgniter\Autoloader\Autoloader->includeFile('APPPATH/Controllers/AdminController.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(237): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\AdminController')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\AdminController')
+ 4 SYSTEMPATH/CodeIgniter.php(877): class_exists('\\App\\Controllers\\AdminController', true)
+ 5 SYSTEMPATH/CodeIgniter.php(469): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 10:03:34 --> syntax error, unexpected token ")"
+in APPPATH/Controllers/AdminController.php on line 144.
+ 1 SYSTEMPATH/Autoloader/Autoloader.php(259): CodeIgniter\Autoloader\Autoloader->includeFile('APPPATH/Controllers/AdminController.php')
+ 2 SYSTEMPATH/Autoloader/Autoloader.php(237): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\AdminController')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\AdminController')
+ 4 SYSTEMPATH/CodeIgniter.php(877): class_exists('\\App\\Controllers\\AdminController', true)
+ 5 SYSTEMPATH/CodeIgniter.php(469): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 10:15:24 --> Undefined array key "Vozac"
+in APPPATH/Controllers/AdminController.php on line 154.
+ 1 APPPATH/Controllers/AdminController.php(154): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "Vozac"', 'APPPATH/Controllers/AdminController.php', 154)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 10:16:59 --> Undefined array key ""Vozac""
+in APPPATH/Controllers/AdminController.php on line 154.
+ 1 APPPATH/Controllers/AdminController.php(154): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key ""Vozac""', 'APPPATH/Controllers/AdminController.php', 154)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 14:39:03 --> Undefined array key "Vozac"
+in APPPATH/Controllers/AdminController.php on line 149.
+ 1 APPPATH/Controllers/AdminController.php(149): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "Vozac"', 'APPPATH/Controllers/AdminController.php', 149)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 14:48:15 --> Undefined array key "report_for_week"
+in APPPATH/Controllers/AdminController.php on line 164.
+ 1 APPPATH/Controllers/AdminController.php(164): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "report_for_week"', 'APPPATH/Controllers/AdminController.php', 164)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 14:49:39 --> Undefined array key "report_for_week"
+in APPPATH/Controllers/AdminController.php on line 165.
+ 1 APPPATH/Controllers/AdminController.php(165): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "report_for_week"', 'APPPATH/Controllers/AdminController.php', 165)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 14:49:42 --> Undefined array key "report_for_week"
+in APPPATH/Controllers/AdminController.php on line 165.
+ 1 APPPATH/Controllers/AdminController.php(165): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "report_for_week"', 'APPPATH/Controllers/AdminController.php', 165)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 15:11:01 --> Undefined array key "Vozac"
+in APPPATH/Controllers/AdminController.php on line 162.
+ 1 APPPATH/Controllers/AdminController.php(162): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "Vozac"', 'APPPATH/Controllers/AdminController.php', 162)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-19 15:14:01 --> Undefined array key "vozac"
+in APPPATH/Controllers/AdminController.php on line 162.
+ 1 APPPATH/Controllers/AdminController.php(162): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "vozac"', 'APPPATH/Controllers/AdminController.php', 162)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->boltReportImport()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

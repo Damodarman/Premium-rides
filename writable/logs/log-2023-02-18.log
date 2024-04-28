@@ -1,0 +1,50 @@
+CRITICAL - 2023-02-18 05:42:12 --> require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src/Dompdf.php): Failed to open stream: No such file or directory
+in APPPATH/Controllers/PdfController.php on line 9.
+ 1 APPPATH/Controllers/PdfController.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src/Dompdf.php): Failed to open stream: No such file or directory', 'APPPATH/Controllers/PdfController.php', 9)
+ 2 APPPATH/Controllers/PdfController.php(9): require_once()
+ 3 SYSTEMPATH/CodeIgniter.php(889): App\Controllers\PdfController->__construct()
+ 4 SYSTEMPATH/CodeIgniter.php(473): CodeIgniter\CodeIgniter->createController()
+ 5 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-18 05:43:44 --> Class "Dompdf" not found
+in APPPATH/Controllers/PdfController.php on line 17.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\PdfController->htmlToPDF()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PdfController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-18 05:51:03 --> Cannot call constructor
+in APPPATH/Controllers/PdfController.php on line 9.
+ 1 SYSTEMPATH/CodeIgniter.php(889): App\Controllers\PdfController->__construct()
+ 2 SYSTEMPATH/CodeIgniter.php(473): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-18 05:52:07 --> Class "Dompdf" not found
+in APPPATH/Controllers/PdfController.php on line 17.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\PdfController->htmlToPDF()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PdfController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-18 05:56:36 --> Class "App\Controllers\Dompdf" not found
+in APPPATH/Controllers/PdfController.php on line 17.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\PdfController->htmlToPDF()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PdfController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-18 05:56:51 --> Class "App\Controllers\Dompdf\Dompdf" not found
+in APPPATH/Controllers/PdfController.php on line 17.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\PdfController->htmlToPDF()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PdfController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-18 05:56:52 --> Class "App\Controllers\Dompdf\Dompdf" not found
+in APPPATH/Controllers/PdfController.php on line 17.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\PdfController->htmlToPDF()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PdfController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-18 05:58:13 --> Class "App\Controllers\Dompdf\Dompdf" not found
+in APPPATH/Controllers/PdfController.php on line 17.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\PdfController->htmlToPDF()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PdfController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="BaseBuilder.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530320000000" Dst="1" />
+<file name="BaseConnection.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530320000000" Dst="1" />
+<file name="BasePreparedQuery.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530320000000" Dst="1" />
+<file name="BaseResult.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530320000000" Dst="1" />
+<file name="BaseUtils.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530320000000" Dst="1" />
+<file name="Config.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530330000000" Dst="1" />
+<file name="ConnectionInterface.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530330000000" Dst="1" />
+<file name="Database.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530330000000" Dst="1" />
+<file name="Forge.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530340000000" Dst="1" />
+<file name="Migration.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530340000000" Dst="1" />
+<file name="MigrationRunner.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530340000000" Dst="1" />
+<file name="ModelFactory.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530340000000" Dst="1" />
+<file name="PreparedQueryInterface.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530380000000" Dst="1" />
+<file name="Query.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530380000000" Dst="1" />
+<file name="QueryInterface.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530380000000" Dst="1" />
+<file name="RawSql.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530380000000" Dst="1" />
+<file name="ResultInterface.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530380000000" Dst="1" />
+<file name="Seeder.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530380000000" Dst="1" />
+</dwsync>

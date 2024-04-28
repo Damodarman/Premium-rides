@@ -1,0 +1,344 @@
+ERROR - 2023-02-14 11:11:10 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':0:
+AND 1 = :1:' at line 3 in /homepages/0/d941215561/htdocs/system/Database/MySQLi/Connection.php:292
+Stack trace:
+#0 /homepages/0/d941215561/htdocs/system/Database/MySQLi/Connection.php(292): mysqli->query('SELECT *\nFROM `...', 0)
+#1 /homepages/0/d941215561/htdocs/system/Database/BaseConnection.php(666): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 /homepages/0/d941215561/htdocs/system/Database/BaseConnection.php(593): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 /homepages/0/d941215561/htdocs/system/Database/BaseBuilder.php(1585): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 /homepages/0/d941215561/htdocs/system/Model.php(772): CodeIgniter\Database\BaseBuilder->get()
+#5 /homepages/0/d941215561/htdocs/app/Controllers/AdminController.php(355): CodeIgniter\Model->__call('get', Array)
+#6 /homepages/0/d941215561/htdocs/system/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+#7 /homepages/0/d941215561/htdocs/system/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+#8 /homepages/0/d941215561/htdocs/system/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 /homepages/0/d941215561/htdocs/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2023-02-14 11:11:10 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':0:
+AND 1 = :1:' at line 3
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 292.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(292): mysqli->query('SELECT *
+FROM `obracun`
+WHERE 0 = :0:
+AND 1 = :1:', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(666): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `obracun`
+WHERE 0 = :0:
+AND 1 = :1:')
+ 3 SYSTEMPATH/Database/BaseConnection.php(593): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `obracun`
+WHERE 0 = :0:
+AND 1 = :1:')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1585): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `obracun`
+WHERE 0 = :0:
+AND 1 = :1:', [...], false)
+ 5 SYSTEMPATH/Model.php(772): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH/Controllers/AdminController.php(355): CodeIgniter\Model->__call('get', [])
+ 7 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 8 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 9 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 11:44:07 --> Undefined variable $drivers
+in APPPATH/Views/adminDashboard/driver.php on line 81.
+ 1 APPPATH/Views/adminDashboard/driver.php(81): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $drivers', 'APPPATH/Views/adminDashboard/driver.php', 81)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(367): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 11:54:41 --> Undefined array key "postanskiBroj"
+in APPPATH/Views/adminDashboard/driver.php on line 37.
+ 1 APPPATH/Views/adminDashboard/driver.php(37): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "postanskiBroj"', 'APPPATH/Views/adminDashboard/driver.php', 37)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 11:56:45 --> Undefined array key "referal_reward"
+in APPPATH/Views/adminDashboard/driver.php on line 91.
+ 1 APPPATH/Views/adminDashboard/driver.php(91): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "referal_reward"', 'APPPATH/Views/adminDashboard/driver.php', 91)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 11:57:27 --> Undefined array key "referal_reward"
+in APPPATH/Views/adminDashboard/driver.php on line 91.
+ 1 APPPATH/Views/adminDashboard/driver.php(91): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "referal_reward"', 'APPPATH/Views/adminDashboard/driver.php', 91)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 11:58:58 --> Undefined array key "referal_reward"
+in APPPATH/Views/adminDashboard/driver.php on line 91.
+ 1 APPPATH/Views/adminDashboard/driver.php(91): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "referal_reward"', 'APPPATH/Views/adminDashboard/driver.php', 91)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 11:58:59 --> Undefined array key "referal_reward"
+in APPPATH/Views/adminDashboard/driver.php on line 91.
+ 1 APPPATH/Views/adminDashboard/driver.php(91): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "referal_reward"', 'APPPATH/Views/adminDashboard/driver.php', 91)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 11:59:21 --> Undefined array key "vrsta_provizije"
+in APPPATH/Views/adminDashboard/driver.php on line 96.
+ 1 APPPATH/Views/adminDashboard/driver.php(96): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "vrsta_provizije"', 'APPPATH/Views/adminDashboard/driver.php', 96)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 11:59:31 --> Undefined array key "vrsta_provizije"
+in APPPATH/Views/adminDashboard/driver.php on line 96.
+ 1 APPPATH/Views/adminDashboard/driver.php(96): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "vrsta_provizije"', 'APPPATH/Views/adminDashboard/driver.php', 96)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:00:40 --> Undefined array key "vrsta_provizije"
+in APPPATH/Views/adminDashboard/driver.php on line 96.
+ 1 APPPATH/Views/adminDashboard/driver.php(96): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "vrsta_provizije"', 'APPPATH/Views/adminDashboard/driver.php', 96)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:00:44 --> Undefined array key "vrsta_provizije"
+in APPPATH/Views/adminDashboard/driver.php on line 96.
+ 1 APPPATH/Views/adminDashboard/driver.php(96): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "vrsta_provizije"', 'APPPATH/Views/adminDashboard/driver.php', 96)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:00:58 --> Undefined constant "php"
+in APPPATH/Views/adminDashboard/driver.php on line 96.
+ 1 SYSTEMPATH/View/View.php(213): include()
+ 2 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 4 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 5 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 6 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 7 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:02:20 --> Undefined array key "vrsta_provizije"
+in APPPATH/Views/adminDashboard/driver.php on line 96.
+ 1 APPPATH/Views/adminDashboard/driver.php(96): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "vrsta_provizije"', 'APPPATH/Views/adminDashboard/driver.php', 96)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:02:38 --> Undefined array key "vrsta_provizije"
+in APPPATH/Views/adminDashboard/driver.php on line 96.
+ 1 APPPATH/Views/adminDashboard/driver.php(96): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "vrsta_provizije"', 'APPPATH/Views/adminDashboard/driver.php', 96)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:02:47 --> Undefined array key "iznos_provizije"
+in APPPATH/Views/adminDashboard/driver.php on line 104.
+ 1 APPPATH/Views/adminDashboard/driver.php(104): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "iznos_provizije"', 'APPPATH/Views/adminDashboard/driver.php', 104)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:03:08 --> Undefined array key "popust_na_proviziju"
+in APPPATH/Views/adminDashboard/driver.php on line 112.
+ 1 APPPATH/Views/adminDashboard/driver.php(112): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "popust_na_proviziju"', 'APPPATH/Views/adminDashboard/driver.php', 112)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:03:25 --> Undefined array key "bolt_unique_id"
+in APPPATH/Views/adminDashboard/driver.php on line 123.
+ 1 APPPATH/Views/adminDashboard/driver.php(123): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "bolt_unique_id"', 'APPPATH/Views/adminDashboard/driver.php', 123)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:03:41 --> Undefined array key "pocetakRada"
+in APPPATH/Views/adminDashboard/driver.php on line 127.
+ 1 APPPATH/Views/adminDashboard/driver.php(127): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "pocetakRada"', 'APPPATH/Views/adminDashboard/driver.php', 127)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('6')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:04:44 --> Undefined array key "pocetakRada"
+in APPPATH/Views/adminDashboard/driver.php on line 127.
+ 1 APPPATH/Views/adminDashboard/driver.php(127): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "pocetakRada"', 'APPPATH/Views/adminDashboard/driver.php', 127)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('7')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:12:38 --> Undefined array key "oib"
+in APPPATH/Views/adminDashboard/driver.php on line 91.
+ 1 APPPATH/Views/adminDashboard/driver.php(91): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "oib"', 'APPPATH/Views/adminDashboard/driver.php', 91)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('7')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:13:43 --> Undefined array key "oib"
+in APPPATH/Views/adminDashboard/driver.php on line 91.
+ 1 APPPATH/Views/adminDashboard/driver.php(91): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "oib"', 'APPPATH/Views/adminDashboard/driver.php', 91)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('7')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 12:17:09 --> Undefined array key "pocetakRada"
+in APPPATH/Views/adminDashboard/driver.php on line 127.
+ 1 APPPATH/Views/adminDashboard/driver.php(127): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "pocetakRada"', 'APPPATH/Views/adminDashboard/driver.php', 127)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/driver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(370): view('adminDashboard/driver')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('7')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:12:36 --> Undefined variable $currentDate
+in APPPATH/Controllers/AdminController.php on line 406.
+ 1 APPPATH/Controllers/AdminController.php(406): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $currentDate', 'APPPATH/Controllers/AdminController.php', 406)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:13:12 --> Undefined variable $driverModel
+in APPPATH/Controllers/AdminController.php on line 435.
+ 1 APPPATH/Controllers/AdminController.php(435): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $driverModel', 'APPPATH/Controllers/AdminController.php', 435)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:14:12 --> Undefined variable $vozacId
+in APPPATH/Controllers/AdminController.php on line 435.
+ 1 APPPATH/Controllers/AdminController.php(435): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $vozacId', 'APPPATH/Controllers/AdminController.php', 435)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:14:36 --> Undefined variable $vozacId
+in APPPATH/Controllers/AdminController.php on line 435.
+ 1 APPPATH/Controllers/AdminController.php(435): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $vozacId', 'APPPATH/Controllers/AdminController.php', 435)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:14:50 --> There is no data to update.
+in SYSTEMPATH/BaseModel.php on line 1598.
+ 1 SYSTEMPATH/BaseModel.php(1598): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH/BaseModel.php(853): CodeIgniter\BaseModel->transformDataToArray(null, 'update')
+ 3 SYSTEMPATH/Model.php(693): CodeIgniter\BaseModel->update([...], null)
+ 4 APPPATH/Controllers/AdminController.php(435): CodeIgniter\Model->update([...])
+ 5 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 6 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 7 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:16:44 --> There is no data to update.
+in SYSTEMPATH/BaseModel.php on line 1598.
+ 1 SYSTEMPATH/BaseModel.php(1598): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH/BaseModel.php(853): CodeIgniter\BaseModel->transformDataToArray(null, 'update')
+ 3 SYSTEMPATH/Model.php(693): CodeIgniter\BaseModel->update([...], null)
+ 4 APPPATH/Controllers/AdminController.php(435): CodeIgniter\Model->update([...])
+ 5 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 6 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 7 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:18:40 --> There is no data to update.
+in SYSTEMPATH/BaseModel.php on line 1598.
+ 1 SYSTEMPATH/BaseModel.php(1598): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH/BaseModel.php(853): CodeIgniter\BaseModel->transformDataToArray(null, 'update')
+ 3 SYSTEMPATH/Model.php(693): CodeIgniter\BaseModel->update([...], null)
+ 4 APPPATH/Controllers/AdminController.php(435): CodeIgniter\Model->update([...])
+ 5 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 6 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 7 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:18:54 --> There is no data to update.
+in SYSTEMPATH/BaseModel.php on line 1598.
+ 1 SYSTEMPATH/BaseModel.php(1598): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH/BaseModel.php(853): CodeIgniter\BaseModel->transformDataToArray(null, 'update')
+ 3 SYSTEMPATH/Model.php(693): CodeIgniter\BaseModel->update([...], null)
+ 4 APPPATH/Controllers/AdminController.php(435): CodeIgniter\Model->update([...])
+ 5 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 6 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 7 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-14 14:29:48 --> Undefined variable $id
+in APPPATH/Controllers/AdminController.php on line 435.
+ 1 APPPATH/Controllers/AdminController.php(435): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $id', 'APPPATH/Controllers/AdminController.php', 435)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driverUpdate()
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

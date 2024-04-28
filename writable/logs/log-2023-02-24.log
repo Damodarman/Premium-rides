@@ -1,0 +1,38 @@
+CRITICAL - 2023-02-24 03:55:42 --> Unclosed '{' on line 8
+in APPPATH/Views/adminDashboard/obracun1.php on line 211.
+ 1 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 3 APPPATH/Controllers/AdminController.php(1192): view('adminDashboard/obracun1', [...])
+ 4 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun()
+ 5 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-24 03:58:18 --> Undefined variable $week
+in APPPATH/Views/adminDashboard/obracun1.php on line 8.
+ 1 APPPATH/Views/adminDashboard/obracun1.php(8): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $week', 'APPPATH/Views/adminDashboard/obracun1.php', 8)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/obracun1.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 5 APPPATH/Controllers/AdminController.php(1192): view('adminDashboard/obracun1', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-24 03:59:26 --> syntax error, unexpected end of file, expecting "elseif" or "else" or "endif"
+in APPPATH/Views/adminDashboard/obracun1.php on line 211.
+ 1 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 3 APPPATH/Controllers/AdminController.php(1192): view('adminDashboard/obracun1', [...])
+ 4 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun()
+ 5 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-24 03:59:28 --> syntax error, unexpected end of file, expecting "elseif" or "else" or "endif"
+in APPPATH/Views/adminDashboard/obracun1.php on line 211.
+ 1 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 3 APPPATH/Controllers/AdminController.php(1192): view('adminDashboard/obracun1', [...])
+ 4 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun()
+ 5 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

@@ -1,0 +1,1 @@
+Za sada samo navigacija

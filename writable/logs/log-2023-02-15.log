@@ -1,0 +1,71 @@
+CRITICAL - 2023-02-15 00:17:04 --> Undefined variable $segment
+in APPPATH/Controllers/AdminController.php on line 360.
+ 1 APPPATH/Controllers/AdminController.php(360): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $segment', 'APPPATH/Controllers/AdminController.php', 360)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('5')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-15 00:19:49 --> Call to undefined method CodeIgniter\Pager\Pager::setSurroundCount()
+in APPPATH/Views/adminDashboard/driver.php on line 6.
+ 1 SYSTEMPATH/View/View.php(213): include()
+ 2 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/driver', [], true)
+ 4 APPPATH/Controllers/AdminController.php(371): view('adminDashboard/driver')
+ 5 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->driver('5')
+ 6 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 7 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-15 01:58:24 --> Class "Dompdf\Dompdf" not found
+in APPPATH/Controllers/PdfController.php on line 12.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\PdfController->htmlToPDF()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PdfController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-15 02:04:05 --> Class "Dompdf" not found
+in APPPATH/Controllers/PdfController.php on line 12.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\PdfController->htmlToPDF()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\PdfController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-15 02:06:36 --> require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src): Failed to open stream: No such file or directory
+in APPPATH/Controllers/PdfController.php on line 9.
+ 1 APPPATH/Controllers/PdfController.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src): Failed to open stream: No such file or directory', 'APPPATH/Controllers/PdfController.php', 9)
+ 2 APPPATH/Controllers/PdfController.php(9): require_once()
+ 3 SYSTEMPATH/CodeIgniter.php(889): App\Controllers\PdfController->__construct()
+ 4 SYSTEMPATH/CodeIgniter.php(473): CodeIgniter\CodeIgniter->createController()
+ 5 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-15 02:07:01 --> require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src/): Failed to open stream: No such file or directory
+in APPPATH/Controllers/PdfController.php on line 9.
+ 1 APPPATH/Controllers/PdfController.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src/): Failed to open stream: No such file or directory', 'APPPATH/Controllers/PdfController.php', 9)
+ 2 APPPATH/Controllers/PdfController.php(9): require_once()
+ 3 SYSTEMPATH/CodeIgniter.php(889): App\Controllers\PdfController->__construct()
+ 4 SYSTEMPATH/CodeIgniter.php(473): CodeIgniter\CodeIgniter->createController()
+ 5 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-15 02:07:21 --> require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src/Dompdf.php): Failed to open stream: No such file or directory
+in APPPATH/Controllers/PdfController.php on line 9.
+ 1 APPPATH/Controllers/PdfController.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src/Dompdf.php): Failed to open stream: No such file or directory', 'APPPATH/Controllers/PdfController.php', 9)
+ 2 APPPATH/Controllers/PdfController.php(9): require_once()
+ 3 SYSTEMPATH/CodeIgniter.php(889): App\Controllers\PdfController->__construct()
+ 4 SYSTEMPATH/CodeIgniter.php(473): CodeIgniter\CodeIgniter->createController()
+ 5 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-15 03:08:35 --> file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676444194.246487.json): Failed to open stream: No such file or directory
+in SYSTEMPATH/Debug/Toolbar/Collectors/History.php on line 82.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676444194.246487.json): Failed to open stream: No such file or directory', 'SYSTEMPATH/Debug/Toolbar/Collectors/History.php', 82)
+ 2 SYSTEMPATH/Debug/Toolbar/Collectors/History.php(82): file_get_contents('ROOTPATH/writable/debugbar/debugbar_1676444194.246487.json')
+ 3 SYSTEMPATH/Debug/Toolbar.php(500): CodeIgniter\Debug\Toolbar\Collectors\History->setFiles('1676452083.090041', 20)
+ 4 SYSTEMPATH/Debug/Toolbar.php(477): CodeIgniter\Debug\Toolbar->format([...], 'html')
+ 5 APPPATH/Config/Events.php(46): CodeIgniter\Debug\Toolbar->respond()
+ 6 SYSTEMPATH/Events/Events.php(149): CodeIgniter\Events\Events::Config\{closure}()
+ 7 SYSTEMPATH/CodeIgniter.php(328): CodeIgniter\Events\Events::trigger('pre_system')
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-15 13:16:26 --> require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src/Dompdf.php): Failed to open stream: No such file or directory
+in APPPATH/Controllers/PdfController.php on line 9.
+ 1 APPPATH/Controllers/PdfController.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'require_once(/homepages/0/d941215561/htdocs/app/ThirdParty/dompdf/src/Dompdf.php): Failed to open stream: No such file or directory', 'APPPATH/Controllers/PdfController.php', 9)
+ 2 APPPATH/Controllers/PdfController.php(9): require_once()
+ 3 SYSTEMPATH/CodeIgniter.php(889): App\Controllers\PdfController->__construct()
+ 4 SYSTEMPATH/CodeIgniter.php(473): CodeIgniter\CodeIgniter->createController()
+ 5 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

@@ -1,0 +1,48 @@
+CRITICAL - 2023-01-25 11:28:30 --> Undefined variable $page
+in APPPATH/Views/adminDashboard/header.php on line 8.
+ 1 APPPATH/Views/adminDashboard/header.php(8): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $page', 'APPPATH/Views/adminDashboard/header.php', 8)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/header.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/header', [], true)
+ 5 APPPATH/Controllers/AdminController.php(307): view('adminDashboard/header')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->addDriver()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-25 11:49:19 --> Undefined variable $page
+in APPPATH/Views/adminDashboard/header.php on line 8.
+ 1 APPPATH/Views/adminDashboard/header.php(8): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $page', 'APPPATH/Views/adminDashboard/header.php', 8)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/header.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/header', [], true)
+ 5 APPPATH/Controllers/AdminController.php(373): view('adminDashboard/header', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->addDriverSave()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-25 12:50:33 --> syntax error, unexpected end of file
+in APPPATH/Views/adminDashboard/addDriver.php on line 160.
+ 1 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/addDriver', [], true)
+ 3 APPPATH/Controllers/AdminController.php(382): view('adminDashboard/addDriver', [...])
+ 4 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->addDriverSave()
+ 5 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 6 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-25 12:53:54 --> Undefined variable $drivers
+in APPPATH/Views/adminDashboard/addDriver.php on line 77.
+ 1 APPPATH/Views/adminDashboard/addDriver.php(77): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $drivers', 'APPPATH/Views/adminDashboard/addDriver.php', 77)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/addDriver.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/addDriver', [], true)
+ 5 APPPATH/Controllers/AdminController.php(382): view('adminDashboard/addDriver', [...])
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->addDriverSave()
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-01-25 13:05:11 --> Call to undefined method App\Controllers\AdminController::request()
+in APPPATH/Controllers/AdminController.php on line 322.
+ 1 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->addDriverSave()
+ 2 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 3 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()

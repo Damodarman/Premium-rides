@@ -1,0 +1,141 @@
+CRITICAL - 2023-02-13 02:30:25 --> Undefined array key "referal_reward"
+in APPPATH/Controllers/AdminController.php on line 651.
+ 1 APPPATH/Controllers/AdminController.php(651): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "referal_reward"', 'APPPATH/Controllers/AdminController.php', 651)
+ 2 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun('202302')
+ 3 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 4 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 03:28:13 --> Undefined array key "referal_reward"
+in APPPATH/Views/adminDashboard/obracun1.php on line 83.
+ 1 APPPATH/Views/adminDashboard/obracun1.php(83): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "referal_reward"', 'APPPATH/Views/adminDashboard/obracun1.php', 83)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/obracun1.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 5 APPPATH/Controllers/AdminController.php(854): view('adminDashboard/obracun1')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun('202305')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 03:30:28 --> Undefined array key "referal_reward"
+in APPPATH/Views/adminDashboard/obracun1.php on line 87.
+ 1 APPPATH/Views/adminDashboard/obracun1.php(87): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "referal_reward"', 'APPPATH/Views/adminDashboard/obracun1.php', 87)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/obracun1.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 5 APPPATH/Controllers/AdminController.php(854): view('adminDashboard/obracun1')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun('202305')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 03:38:40 --> unlink(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279221.967581.json): No such file or directory
+in SYSTEMPATH/Debug/Toolbar/Collectors/History.php on line 76.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'unlink(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279221.967581.json): No such file or directory', 'SYSTEMPATH/Debug/Toolbar/Collectors/History.php', 76)
+ 2 SYSTEMPATH/Debug/Toolbar/Collectors/History.php(76): unlink('ROOTPATH/writable/debugbar/debugbar_1676279221.967581.json')
+ 3 SYSTEMPATH/Debug/Toolbar.php(500): CodeIgniter\Debug\Toolbar\Collectors\History->setFiles('1676281117.433172', 20)
+ 4 SYSTEMPATH/Debug/Toolbar.php(477): CodeIgniter\Debug\Toolbar->format([...], 'html')
+ 5 APPPATH/Config/Events.php(46): CodeIgniter\Debug\Toolbar->respond()
+ 6 SYSTEMPATH/Events/Events.php(149): CodeIgniter\Events\Events::Config\{closure}()
+ 7 SYSTEMPATH/CodeIgniter.php(328): CodeIgniter\Events\Events::trigger('pre_system')
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+ERROR - 2023-02-13 04:19:38 --> mysqli_sql_exception: Unknown column 'firmaFiskalizacijaBolt' in 'field list' in /homepages/0/d941215561/htdocs/system/Database/MySQLi/Connection.php:292
+Stack trace:
+#0 /homepages/0/d941215561/htdocs/system/Database/MySQLi/Connection.php(292): mysqli->query('INSERT INTO `ob...', 0)
+#1 /homepages/0/d941215561/htdocs/system/Database/BaseConnection.php(666): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `ob...')
+#2 /homepages/0/d941215561/htdocs/system/Database/BaseConnection.php(593): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `ob...')
+#3 /homepages/0/d941215561/htdocs/system/Database/BaseBuilder.php(1916): CodeIgniter\Database\BaseConnection->query('INSERT INTO `ob...', Array, false)
+#4 /homepages/0/d941215561/htdocs/system/Model.php(279): CodeIgniter\Database\BaseBuilder->insert()
+#5 /homepages/0/d941215561/htdocs/system/BaseModel.php(749): CodeIgniter\Model->doInsert(Array)
+#6 /homepages/0/d941215561/htdocs/system/Model.php(667): CodeIgniter\BaseModel->insert(Array, true)
+#7 /homepages/0/d941215561/htdocs/app/Controllers/AdminController.php(824): CodeIgniter\Model->insert(Array)
+#8 /homepages/0/d941215561/htdocs/system/CodeIgniter.php(927): App\Controllers\AdminController->obracun('202302')
+#9 /homepages/0/d941215561/htdocs/system/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+#10 /homepages/0/d941215561/htdocs/system/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 /homepages/0/d941215561/htdocs/public/index.php(67): CodeIgniter\CodeIgniter->run()
+#12 {main}
+CRITICAL - 2023-02-13 04:19:38 --> Unknown column 'firmaFiskalizacijaBolt' in 'field list'
+in SYSTEMPATH/Database/MySQLi/Connection.php on line 292.
+ 1 SYSTEMPATH/Database/MySQLi/Connection.php(292): mysqli->query('INSERT INTO `obracunFirma` (`uberNetoSvi`, `uberGotovinaSvi`, `uberRazlikaSvi`, `boltNetoSvi`, `boltRazlikaSvi`, `boltGotovinaSvi`, `myPosNetoSvi`, `myPosGotovinaSvi`, `myPosRazlikaSvi`, `firmaNeto`, `firmaGotovina`, `firmaRazlika`, `firmaProvizija`, `firmaTaximetar`, `refBonus`, `week`, `fleet`, `zaIsplatitVozacima`, `trebaOstatFirmi`, `firmaFiskalizacijaBolt`, `firmaFiskalizacijaUber`, `firmaFiskalizacija`) VALUES (1399.32, -631.07, 768.25, 736.04, 340.34, -395.7, 109.52, 0, 109.52, 2244.88, -1026.77, 1218.11, 185.9941, 40, 0, \'202302\', \'Premium Rides\', 992.1159, 225.9941, 0, 0, 0)', 0)
+ 2 SYSTEMPATH/Database/BaseConnection.php(666): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `obracunFirma` (`uberNetoSvi`, `uberGotovinaSvi`, `uberRazlikaSvi`, `boltNetoSvi`, `boltRazlikaSvi`, `boltGotovinaSvi`, `myPosNetoSvi`, `myPosGotovinaSvi`, `myPosRazlikaSvi`, `firmaNeto`, `firmaGotovina`, `firmaRazlika`, `firmaProvizija`, `firmaTaximetar`, `refBonus`, `week`, `fleet`, `zaIsplatitVozacima`, `trebaOstatFirmi`, `firmaFiskalizacijaBolt`, `firmaFiskalizacijaUber`, `firmaFiskalizacija`) VALUES (1399.32, -631.07, 768.25, 736.04, 340.34, -395.7, 109.52, 0, 109.52, 2244.88, -1026.77, 1218.11, 185.9941, 40, 0, \'202302\', \'Premium Rides\', 992.1159, 225.9941, 0, 0, 0)')
+ 3 SYSTEMPATH/Database/BaseConnection.php(593): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `obracunFirma` (`uberNetoSvi`, `uberGotovinaSvi`, `uberRazlikaSvi`, `boltNetoSvi`, `boltRazlikaSvi`, `boltGotovinaSvi`, `myPosNetoSvi`, `myPosGotovinaSvi`, `myPosRazlikaSvi`, `firmaNeto`, `firmaGotovina`, `firmaRazlika`, `firmaProvizija`, `firmaTaximetar`, `refBonus`, `week`, `fleet`, `zaIsplatitVozacima`, `trebaOstatFirmi`, `firmaFiskalizacijaBolt`, `firmaFiskalizacijaUber`, `firmaFiskalizacija`) VALUES (1399.32, -631.07, 768.25, 736.04, 340.34, -395.7, 109.52, 0, 109.52, 2244.88, -1026.77, 1218.11, 185.9941, 40, 0, \'202302\', \'Premium Rides\', 992.1159, 225.9941, 0, 0, 0)')
+ 4 SYSTEMPATH/Database/BaseBuilder.php(1916): CodeIgniter\Database\BaseConnection->query('INSERT INTO `obracunFirma` (`uberNetoSvi`, `uberGotovinaSvi`, `uberRazlikaSvi`, `boltNetoSvi`, `boltRazlikaSvi`, `boltGotovinaSvi`, `myPosNetoSvi`, `myPosGotovinaSvi`, `myPosRazlikaSvi`, `firmaNeto`, `firmaGotovina`, `firmaRazlika`, `firmaProvizija`, `firmaTaximetar`, `refBonus`, `week`, `fleet`, `zaIsplatitVozacima`, `trebaOstatFirmi`, `firmaFiskalizacijaBolt`, `firmaFiskalizacijaUber`, `firmaFiskalizacija`) VALUES (:uberNetoSvi:, :uberGotovinaSvi:, :uberRazlikaSvi:, :boltNetoSvi:, :boltRazlikaSvi:, :boltGotovinaSvi:, :myPosNetoSvi:, :myPosGotovinaSvi:, :myPosRazlikaSvi:, :firmaNeto:, :firmaGotovina:, :firmaRazlika:, :firmaProvizija:, :firmaTaximetar:, :refBonus:, :week:, :fleet:, :zaIsplatitVozacima:, :trebaOstatFirmi:, :firmaFiskalizacijaBolt:, :firmaFiskalizacijaUber:, :firmaFiskalizacija:)', [...], false)
+ 5 SYSTEMPATH/Model.php(279): CodeIgniter\Database\BaseBuilder->insert()
+ 6 SYSTEMPATH/BaseModel.php(749): CodeIgniter\Model->doInsert([...])
+ 7 SYSTEMPATH/Model.php(667): CodeIgniter\BaseModel->insert([...], true)
+ 8 APPPATH/Controllers/AdminController.php(824): CodeIgniter\Model->insert([...])
+ 9 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun('202302')
+10 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+11 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 04:21:14 --> Undefined variable $zaIsplatitVozace
+in APPPATH/Views/adminDashboard/obracun1.php on line 94.
+ 1 APPPATH/Views/adminDashboard/obracun1.php(94): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $zaIsplatitVozace', 'APPPATH/Views/adminDashboard/obracun1.php', 94)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/obracun1.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 5 APPPATH/Controllers/AdminController.php(863): view('adminDashboard/obracun1')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun('202302')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 04:21:18 --> file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279962.042272.json): Failed to open stream: No such file or directory
+in SYSTEMPATH/Debug/Toolbar/Collectors/History.php on line 82.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279962.042272.json): Failed to open stream: No such file or directory', 'SYSTEMPATH/Debug/Toolbar/Collectors/History.php', 82)
+ 2 SYSTEMPATH/Debug/Toolbar/Collectors/History.php(82): file_get_contents('ROOTPATH/writable/debugbar/debugbar_1676279962.042272.json')
+ 3 SYSTEMPATH/Debug/Toolbar.php(500): CodeIgniter\Debug\Toolbar\Collectors\History->setFiles('1676283666.523449', 20)
+ 4 SYSTEMPATH/Debug/Toolbar.php(477): CodeIgniter\Debug\Toolbar->format([...], 'html')
+ 5 APPPATH/Config/Events.php(46): CodeIgniter\Debug\Toolbar->respond()
+ 6 SYSTEMPATH/Events/Events.php(149): CodeIgniter\Events\Events::Config\{closure}()
+ 7 SYSTEMPATH/CodeIgniter.php(328): CodeIgniter\Events\Events::trigger('pre_system')
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 04:21:18 --> unlink(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279962.042272.json): No such file or directory
+in SYSTEMPATH/Debug/Toolbar/Collectors/History.php on line 76.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'unlink(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279962.042272.json): No such file or directory', 'SYSTEMPATH/Debug/Toolbar/Collectors/History.php', 76)
+ 2 SYSTEMPATH/Debug/Toolbar/Collectors/History.php(76): unlink('ROOTPATH/writable/debugbar/debugbar_1676279962.042272.json')
+ 3 SYSTEMPATH/Debug/Toolbar.php(500): CodeIgniter\Debug\Toolbar\Collectors\History->setFiles('1676283670.211733', 20)
+ 4 SYSTEMPATH/Debug/Toolbar.php(477): CodeIgniter\Debug\Toolbar->format([...], 'html')
+ 5 APPPATH/Config/Events.php(46): CodeIgniter\Debug\Toolbar->respond()
+ 6 SYSTEMPATH/Events/Events.php(149): CodeIgniter\Events\Events::Config\{closure}()
+ 7 SYSTEMPATH/CodeIgniter.php(328): CodeIgniter\Events\Events::trigger('pre_system')
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 04:21:18 --> file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279962.042272.json): Failed to open stream: No such file or directory
+in SYSTEMPATH/Debug/Toolbar/Collectors/History.php on line 82.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279962.042272.json): Failed to open stream: No such file or directory', 'SYSTEMPATH/Debug/Toolbar/Collectors/History.php', 82)
+ 2 SYSTEMPATH/Debug/Toolbar/Collectors/History.php(82): file_get_contents('ROOTPATH/writable/debugbar/debugbar_1676279962.042272.json')
+ 3 SYSTEMPATH/Debug/Toolbar.php(500): CodeIgniter\Debug\Toolbar\Collectors\History->setFiles('1676283664.830568', 20)
+ 4 SYSTEMPATH/Debug/Toolbar.php(477): CodeIgniter\Debug\Toolbar->format([...], 'html')
+ 5 APPPATH/Config/Events.php(46): CodeIgniter\Debug\Toolbar->respond()
+ 6 SYSTEMPATH/Events/Events.php(149): CodeIgniter\Events\Events::Config\{closure}()
+ 7 SYSTEMPATH/CodeIgniter.php(328): CodeIgniter\Events\Events::trigger('pre_system')
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 04:21:18 --> file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279962.042272.json): Failed to open stream: No such file or directory
+in SYSTEMPATH/Debug/Toolbar/Collectors/History.php on line 82.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'file_get_contents(/homepages/0/d941215561/htdocs/writable/debugbar/debugbar_1676279962.042272.json): Failed to open stream: No such file or directory', 'SYSTEMPATH/Debug/Toolbar/Collectors/History.php', 82)
+ 2 SYSTEMPATH/Debug/Toolbar/Collectors/History.php(82): file_get_contents('ROOTPATH/writable/debugbar/debugbar_1676279962.042272.json')
+ 3 SYSTEMPATH/Debug/Toolbar.php(500): CodeIgniter\Debug\Toolbar\Collectors\History->setFiles('1676283668.622344', 20)
+ 4 SYSTEMPATH/Debug/Toolbar.php(477): CodeIgniter\Debug\Toolbar->format([...], 'html')
+ 5 APPPATH/Config/Events.php(46): CodeIgniter\Debug\Toolbar->respond()
+ 6 SYSTEMPATH/Events/Events.php(149): CodeIgniter\Events\Events::Config\{closure}()
+ 7 SYSTEMPATH/CodeIgniter.php(328): CodeIgniter\Events\Events::trigger('pre_system')
+ 8 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 04:21:37 --> Undefined array key "zaIsplatitVozace"
+in APPPATH/Views/adminDashboard/obracun1.php on line 175.
+ 1 APPPATH/Views/adminDashboard/obracun1.php(175): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "zaIsplatitVozace"', 'APPPATH/Views/adminDashboard/obracun1.php', 175)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/obracun1.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 5 APPPATH/Controllers/AdminController.php(863): view('adminDashboard/obracun1')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun('202302')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-02-13 04:23:58 --> Undefined variable $trebaOstatFirmi
+in APPPATH/Views/adminDashboard/obracun1.php on line 83.
+ 1 APPPATH/Views/adminDashboard/obracun1.php(83): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $trebaOstatFirmi', 'APPPATH/Views/adminDashboard/obracun1.php', 83)
+ 2 SYSTEMPATH/View/View.php(213): include('APPPATH/Views/adminDashboard/obracun1.php')
+ 3 SYSTEMPATH/View/View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1134): CodeIgniter\View\View->render('adminDashboard/obracun1', [], true)
+ 5 APPPATH/Controllers/AdminController.php(863): view('adminDashboard/obracun1')
+ 6 SYSTEMPATH/CodeIgniter.php(927): App\Controllers\AdminController->obracun('202304')
+ 7 SYSTEMPATH/CodeIgniter.php(482): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\AdminController))
+ 8 SYSTEMPATH/CodeIgniter.php(351): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH/index.php(67): CodeIgniter\CodeIgniter->run()
