@@ -1688,6 +1688,74 @@ public function napomenaSave()
 		
 	}
 	
+	public function blagajnickiminmaxPdf($id = null){
+        $session = session();
+		$data = $session->get();
+		$fleet = $session->get('fleet');
+		$driverData = new DriverModel();
+		$tvrtkaModel = new TvrtkaModel();
+		$flotaModel = new FlotaModel();
+		$vozilaModel = new VozilaModel();
+		$vozilo = $vozilaModel->where('vozac_id', $id)->get()->getRowArray();
+		$driver = $driverData->where('id', $id)->get()->getRowArray();
+		$flota = $flotaModel->where('naziv', $fleet)->get()->getRowArray();
+		$tvrtka_id = $flota['tvrtka_id'];
+		$tvrtka = $tvrtkaModel->where('id', $tvrtka_id)->get()->getRowArray();
+		$pocetakRadaVozac = $driver['pocetak_prijave'];
+		$pocetakRadaVozac = str_replace('-', '', $pocetakRadaVozac);
+		$pocetakRadaTvrtka = $tvrtka['pocetak_tvrtke'];
+		$pocetakRadaTvrtka = str_replace('-', '', $pocetakRadaTvrtka);
+		if($pocetakRadaTvrtka < $pocetakRadaVozac){
+			$godina = substr($pocetakRadaVozac,0,4) ;
+			$mjesec = substr($pocetakRadaVozac,4,2) ;
+			$dan = substr($pocetakRadaVozac,6,2) ;
+			$pocrad = $dan .$mjesec .$godina;
+			$pocetakRada = $dan.'.'.$mjesec.'.'.$godina.'.';
+		}
+		else{
+			$godina = substr($pocetakRadaTvrtka,0,4) ;
+			$mjesec = substr($pocetakRadaTvrtka,4,2) ;
+			$dan = substr($pocetakRadaTvrtka,6,2) ;
+			$pocrad = $dan .$mjesec .$godina;
+			$pocetakRada = $dan.'.'.$mjesec.'.'.$godina.'.';
+		}
+		$voziloChangeDate = $vozilo['change_date'];
+		$voziloChangeDate = str_replace('-','', $voziloChangeDate);
+		if($voziloChangeDate > $pocetakRada){
+			$godina = substr($voziloChangeDate,0,4) ;
+			$mjesec = substr($voziloChangeDate,4,2) ;
+			$dan = substr($voziloChangeDate,6,2) ;
+			$pocNaj = $dan.'.'.$mjesec.'.'.$godina.'.';
+			$pocetakNajma = $pocNaj;
+		}else{
+			$pocetakNajma = $pocetakRada;
+			
+		}
+		
+		$data['tvrtka'] = $tvrtka;
+		$data['driver'] = $driver;
+		$data['vozilo'] = $vozilo;
+		$data['pocetakNajma'] = $pocetakNajma;
+		$data['page'] = $driver['vozac'];
+		
+		    $dompdf = new Dompdf();
+    $options = $dompdf->getOptions();
+    $options->setDefaultFont('DejaVu Sans'); // This font supports a broader range of characters
+    $dompdf->setOptions($options);
+
+    // Generate the PDF content
+    $html = view('adminDashboard/blagajnickiminmaxPdf', $data);
+    $dompdf->loadHtml($html, 'UTF-8');
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    // Output the PDF to the client
+    $filename = 'Blagajnički_min_max_' . $driver['vozac'] . '.pdf';
+    header('Content-Type: application/pdf');
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    echo $dompdf->output();		
+		
+	}
 	
 	public function ugovoroNajmu($id = null){
         $session = session();
