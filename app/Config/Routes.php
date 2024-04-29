@@ -99,6 +99,7 @@ $routes->get('/getTestData', 'AdminController::getTestData',['filter' => 'authGu
 $routes->get('/dugovi', 'AdminController::dugovi',['filter' => 'authGuard']);
 $routes->get('/dugovi/tablicaDugova', 'AdminController::tablicaDugova',['filter' => 'authGuard']);
 $routes->get('/dugPlacen/(:any)', 'AdminController::dugPlacen/$1',['filter' => 'authGuard']);
+$routes->get('/dugPlacenPoslovnica/(:any)', 'AdminController::dugPlacenPoslovnica/$1',['filter' => 'authGuard']);
 $routes->get('/dug/(:any)', 'AdminController::dug/$1',['filter' => 'authGuard']);
 $routes->get('/neaktdrivers', 'AdminController::driversNeaktiv',['filter' => 'authGuard']);
 $routes->get('/obr', 'ObracunController::index',['filter' => 'authGuard']);

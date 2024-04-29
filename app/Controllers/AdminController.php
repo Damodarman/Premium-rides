@@ -17,6 +17,7 @@ use App\Models\ReferalBonusModel;
 use App\Models\VozilaModel;
 use App\Models\DoprinosiModel;
 use App\Models\DugoviModel;
+use App\Models\DugoviNaplataModel;
 use App\Models\PrijaveModel;
 use App\Models\NapomeneModel;
 
@@ -554,14 +555,38 @@ echo $query;
 	}
 	
 	public function dugPlacen($id = null){
+	 date_default_timezone_set('Europe/Zagreb');
+		$time = time();
+         $timestamp = date('Y-m-d H:i:s', $time);
 		$session = session();
+		$fleet = $session->get('fleet');
+		$user = $session->get('name');
+		$user_id = $session->get('id');
 		$dugoviModel = new DugoviModel();
+		$dugoviNaplataModel = new DugoviNaplataModel();
+		$napomeneModel = new NapomeneModel();
 		$dug = $dugoviModel->where('id', $id)->get()->getRowArray();
 		$dug['placeno'] = 1;
 		if($dugoviModel->update($id, $dug)){
-			$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' €');
-			session()->setFlashdata('alert-class', 'alert-success');
-			return redirect()->to('/index.php/dugovi');
+			$data = array(
+				'user' => $user,
+				'user_id' => $user_id,
+				'iznos' => $dug['iznos'],
+				'vozac' => $dug['vozac'],
+				'fleet' => $fleet,
+				'dug' => $id,
+				'timestamp' => $timestamp,
+				'nacin_placanja' => 'Aircash',
+			);
+			if($dugoviNaplataModel->save($data)){
+				$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' € putem Aircash-a');
+				session()->setFlashdata('alert-class', 'alert-success');
+				return redirect()->to('/index.php/dugovi');
+			}else{
+				$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' € putem Aircash-a i obrisan mu je dug ali nije spremljena naplata');
+				session()->setFlashdata('alert-class', 'alert-warrning');
+				return redirect()->to('/index.php/dugovi');
+			}
 		}
 		else{
 			$session->setFlashdata('dugPlacen', 'Nismo uspjeli označiti dug '.$dug['vozac'].' kao plaćen');
@@ -570,6 +595,87 @@ echo $query;
 		}
 	}
 	
+	public function dugPlacenPoslovnica($id = null){
+	 date_default_timezone_set('Europe/Zagreb');
+		$time = time();
+         $timestamp = date('Y-m-d H:i:s', $time);
+		$session = session();
+		$fleet = $session->get('fleet');
+		$user = $session->get('name');
+		$user_id = $session->get('id');
+		$dugoviModel = new DugoviModel();
+		$dugoviNaplataModel = new DugoviNaplataModel();
+		$napomeneModel = new NapomeneModel();
+		$dug = $dugoviModel->where('id', $id)->get()->getRowArray();
+		$dug['placeno'] = 1;
+		if($dugoviModel->update($id, $dug)){
+			$data = array(
+				'user' => $user,
+				'user_id' => $user_id,
+				'iznos' => $dug['iznos'] * -1,
+				'vozac' => $dug['vozac'],
+				'fleet' => $fleet,
+				'dug' => $id,
+				'timestamp' => $timestamp,
+				'nacin_placanja' => 'Gotovina',
+			);
+			if($dugoviNaplataModel->save($data)){
+				$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' € u Poslovnici');
+				session()->setFlashdata('alert-class', 'alert-success');
+				$this->potvrdaOPlacanju($data);
+				//return redirect()->to('/index.php/dugovi');
+			}else{
+				$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' € u Poslovnici i obrisan mu je dug ali nije spremljena naplata');
+				session()->setFlashdata('alert-class', 'alert-warrning');
+				$this->potvrdaOPlacanju($data);
+				
+				return redirect()->to('/index.php/dugovi');
+			}
+		}
+		else{
+			$session->setFlashdata('dugPlacen', 'Nismo uspjeli označiti dug '.$dug['vozac'].' kao plaćen');
+			session()->setFlashdata('alert-class', 'alert-danger');
+			return redirect()->to('/index.php/dugovi');
+		}
+	}	
+	
+	private function potvrdaOPlacanju($data){
+		$FlotaModel = new FlotaModel();
+		$TvrtkaModel = new TvrtkaModel();
+		$driverModel = new DriverModel();
+		$timestamp = $data['timestamp'];
+		// Create a DateTime object from the timestamp
+		$date = new \DateTime($timestamp);
+
+		// Format the date to "D.M.Y" with leading zeros
+		$datum = $date->format("d.m.Y");
+		$fleet = $data['fleet'];
+		$postavkeFlote = $FlotaModel->where('naziv', $fleet)->get()->getRowArray();
+		$tvrtka_id = $postavkeFlote['tvrtka_id'];
+		$tvrtka = $TvrtkaModel->where('id', $tvrtka_id)->get()->getRowArray();
+		$driver = $driverModel->where('vozac', $data['vozac'])->get()->getRowArray();
+		$data['driver'] = $driver;
+		$data['datum'] = $datum;
+		$data['tvrtka'] = $tvrtka;
+		    $dompdf = new Dompdf();
+		$options = $dompdf->getOptions();
+		$options->setDefaultFont('DejaVu Sans'); // This font supports a broader range of characters
+		$dompdf->setOptions($options);
+
+		// Generate the PDF content
+		$html = view('adminDashboard/potvrdaoPlacanju', $data);
+		$dompdf->loadHtml($html, 'UTF-8');
+		$dompdf->setPaper('A4', 'portrait');
+		$dompdf->render();
+
+		// Output the PDF to the client
+		$filename = 'potvrda_o_uplati_gotovine_' . $driver['vozac'] . '.pdf';
+		header('Content-Type: application/pdf');
+		header("Content-Disposition: attachment; filename=\"$filename\"");
+		echo $dompdf->output();	
+
+		
+	}
 public function napomenaSave()
 {
 	 date_default_timezone_set('Europe/Zagreb');

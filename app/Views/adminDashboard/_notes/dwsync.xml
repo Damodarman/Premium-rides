@@ -33,7 +33,7 @@
 <file name="ulazniRacuni.php" server="access941215561.webspace-data.io//" local="133503952575974949" remote="133503952570000000" Dst="1" />
 <file name="unosRacuna.php" server="access941215561.webspace-data.io//" local="133289642059985168" remote="133289642070000000" Dst="2" />
 <file name="voditelj.php" server="access941215561.webspace-data.io//" local="133339822779908067" remote="133339822780000000" Dst="2" />
-<file name="dugovi.php" server="access941215561.webspace-data.io//" local="133511059681231393" remote="133511059690000000" Dst="1" />
+<file name="dugovi.php" server="access941215561.webspace-data.io//" local="133588116205313284" remote="133588116220000000" Dst="2" />
 <file name="vozila.php" server="access941215561.webspace-data.io//" local="133422755384022489" remote="133422755380000000" Dst="2" />
 <file name="posaljiPoruku.php" server="access941215561.webspace-data.io//" local="133427092950932243" remote="133427092960000000" Dst="2" />
 <file name="obracunVozac.php" server="access941215561.webspace-data.io//" local="133430869650606929" remote="133430869650000000" Dst="1" />
@@ -57,4 +57,5 @@
 <file name="aneksUgovora1Pdf.php" server="access941215561.webspace-data.io//" local="133588049598361857" remote="133588049600000000" Dst="2" />
 <file name="ugovoroNajmuPdf.php" server="access941215561.webspace-data.io//" local="133588079645718730" remote="133588079640000000" Dst="2" />
 <file name="blagajnickiminmaxPdf.php" server="access941215561.webspace-data.io//" local="133588088474950879" remote="133588088470000000" Dst="2" />
+<file name="potvrdaoPlacanju.php" server="access941215561.webspace-data.io//" local="133588167035753243" remote="133588167030000000" Dst="2" />
 </dwsync>

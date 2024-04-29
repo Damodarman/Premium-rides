@@ -14,12 +14,14 @@
                     <th scope="col">Vozac</th>
                     <th scope="col">Iznos</th>
                     <th scope="col">Neto Plaća</th>
-                    <th scope="col">Plaćeno ?</th>
+                    <th scope="col">Plaćeno Aircash</th>
+                    <th scope="col">Plaćeno Poslovnica</th>
                     <th scope="col">Uskrata na Plaći</th>
                 </tr>
 				 <tr>
                     <th scope="col">Total:</th>
                     <th scope="col" id="totalIznos"></th>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -47,7 +49,8 @@
 					<?php else: ?>
                      <td class="text-danger"> <?php echo $dug['netoPlaca'] ?></td>
 					<?php endif ?>
-                   <td> <a href="<?php echo base_url('/index.php/dugPlacen/'). '/' .$dug['id']?>" class="btn btn-sm btn-success">Plaćeno</a></td>
+                   <td> <a href="<?php echo base_url('/index.php/dugPlacen/'). '/' .$dug['id']?>" class="btn btn-sm btn-success">Plaćeno Aircash</a></td>
+                   <td> <a href="<?php echo base_url('/index.php/dugPlacenPoslovnica/'). '/' .$dug['id']?>" class="btn btn-sm btn-success">Plaćeno Poslovnica</a></td>
                     <td><a href="<?php echo base_url('/index.php/dugovi/kreirajUskratu/'). '/' .$dug['id']?>"> Kreiraj uskratu</a> </td>
               </tr>
                 <?php endforeach ?>
@@ -57,6 +60,7 @@
                     <th>Total:</th>
                     <th><?php echo $totalIznos; ?></th> <!-- Display the total iznos here -->
                     <th><?php echo $totalNetoPlace; ?></th> <!-- Leave this column empty in the footer -->
+                    <th></th> <!-- Leave this column empty in the footer -->
                     <th></th> <!-- Leave this column empty in the footer -->
                     <th></th> <!-- Leave this column empty in the footer -->
                 </tr>
