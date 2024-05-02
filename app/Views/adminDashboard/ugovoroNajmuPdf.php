@@ -49,8 +49,8 @@
 				</br>
 <p class="text-center"><?php echo $driver['vozac'] ?>, iz <?php echo $driver['adresa'] ?>, <?php echo $driver['grad'] ?>, OIB: <?php echo $driver['oib'] ?> (u daljnjem tekstu : Zakupodavac) i 
 <?php echo $tvrtka['naziv'] ?> , <?php echo $tvrtka['adresa'] ?>, <?php echo $tvrtka['grad'] ?>, OIB: <?php echo $tvrtka['OIB'] ?>, zastupa direktor <?php echo $tvrtka['direktor'] ?>,
-	(u daljnjem tekstu: Zakupnik) sklopili su dana <?php echo $pocetakNajma ?> godine</p> 
-				<h3 class="text-center">UGOVOR O ZAKUPU/PODZAKUPU OSOBNOG AUTOMOBILA</h3> 
+	(u daljnjem tekstu: Zakupnik) sklopili su dana <?php echo $pocetakNajma ?> godine</p> </br>
+				<h3 class="text-center">UGOVOR O ZAKUPU/PODZAKUPU OSOBNOG AUTOMOBILA</h3> </br>
 <h4 class="text-center">Članak 1.</h4> 
 <p class="text-center">Zakupodavac daje, a Zakupnik prima u zakup osobni automobil marke <?php echo $vozilo['proizvodac'] ?> <?php echo $vozilo['model'] ?>, registarskih
 oznaka <?php echo $vozilo['reg'] ?>.</p>

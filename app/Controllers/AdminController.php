@@ -1986,7 +1986,7 @@ public function napomenaSave()
     $dompdf->render();
 
     // Output the PDF to the client
-    $filename = 'ugovoro_radu_' . $driver['vozac'] . '.pdf';
+    $filename = 'ugovor_o_najmu_' . $driver['vozac'] . '.pdf';
     header('Content-Type: application/pdf');
     header("Content-Disposition: attachment; filename=\"$filename\"");
     echo $dompdf->output();		
