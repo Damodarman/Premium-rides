@@ -121,6 +121,14 @@
 						</div>
 						<div class="row text-center"> 
 							<div class="col-sm">
+								<?php 
+								if($driver['doprinosi'] !=0){
+									$cetDop = $driver['doprinosi'] + $driver['cetvrtinaNetoPlace']; 
+								}else{
+									$cetDop = 0;
+								} 
+								
+								?>
 								<h4>Troškovi</h4>
 								<ul class="list-group list-group-flush border-danger">
 									<li class="list-group-item fs-6 bg-danger">Računovodstveni troškovi: <?php echo $driver['provizija']; ?> €</li>
@@ -139,16 +147,18 @@
 									<?php if($driver['fiskalizacijaBolt'] !=0): ?>
 									<li class="list-group-item fs-6 bg-danger">Fiskalizacija Bolt: <?php echo $driver['fiskalizacijaBolt']; ?> €</li>
 									<?php endif ?>
-									<?php if($driver['doprinosi'] !=0): ?>
-									<li class="list-group-item fs-6 bg-info">Četvrtina Bruto 2 troška plaće: <?php echo $driver['doprinosi'] + $driver['cetvrtinaNetoPlace'] ; ?> €</li>
-									<?php endif ?>
 <!--
+									<?php if($driver['doprinosi'] !=0): ?>
+									<li class="list-group-item fs-6 bg-info">Četvrtina Bruto 2 troška plaće: <?php echo $cetDop; ?> €</li>
+									<?php endif ?>
+-->
+
 									<?php if($driver['doprinosi'] !=0): ?>
 									<li class="list-group-item fs-6 bg-danger">Četvrtina doprinosa: <?php echo $driver['doprinosi']; ?> €</li>
 									<?php endif ?>
 									<?php if($driver['cetvrtinaNetoPlace'] !=0): ?>
 									<li class="list-group-item fs-6 bg-info">Četvrtina neto plaće koja će se isplatiti početkom mjeseca: <?php echo $driver['cetvrtinaNetoPlace'] ?> €</li>
--->
+
 									<?php endif ?>
 								</ul>
 							</div>

@@ -17,20 +17,6 @@ class KnjigovodstvoController extends Controller
 	public function index(){
 
 
-// Define font details
-$fontDir = realpath(__DIR__ . '/vendor/dompdf/dompdf/lib/fonts');
-$fontName = 'Courier Prime';  // The name to reference the font in CSS/HTML
-$ttfPath = $fontDir . '/CourierPrime-Regular.ttf';  // Adjust the path to your font file
-
-// Initialize the font metrics object
-$fontMetrics = new FontMetrics(new CPDF());
-
-$metrics = $fontMetrics->getFontMetrics($fontName, $ttfPath);
-
-// Save the generated metrics to a PHP file
-$metricsFile = $fontDir . '/CourierPrime-Regular.php';
-
-file_put_contents($metricsFile, "<?php\nreturn " . var_export($metrics, true) . ";");
 		$session = session();
 		$fleet = $session->get('fleet');
 		$role = $session->get('role');
