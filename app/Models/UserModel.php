@@ -13,6 +13,9 @@ class UserModel extends Model{
 		'level',
 		'vozac_id',
 		'fleet',
+		'comfirmed',
+		'verification_token',
+		'password_reset_token',
 		'phone',
 		'role'
     ];

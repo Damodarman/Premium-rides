@@ -13,6 +13,11 @@
     <title>Registriraj se na našu aplikaciju</title>
 </head>
 <body>
+                 <?php if(session()->getFlashdata('msgPoruka')):?>
+                    <div class="alert <?=session()->getFlashdata('alert-class') ?>">
+                       <?= session()->getFlashdata('msgPoruka') ?>
+                    </div>
+                <?php endif;?>
 	<div class="container mt-5">
 		<div class="row justify-content-md-center">
 			<div class="col-12 col-md-6 col-lg-5">

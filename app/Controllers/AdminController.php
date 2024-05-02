@@ -3372,6 +3372,23 @@ c
 
 	}
 	
+	public function sendTestEmail()
+    {
+        $email = \Config\Services::email(); // Get the email service
+
+        $email->setTo('<nikola.sagi@gmail.com>'); // Set the recipient
+        $email->setSubject('Test Email from CodeIgniter 4'); // Email subject
+        $email->setMessage('This is a test email from your CodeIgniter 4 application.'); // Email message
+
+        if ($email->send()) {
+            echo 'Email sent successfully!';
+        } else {
+            echo 'Failed to send email.';
+            // If there's an error, output the error message
+            echo $email->printDebugger(['headers']);
+        }
+    }
+	
 	
 
 }
