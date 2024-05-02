@@ -5,7 +5,7 @@
 <file name="UberReportModel.php" server="access941215561.webspace-data.io//" local="133413136964246281" remote="133413136970000000" Dst="2" />
 <file name="BoltReportModel.php" server="access941215561.webspace-data.io//" local="133509940656647104" remote="133509940660000000" Dst="1" />
 <file name="MyPosReportModel.php" server="access941215561.webspace-data.io//" local="133224939115633597" remote="133224939120000000" Dst="1" />
-<file name="DriverModel.php" server="access941215561.webspace-data.io//" local="133508426482571882" remote="133508426470000000" Dst="1" />
+<file name="DriverModel.php" server="access941215561.webspace-data.io//" local="133591240859927557" remote="133591240870000000" Dst="2" />
 <file name="ObracunModel.php" server="access941215561.webspace-data.io//" local="133431349681940385" remote="133431349690000000" Dst="1" />
 <file name="FiskalizacijaModel.php" server="access941215561.webspace-data.io//" local="133201539447931170" remote="133201539450000000" Dst="1" />
 <file name="ObracunFirmaModel.php" server="access941215561.webspace-data.io//" local="133433488040434549" remote="133433488050000000" Dst="1" />
@@ -34,7 +34,7 @@
 <file name="UltramsgLibConfigModel.php" server="access941215561.webspace-data.io//" local="133424710961943918" remote="133424710970000000" Dst="2" />
 <file name="UserTokensModel.php" server="access941215561.webspace-data.io//" local="133427431073820999" remote="133427431080000000" Dst="2" />
 <file name="NapomeneModel.php" server="access941215561.webspace-data.io//" local="133441206241019795" remote="133441206250000000" Dst="1" />
-<file name="PrijaveModel.php" server="access941215561.webspace-data.io//" local="133483584200508407" remote="133483584190000000" Dst="1" />
+<file name="PrijaveModel.php" server="access941215561.webspace-data.io//" local="133591279834870017" remote="133591279840000000" Dst="2" />
 <file name="TaximetarReportModel.php" server="access941215561.webspace-data.io//" local="133508382027846779" remote="133508382020000000" Dst="1" />
 <file name="DugoviNaplataModel.php" server="access941215561.webspace-data.io//" local="133588111230164960" remote="133588111240000000" Dst="2" />
 </dwsync>

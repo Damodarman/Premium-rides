@@ -191,11 +191,23 @@
 		</div>
 		<hr class="hr" />
 
-		  <div class="col-md-2">
-			<label for="pocetakPrijave" class="form-label">Početak prijave </label>
-			<input type="text" class="form-control" name="pocetak_prijave"  placeholder="<?php echo date('Y-m-d') ?>">
-		  </div>
-				<div class="col-md-3">
+    <div id="vrstaZaposlenja" class="col-md-2">
+        <label for="vrsta_zaposlenja" class="form-label">Vrsta zaposlenja</label>
+        <select class="form-select" name="vrsta_zaposlenja" aria-label="Default select example" id="vrsta_zaposlenja">
+            <option value="neodredeno" selected>Neodređeno</option>
+            <option value="odredeno">Određeno</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label for="pocetakPrijave" class="form-label">Početak prijave </label>
+        <input type="text" class="form-control" name="pocetak_prijave" placeholder="YYYY-MM-DD">
+    </div>
+    <div id="krajPrijave" class="col-md-2">
+        <label for="kraj_prijave" class="form-label">Kraj prijave </label>
+        <input type="text" class="form-control" name="kraj_prijave" placeholder="YYYY-MM-DD">
+    </div>
+	
+	<div class="col-md-2">
 					<label for="radniOdnos" class="form-label">Radni odnos</label>
 					<select class="form-select" name="radniOdnos" aria-label="Default select example">
 					<option value ="obrtnik"> Obrtnik </option>
@@ -203,7 +215,8 @@
 					<option value ="student"> Studentski ugovor </option>
 					<option value ="obrtnik_sa_agregatorom"> Obrtnik sa Agregatorom </option>
 					</select>
-				</div>		<div class="col-md-2">
+				</div>		
+		<div class="col-md-2">
 			<label for="broj_sati" class="form-label">Broj sati</label>
 			<select class="form-select" name="broj_sati" aria-label="Default select example">
 			<option value ="2" > 2 </option>
@@ -266,6 +279,29 @@
 </div>
 </div>
 
+<script>
+    // Function to check and toggle visibility of 'krajPrijave'
+    function toggleKrajPrijave() {
+        var vrstaZaposlenjaSelect = document.getElementById('vrsta_zaposlenja');
+        var krajPrijaveDiv = document.getElementById('krajPrijave');
+
+        // Get the selected value from the 'vrsta_zaposlenja' select
+        var selectedValue = vrstaZaposlenjaSelect.value;
+
+        // Toggle visibility based on the selected value
+        if (selectedValue === 'neodredeno') {
+            krajPrijaveDiv.style.display = 'none';
+        } else {
+            krajPrijaveDiv.style.display = 'block';
+        }
+    }
+
+    // Add an event listener to the 'vrsta_zaposlenja' select element
+    document.getElementById('vrsta_zaposlenja').addEventListener('change', toggleKrajPrijave);
+
+    // Initial check when the page loads
+    toggleKrajPrijave();
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {

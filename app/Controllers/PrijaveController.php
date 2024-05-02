@@ -39,13 +39,14 @@ class PrijaveController extends BaseController
 		
 		$driverModel = new DriverModel();
 		
-		$vozaci = $driverModel->select('id, ime, prezime, OIB, dob, pocetak_prijave, broj_sati, IBAN, zasticeniIBAN, strani_IBAN, radno_mjesto') ->where('fleet', $fleet)->where('aktivan', 1)->where('prijava', '1')->get()->getResultArray();
+		$vozaci = $driverModel->select('id, ime, prezime, OIB, dob, pocetak_prijave, vrsta_zaposlenja, kraj_prijave, broj_sati, IBAN, zasticeniIBAN, strani_IBAN, radno_mjesto') ->where('fleet', $fleet)->where('aktivan', 1)->where('prijava', '1')->get()->getResultArray();
 
-		$prijave = $driverModel->select('id, vozac, OIB, dob, pocetak_prijave, broj_sati, IBAN, zasticeniIBAN, strani_IBAN, radno_mjesto') ->where('fleet', $fleet)->get()->getResultArray();
+		$prijave = $driverModel->select('id, vozac, OIB, dob, vrsta_zaposlenja, kraj_prijave, pocetak_prijave, broj_sati, IBAN, zasticeniIBAN, strani_IBAN, radno_mjesto') ->where('fleet', $fleet)->get()->getResultArray();
 		
 		$radnici1 = array();
 		//$prvi_unos = array();
 		foreach($prijave as $prijava){
+
 			$prvi_unos = $prijaveModel->where('vozac_id', $prijava['id'])->where('prvi_unos', 1)->get()->getRowArray();
 			
 			
@@ -74,7 +75,9 @@ class PrijaveController extends BaseController
 				'vozac' => $prijava['vozac'],
 				'OIB' => $prijava['OIB'],
 				'dob' => $prijava['dob'],
+				'vrsta_zaposlenja' => $prijava['vrsta_zaposlenja'],
 				'pocetak_prijave' => $prijava['pocetak_prijave'],
+				'kraj_prijave' => $prijava['kraj_prijave'],
 				'broj_sati' => $prvi_unos['broj_sati'],
 				'IBAN' => $prijava['IBAN'],
 				'zasticeniIBAN' => $prijava['zasticeniIBAN'],
@@ -126,6 +129,17 @@ usort($radnici1, function ($a, $b) {
 				// Format the date in DD/MM/YYYY format
 				$formattedDatePromjena = $dateTime->format('d/m/Y');
 			}
+			if($radnik['kraj_prijave'] != null && $radnik['kraj_prijave'] != 'nema' && $radnik['kraj_prijave'] != '0000-00-00'){
+				$originalDate1 = $radnik['kraj_prijave'];
+
+				// Create a DateTime object from the original date
+				$dateTime = \DateTime::createFromFormat('Y-m-d', $originalDate1);
+
+				// Format the date in DD/MM/YYYY format
+				$formattedDateKraj = $dateTime->format('d/m/Y');
+			}else{
+				$formattedDateKraj = '-';
+			}
 			
 			$formattedDatePrekid = null;
 			if($radnik['prekid_rada'] != null && $radnik['prekid_rada'] != 'nema'){
@@ -144,6 +158,8 @@ usort($radnici1, function ($a, $b) {
 				'vozac' => $radnik['vozac'],
 				'OIB' => $radnik['OIB'],
 				'dob' => $radnik['dob'],
+				'vrsta_zaposlenja' => $prijava['vrsta_zaposlenja'],
+				'kraj_prijave' => $formattedDateKraj,
 				'pocetak_prijave' => $formattedDate,
 				'broj_sati' => $radnik['broj_sati'],
 				'IBAN' => $radnik['IBAN'],

@@ -1433,8 +1433,18 @@ public function napomenaSave()
 		$tvrtka = $tvrtkaModel->where('id', $tvrtka_id)->get()->getRowArray();
 		$pocetakRadaVozac = $driver['pocetak_prijave'];
 		$pocetakRadaVozac = str_replace('-', '', $pocetakRadaVozac);
+		$krajRadaVozac = $driver['kraj_prijave'];
+		$krajRadaVozac = str_replace('-', '', $krajRadaVozac);
 		$pocetakRadaTvrtka = $tvrtka['pocetak_tvrtke'];
 		$pocetakRadaTvrtka = str_replace('-', '', $pocetakRadaTvrtka);
+		
+		if($driver['kraj_prijave']){
+			$godina = substr($krajRadaVozac,0,4) ;
+			$mjesec = substr($krajRadaVozac,4,2) ;
+			$dan = substr($krajRadaVozac,6,2) ;
+			$krajRada = $dan.'.'.$mjesec.'.'.$godina.'.';
+		}
+		
 		if($pocetakRadaTvrtka < $pocetakRadaVozac){
 			$godina = substr($pocetakRadaVozac,0,4) ;
 			$mjesec = substr($pocetakRadaVozac,4,2) ;
@@ -1482,6 +1492,7 @@ public function napomenaSave()
 		$data['brutoPlaca'] = $brutoPlaca;
 		$data['tjedniSati'] = $tjednisati;
 		$data['pocetakRada'] = $pocetakRada;
+		$data['krajRada'] = $krajRada;
 		$data['tvrtka'] = $tvrtka;
 		$data['driver'] = $driver;
 		$data['fleet'] = $driver['fleet'];
@@ -2133,6 +2144,8 @@ c
 			'pocetak_prijave'		=> $this->request->getVar('pocetak_prijave'),
 			'pocetak_promjene'		=> $this->request->getVar('pocetak_promjene'),
 			'prijava'				=> $this->request->getVar('prijava'),
+			'kraj_prijave'			=> $this->request->getVar('kraj_prijave'),
+			'vrsta_zaposlenja'		=> $this->request->getVar('vrsta_zaposlenja'),
 			'broj_sati'				=> $this->request->getVar('broj_sati'),
 			'radniOdnos'			=> $this->request->getVar('radniOdnos'),
 			'aktivan'				=> $this->request->getVar('aktivan'),
@@ -2146,6 +2159,8 @@ c
 			'OIB' => $voz1['oib'],
 			'broj_sati' => $voz1['broj_sati'],
 			'pocetak_prijave' => $voz1['pocetak_prijave'],
+			'kraj_prijave'			=> $voz1['kraj_prijave'],
+			'vrsta_zaposlenja'		=> $voz1['vrsta_zaposlenja'],
 			'IBAN' => $voz1['IBAN'],
 			'zasticeniIBAN' => $voz1['zasticeniIBAN'],
 			'strani_IBAN' => $voz1['strani_IBAN'],
@@ -2159,6 +2174,8 @@ c
 			'OIB'					=> $this->request->getVar('oib'), 
 			'broj_sati'				=> $this->request->getVar('broj_sati'),
 			'pocetak_prijave'		=> $this->request->getVar('pocetak_prijave'),
+			'kraj_prijave'			=> $this->request->getVar('kraj_prijave'),
+			'vrsta_zaposlenja'		=> $this->request->getVar('vrsta_zaposlenja'),
 			'pocetak_promjene'		=> $this->request->getVar('pocetak_promjene'),
 			'IBAN'					=> $IBAN,
 			'zasticeniIBAN'			=> $zasticeniIBAN,
@@ -2187,6 +2204,8 @@ c
 				'OIB'					=> $this->request->getVar('oib'), 
 				'broj_sati'				=> $this->request->getVar('broj_sati'),
 				'pocetak_prijave'		=> $this->request->getVar('pocetak_prijave'),
+				'vrsta_zaposlenja'		=> $this->request->getVar('vrsta_zaposlenja'),
+				'pocetak_promjene'		=> $this->request->getVar('pocetak_promjene'),
 				'pocetak_promjene'		=> $this->request->getVar('pocetak_promjene'),
 				'prekid_rada'			=> $prekid_rada,
 				'vozac_id'				=> $id,		
@@ -2440,6 +2459,7 @@ c
 		if ($this->request->getVar('myPosCheck')){$myPosCheck = 1;}else{$myPosCheck = 0;}
 		if ($this->request->getVar('pocetak_rada')){$pocetakRada = $this->request->getVar('pocetak_rada');}else{$pocetakRada = $currentDate;}
 		if ($this->request->getVar('pocetak_prijave')){$pocetakPrijave = $this->request->getVar('pocetak_prijave');}else{$pocetakPrijave = $currentDate;}
+		if ($this->request->getVar('kraj_prijave')){$krajPrijave = $this->request->getVar('kraj_prijave');}else{$krajPrijave = 0;}
 		$vozac = $this->request->getVar('ime'). ' '. $this->request->getVar('prezime');
 		$whatsApp = $this->request->getVar('whatsApp');
 		$whatsApp = str_replace(" ", "", $whatsApp);
@@ -2514,6 +2534,8 @@ c
 			'taximetar_unique_id'	=> $taximetar_unique_id,
 			'pocetak_rada'			=> $pocetakRada,
 			'pocetak_prijave'		=> $pocetakPrijave,
+			'kraj_prijave'			=> $krajPrijave,
+			'vrsta_zaposlenja'		=> $this->request->getVar('vrsta_zaposlenja'),
 			'prijava'				=> $this->request->getVar('prijava'),
 			'broj_sati'				=> $this->request->getVar('broj_sati'),
 			'vrsta_nagrade'			=> $this->request->getVar('vrsta_nagrade'),
@@ -2539,6 +2561,8 @@ c
 				'oib'					=> $this->request->getVar('oib'), 
 				'broj_sati'				=> $this->request->getVar('broj_sati'),
 				'pocetak_prijave'		=> $pocetakPrijave,
+				'kraj_prijave'			=> $krajPrijave,
+				'vrsta_zaposlenja'		=> $this->request->getVar('vrsta_zaposlenja'),
 				'vozac_id'				=> $id,		
 				'IBAN'					=> $IBAN,
 				'zasticeniIBAN'			=> $zasticeniIBAN,

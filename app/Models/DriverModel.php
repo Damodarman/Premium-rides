@@ -48,6 +48,8 @@ class DriverModel extends Model
 		'IBAN',
 		'zasticeniIBAN',
 		'strani_IBAN',
+		'vrsta_zaposlenja',
+		'kraj_prijave',
 		'pocetak_prijave',
 		'whatsApp',
 		'radniOdnos',

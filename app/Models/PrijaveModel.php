@@ -15,6 +15,8 @@ class PrijaveModel extends Model
 			'prezime',
 			'OIB',
 			'dob',
+			'vrsta_zaposlenja',
+			'kraj_prijave',
 			'pocetak_prijave',
 			'pocetak_promjene',
 			'broj_sati',

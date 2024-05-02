@@ -2,10 +2,10 @@
 <dwsync>
 <file name="admin.php" server="access941215561.webspace-data.io//" local="133581931258143246" remote="133581931260000000" Dst="2" />
 <file name="header.php" server="access941215561.webspace-data.io//" local="133585503601681230" remote="133585503610000000" Dst="2" />
-<file name="addDriver.php" server="access941215561.webspace-data.io//" local="133511040485119722" remote="133511040490000000" Dst="1" />
+<file name="addDriver.php" server="access941215561.webspace-data.io//" local="133591239832097924" remote="133591239830000000" Dst="2" />
 <file name="obracun.php" server="access941215561.webspace-data.io//" local="133509981557938082" remote="133509981560000000" Dst="1" />
 <file name="drivers.php" server="access941215561.webspace-data.io//" local="133249299812694342" remote="133249299810000000" Dst="2" />
-<file name="driver.php" server="access941215561.webspace-data.io//" local="133585982831086846" remote="133585982830000000" Dst="2" />
+<file name="driver.php" server="access941215561.webspace-data.io//" local="133591250004027791" remote="133591250010000000" Dst="2" />
 <file name="navBar.php" server="access941215561.webspace-data.io//" local="133483514636657487" remote="133483514630000000" Dst="1" />
 <file name="obracun1.php" server="access941215561.webspace-data.io//" local="133588575691391713" remote="133588575700000000" Dst="2" />
 <file name="pdf_view.php" server="access941215561.webspace-data.io//" local="133209210067701911" remote="133209210070000000" Dst="1" />
@@ -40,7 +40,7 @@
 <file name="obracun1_kkfnb3gisd.php" server="access941215561.webspace-data.io//" local="133433362290000000" remote="133433362290000000" Dst="1" />
 <file name="napomene.php" server="access941215561.webspace-data.io//" local="133441218249814659" remote="133441218250000000" Dst="1" />
 <file name="radniOdnos.php" server="access941215561.webspace-data.io//" local="133483290418519582" remote="133483290420000000" Dst="1" />
-<file name="prijaveRadnika.php" server="access941215561.webspace-data.io//" local="133504986303638523" remote="133504986310000000" Dst="1" />
+<file name="prijaveRadnika.php" server="access941215561.webspace-data.io//" local="133591282442186274" remote="133591282440000000" Dst="2" />
 <file name="anekUgovora.php" server="access941215561.webspace-data.io//" local="133486219181483630" remote="133486219180000000" Dst="1" />
 <file name="aneksUgovora1.php" server="access941215561.webspace-data.io//" local="133486097557583092" remote="133486097560000000" Dst="1" />
 <file name="kreirajRaskid.php" server="access941215561.webspace-data.io//" local="133486186449597402" remote="133486186450000000" Dst="1" />
@@ -52,7 +52,7 @@
 <file name="kreirajUskratu.php" server="access941215561.webspace-data.io//" local="133512020498599442" remote="133512020500000000" Dst="1" />
 <file name="uskrata.php" server="access941215561.webspace-data.io//" local="133512532649131023" remote="133512532650000000" Dst="1" />
 <file name="dashboard_chart.php" server="access941215561.webspace-data.io//" local="133527424647721863" remote="133527424650000000" Dst="1" />
-<file name="ugovoroRaduPrint.php" server="access941215561.webspace-data.io//" local="133585980415189820" remote="133585980400000000" Dst="2" />
+<file name="ugovoroRaduPrint.php" server="access941215561.webspace-data.io//" local="133591260656767311" remote="133591260660000000" Dst="2" />
 <file name="anekUgovoraPdf.php" server="access941215561.webspace-data.io//" local="133588048801833824" remote="133588048800000000" Dst="2" />
 <file name="aneksUgovora1Pdf.php" server="access941215561.webspace-data.io//" local="133588049598361857" remote="133588049600000000" Dst="2" />
 <file name="ugovoroNajmuPdf.php" server="access941215561.webspace-data.io//" local="133591232122151279" remote="133591232130000000" Dst="2" />

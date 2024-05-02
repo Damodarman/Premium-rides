@@ -51,7 +51,23 @@
 	<p class="text-center">
 <?php echo $tvrtka['naziv'] ?>, <?php echo $tvrtka['adresa'] ?>, <?php echo $tvrtka['grad'] ?>, OIB: <?php echo $tvrtka['OIB'] ?>. zastupan po, <?php echo $tvrtka['direktor'] ?> (u daljnjem tekstu: Poslodavac), s jedne strane i </br>
 <?php echo $driver['vozac'] ?>, <?php echo $driver['adresa'] ?>, iz <?php echo $driver['grad'] ?>, OIB: <?php echo $driver['oib'] ?>, (u dalinjem tekstu:Zaposlenik), s druge strane zaključili su dana: <?php echo $pocetakRada ?> sljedeći: </p></br>
-<h3 class="text-center"><?php if($driver['broj_sati'] != '1.5'){echo 'UGOVOR O RADU NA NEODREĐENO VRIJEME';}else{echo 'UGOVOR O DOPUNSKOM RADU';} ?></h4>
+<h3 class="text-center">
+	<?php if($driver['broj_sati'] != '1.5'){
+				if($driver['vrsta_zaposlenja']!= 'odredeno'){
+					echo 'UGOVOR O RADU NA NEODREĐENO VRIJEME';
+				}else{
+					echo 'UGOVOR O RADU NA ODREĐENO VRIJEME';
+				}
+				
+			}else{
+				echo 'UGOVOR O DOPUNSKOM RADU';
+			} 
+	?>
+	</h4>
+	
+	
+	
+	
 <h4 class="text-center">Članak 1.</h4> 
 <p class="text-center"> 
 Ovim ugovorom stranke ugovaraju dan stupanja na rad zoposlenika, radno mjesto na kojem će zoposlenik raditi, trajanje radnog odnosa, plaću zaposlenika i naknade plaće zoposlenika, radno vrijeme, odmore, dopuste. otkazni rok, te druga prava, obveze i odgovornosti zaposlenika i poslodavca.
@@ -72,7 +88,12 @@ Zaposlenik će raditi na radnom mjestu <?php echo $driver['radno_mjesto'] ?>. te
 Članak 4.
 		</h4>
 		<p class="text-center">	
+			<?php
+			if($driver['vrsta_zaposlenja'] != 'odredeno'):?>
 Ovim ugovorom zaposlenik zasniva kod poslodavca radni odnos na neodređeno vrijeme.
+			<?php else: ?>
+Ovim ugovorom zaposlenik zasniva kod poslodavca radni odnos na određeno vrijeme sa trajanjem do <?php echo $krajRada ?>
+			<?php endif ?>
 		</p>
 		<h4 class="text-center">
 		Članak 5.

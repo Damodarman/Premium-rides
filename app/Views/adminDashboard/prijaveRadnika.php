@@ -16,7 +16,9 @@
             <th>Ime</th>
             <th>OIB</th>
             <th>Datum rođenja</th>
+            <th>Vrsta zaposlenja</th>
             <th>Početak prijave</th>
+            <th>Kraj prijave</th>
             <th>Broj sati</th>
             <th>IBAN</th>
             <th>Zaštićeni IBAN</th>
@@ -54,7 +56,9 @@
                 <td><?= $radnik['vozac'] ?></td>
                 <td><?= $radnik['OIB'] ?></td>
                 <td><?= $radnik['dob'] ?></td>
+                <td><?= $radnik['vrsta_zaposlenja'] ?></td>
                 <td class="text-nowrap <?=$colorPrijave?>"><?= $radnik['pocetak_prijave'] ?></td>
+                <td><?= $radnik['kraj_prijave'] ?></td>
                 <td><?= $radnik['broj_sati'] ?></td>
                 <td><?= $radnik['IBAN'] ?></td>
                 <td><?= $radnik['zasticeniIBAN'] ?></td>
