@@ -16,6 +16,10 @@ class ProfileController extends Controller
 			return redirect()-> to('index.php/voditelj');
 			
 		}
+		elseif($role == 'knjigovoda'){
+			return redirect()-> to('index.php/knjigovoda');
+			
+		}
 			else{
 			return view('profile', $data)
 				. view('footer');

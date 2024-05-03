@@ -7,7 +7,9 @@
          <li><a class="nav-link" href="<?php echo base_url('/index.php/uberImport')?>">Import reports</a></li>
 			<?php endif ?>
           <li><a class="nav-link" href="<?php echo base_url('/index.php/drivers')?>">Drivers</a></li>
-          <li><a class="nav-link" href="<?php echo base_url('/index.php/addDriver')?>">Add New Driver</a></li>
+   			<?php if($role != 'knjigovoda'): ?>
+        <li><a class="nav-link" href="<?php echo base_url('/index.php/addDriver')?>">Add New Driver</a></li>
+			<?php endif ?>
   			<?php if($role == 'admin'): ?>
          <li><a class="nav-link" href="<?php echo base_url('/index.php/obracun')?>">Obračun</a></li>
 			<?php endif ?>
@@ -20,8 +22,10 @@
 			<?php endif ?>
           <li><a class="nav-link" href="<?php echo base_url('/index.php/vozila')?>">Vozila</a></li>
           <li><a class="nav-link" href="<?php echo base_url('/index.php/prijaveRadnika')?>">Prijave</a></li>
-          <li><a class="nav-link" href="<?php echo base_url('/index.php/napomene')?>">Napomene</a></li>
-          <li><a class="nav-link" href="<?php echo base_url('/index.php/logout')?>">Log out</a></li>
+    			<?php if($role != 'knjigovoda'): ?>
+         <li><a class="nav-link" href="<?php echo base_url('/index.php/napomene')?>">Napomene</a></li>
+ 			<?php endif ?>
+         <li><a class="nav-link" href="<?php echo base_url('/index.php/logout')?>">Log out</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->

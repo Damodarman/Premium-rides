@@ -6,7 +6,7 @@
 <file name="obracun.php" server="access941215561.webspace-data.io//" local="133509981557938082" remote="133509981560000000" Dst="1" />
 <file name="drivers.php" server="access941215561.webspace-data.io//" local="133249299812694342" remote="133249299810000000" Dst="2" />
 <file name="driver.php" server="access941215561.webspace-data.io//" local="133591250004027791" remote="133591250010000000" Dst="2" />
-<file name="navBar.php" server="access941215561.webspace-data.io//" local="133483514636657487" remote="133483514630000000" Dst="1" />
+<file name="navBar.php" server="access941215561.webspace-data.io//" local="133591489035663092" remote="133591489040000000" Dst="2" />
 <file name="obracun1.php" server="access941215561.webspace-data.io//" local="133588575691391713" remote="133588575700000000" Dst="2" />
 <file name="pdf_view.php" server="access941215561.webspace-data.io//" local="133209210067701911" remote="133209210070000000" Dst="1" />
 <file name="ugovoroRadu.php" server="access941215561.webspace-data.io//" local="133585976428905543" remote="133585976420000000" Dst="2" />
@@ -58,4 +58,5 @@
 <file name="ugovoroNajmuPdf.php" server="access941215561.webspace-data.io//" local="133591232122151279" remote="133591232130000000" Dst="2" />
 <file name="blagajnickiminmaxPdf.php" server="access941215561.webspace-data.io//" local="133588088474950879" remote="133588088470000000" Dst="2" />
 <file name="potvrdaoPlacanju.php" server="access941215561.webspace-data.io//" local="133588167035753243" remote="133588167030000000" Dst="2" />
+<file name="knjigovoda.php" server="access941215561.webspace-data.io//" local="133591486449875877" remote="133591486460000000" Dst="2" />
 </dwsync>

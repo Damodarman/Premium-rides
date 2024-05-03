@@ -114,6 +114,7 @@ $routes->get('/testemail', 'AdminController::sendTestEmail',['filter' => 'authGu
 $routes->get('/napomene', 'AdminController::napomene',['filter' => 'authGuard']);
 $routes->get('/prijaveRadnika', 'PrijaveController::index',['filter' => 'authGuard']);
 $routes->get('/voditelj', 'VoditeljController::index',['filter' => 'authGuard']);
+$routes->get('/knjigovoda', 'KnjigovodaController::index',['filter' => 'authGuard']);
 $routes->get('/admin/tvrtka', 'TvrtkaController::index',['filter' => 'authGuard']);
 $routes->get('/obracunaj/(:any)', 'ObracunController::obracunaj/$1',['filter' => 'authGuard']);
 $routes->get('/editirajObracun/(:any)', 'ObracunController::editVozacObracun/$1',['filter' => 'authGuard']);
