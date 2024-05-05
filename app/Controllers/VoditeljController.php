@@ -29,6 +29,7 @@ class VoditeljController extends BaseController
         return view('adminDashboard/header', $data)
 			. view('adminDashboard/navBar')
 			. view('adminDashboard/voditelj')		
+			. view('adminDashboard/putNovca')		
 			. view('footer');
 	}
 	

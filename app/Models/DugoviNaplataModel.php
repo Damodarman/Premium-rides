@@ -14,6 +14,8 @@ class DugoviNaplataModel extends Model{
         'timestamp',
         'nacin_placanja',
 		'iznos',
+		'predano',
+		'primljeno',
 		'fleet'
     ];
 }

@@ -21,6 +21,7 @@ use App\Models\DugoviNaplataModel;
 use App\Models\PrijaveModel;
 use App\Models\NapomeneModel;
 
+use CodeIgniter\HTTP\ResponseInterface;
 use Twilio\Rest\Client;
 use App\Libraries\UltramsgLib;
 use Dompdf\Dompdf;
@@ -104,15 +105,17 @@ class AdminController extends BaseController
 		$fleet = $session->get('fleet');
 		$data = $session->get();
 		$direktor = $data['name'];
-		
+		$dugoviNaplataModel = new DugoviNaplataModel();
+		$tvrtkaModel = new TvrtkaModel();
 		$tvrtkaModel = new TvrtkaModel();
 		$vozaciModel = new DriverModel();
-		$obracunFirmaModel = new ObracunFirmaModel;
+		$obracunFirmaModel = new ObracunFirmaModel();
 		$tvrtka = $tvrtkaModel->where('fleet', $fleet)->get()->getRowArray();
 		$vozaciAktivni = $vozaciModel->where('fleet', $fleet)->where('aktivan', '1')->countAllResults();
 		$vozaciNeaktivni = $vozaciModel->where('fleet', $fleet)->where('aktivan', '0')->countAllResults();
 		$vozaciPrijava = $vozaciModel->where('fleet', $fleet)->where('aktivan', '1')->where('prijava', '1')->countAllResults();
 		$week = $obracunFirmaModel->selectMax('week')->where('fleet', $fleet)->get()->getRowArray();
+		//$naplaceniDugovi = $dugoviNaplataModel->where('fleet', $fleet)->get()->getResultArray();
 		$weekbefore = (int)$week['week'];
 		if($weekbefore != 202401){
 			$weekbefore = $weekbefore -1;
@@ -136,10 +139,12 @@ class AdminController extends BaseController
 		$data['vozaci'] = $vozaciAktivni;
 		$data['vozaciPrijava'] = $vozaciPrijava;
 		$data['vozaciNeAktivni'] = $vozaciNeaktivni;
+		//$data['naplaceniDugovi'] = $naplaceniDugovi;
 		
         return view('adminDashboard/header', $data)
 			. view('adminDashboard/navBar')
 			. view('adminDashboard/admin')		
+			. view('adminDashboard/putNovca')		
 			. view('adminDashboard/dashboard_chart')		
 			. view('footer');
     }
@@ -574,7 +579,9 @@ echo $query;
 				'iznos' => $dug['iznos'],
 				'vozac' => $dug['vozac'],
 				'fleet' => $fleet,
-				'dug' => $id,
+				'predano' => 'DA',
+				'primljeno' => 'DA',
+				'dug_id' => $id,
 				'timestamp' => $timestamp,
 				'nacin_placanja' => 'Aircash',
 			);

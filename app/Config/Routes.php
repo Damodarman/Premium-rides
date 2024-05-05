@@ -124,6 +124,9 @@ $routes->get('/drivers/(:any)', 'AdminController::driver/$1',['filter' => 'authG
 $routes->get('/ulazniRacuni', 'UlazniRacuniController::index',['filter' => 'authGuard']);
 $routes->get('/unosRacuna', 'UlazniRacuniController::unosRacuna',['filter' => 'authGuard']);
 $routes->get('/createPdf', 'PdfController::index');
+$routes->add('dugovi/getFilteredData', 'DugoviController::getFilteredData', ['methods' => ['GET', 'POST']]);
+$routes->add('dugovi/predano', 'DugoviController::predano', ['methods' => ['GET', 'POST']]);
+$routes->add('dugovi/primljeno', 'DugoviController::primljeno', ['methods' => ['GET', 'POST']]);
 $routes->match(['get', 'post'], 'UlazniRacuniController/saveRacuna', 'UlazniRacuniController::saveRacuna');
 $routes->match(['get', 'post'], 'PdfController/htmlToPDF', 'PdfController::htmlToPDF');
 $routes->match(['get', 'post'], 'getRacuni', 'UlazniRacuniController::getRacuni');

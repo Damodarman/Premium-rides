@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
 <file name="admin.php" server="access941215561.webspace-data.io//" local="133581931258143246" remote="133581931260000000" Dst="2" />
-<file name="header.php" server="access941215561.webspace-data.io//" local="133585503601681230" remote="133585503610000000" Dst="2" />
+<file name="header.php" server="access941215561.webspace-data.io//" local="133592384169622503" remote="133592384170000000" Dst="2" />
 <file name="addDriver.php" server="access941215561.webspace-data.io//" local="133591239832097924" remote="133591239830000000" Dst="2" />
 <file name="obracun.php" server="access941215561.webspace-data.io//" local="133509981557938082" remote="133509981560000000" Dst="1" />
 <file name="drivers.php" server="access941215561.webspace-data.io//" local="133249299812694342" remote="133249299810000000" Dst="2" />
@@ -59,4 +59,5 @@
 <file name="blagajnickiminmaxPdf.php" server="access941215561.webspace-data.io//" local="133588088474950879" remote="133588088470000000" Dst="2" />
 <file name="potvrdaoPlacanju.php" server="access941215561.webspace-data.io//" local="133588167035753243" remote="133588167030000000" Dst="2" />
 <file name="knjigovoda.php" server="access941215561.webspace-data.io//" local="133591486449875877" remote="133591486460000000" Dst="2" />
+<file name="putNovca.php" server="access941215561.webspace-data.io//" local="133593714311613264" remote="133593714320000000" Dst="2" />
 </dwsync>
