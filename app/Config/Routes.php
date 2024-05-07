@@ -35,10 +35,13 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+$routes->get('companies', 'FleetDataController::getCompanies');
+$routes->get('fleet-data', 'FleetDataController::getFleetDataStateLogs');
 $routes->get('/', 'Home::index');
 $routes->get('/home', 'Home::index');
 $routes->get('/admin', 'AdminController::index',['filter' => 'authGuard']);
 $routes->get('/signup', 'SignupController::index');
+$routes->match(['get', 'post'], '/obradenoDa', 'KnjigovodaController::obradenoDa');
 $routes->match(['get', 'post'], 'SignupController/store', 'SignupController::store');
 $routes->match(['get', 'post'], 'passwordRecovery', 'SignupController::passwordRecovery');
 $routes->match(['get', 'post'], 'SignupController/storeMob', 'SignupController::storeMob');
@@ -124,6 +127,7 @@ $routes->get('/drivers/(:any)', 'AdminController::driver/$1',['filter' => 'authG
 $routes->get('/ulazniRacuni', 'UlazniRacuniController::index',['filter' => 'authGuard']);
 $routes->get('/unosRacuna', 'UlazniRacuniController::unosRacuna',['filter' => 'authGuard']);
 $routes->get('/createPdf', 'PdfController::index');
+$routes->add('fetchDriverData', 'AdminController::fetchDriverData', ['methods' => ['GET', 'POST']]);
 $routes->add('dugovi/getFilteredData', 'DugoviController::getFilteredData', ['methods' => ['GET', 'POST']]);
 $routes->add('dugovi/predano', 'DugoviController::predano', ['methods' => ['GET', 'POST']]);
 $routes->add('dugovi/primljeno', 'DugoviController::primljeno', ['methods' => ['GET', 'POST']]);

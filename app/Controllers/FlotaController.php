@@ -128,7 +128,10 @@ class FlotaController extends Controller
 			'taximetar'  => $this->request->getVar('taximetar'),
 			'taximetar_tjedno'  => $this->request->getVar('taximetar_tjedno'),
 			'koristi_min_proviziju'  => $this->request->getVar('koristi_min_proviziju'),
+			'koristi_min_proviziju_sezona'  => $this->request->getVar('koristi_min_proviziju_sezona'),
+			'provizija_fiks_sezona'  => $this->request->getVar('provizija_fiks_sezona'),
 			'iznos_min_provizije'  => $this->request->getVar('iznos_min_provizije'),
+			'minimalna_provizija_sezona'  => $this->request->getVar('minimalna_provizija_sezona'),
 			'tvrtka_naziv'  => $tvrtka['naziv'],
 			'tvrtka_id'  => $tvrtka['id'],
 		];

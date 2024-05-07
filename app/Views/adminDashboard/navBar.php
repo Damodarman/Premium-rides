@@ -13,17 +13,19 @@
   			<?php if($role == 'admin'): ?>
          <li><a class="nav-link" href="<?php echo base_url('/index.php/obracun')?>">Obračun</a></li>
 			<?php endif ?>
+			<?php if($role != 'knjigovoda'):?>
           <li><a class="nav-link" href="<?php echo base_url('/index.php/dugovi')?>">Dugovi</a></li>
+			<?php endif ?>
 			<?php if($fleet === 'Premium Rides' && $role == 'admin'): ?>
           <li><a class="nav-link" href="<?php echo base_url('/index.php/knjigovodstvo')?>">Knjigovodstvo</a></li>
 			<?php endif ?>
 			<?php if($fleet === 'Premium Rides' && $role == 'voditelj'): ?>
           <li><a class="nav-link" href="<?php echo base_url('/index.php/unosRacuna')?>">Unos Računa</a></li>
 			<?php endif ?>
-          <li><a class="nav-link" href="<?php echo base_url('/index.php/vozila')?>">Vozila</a></li>
           <li><a class="nav-link" href="<?php echo base_url('/index.php/prijaveRadnika')?>">Prijave</a></li>
-    			<?php if($role != 'knjigovoda'): ?>
-         <li><a class="nav-link" href="<?php echo base_url('/index.php/napomene')?>">Napomene</a></li>
+          <li><a class="nav-link" href="<?php echo base_url('/index.php/napomene')?>">Napomene</a></li>
+   			<?php if($role != 'knjigovoda'): ?>
+          <li><a class="nav-link" href="<?php echo base_url('/index.php/vozila')?>">Vozila</a></li>
  			<?php endif ?>
          <li><a class="nav-link" href="<?php echo base_url('/index.php/logout')?>">Log out</a></li>
         </ul>

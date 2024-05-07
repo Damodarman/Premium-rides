@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class DugoviController extends Controller
 {
+	
 public function predano() {
     try {
         // Get session data
@@ -137,7 +138,7 @@ public function getFilteredData()
         $query->like('predano', '%' . $filter['predano'] . '%');
     }
     if (isset($filter['primljeno']) && !empty($filter['primljeno'])) {
-        $query->where('primljeno)', $filter['primljeno']);
+        $query->like('primljeno', '%' . $filter['primljeno'] . '%');
     }
 
     // Check start_date and end_date for date range filtering
@@ -149,6 +150,9 @@ public function getFilteredData()
         $query->where('DATE(timestamp) <=', $filter['end_date']);
     }
 
+	 $query->orderBy('timestamp', 'DESC');
+
+	
     // Execute the query and fetch results
     $naplaceniDugovi = $query->get()->getResultArray();        
         // Log the number of results

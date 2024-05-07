@@ -33,6 +33,10 @@
 				<input type="text" name ="provizija_fiks" class="form-control" <?php if(isset($flota)):?> value="<?php echo $flota['provizija_fiks'] ?>" <?php else:?> placeholder="40"   <?php endif ?> </input>
 			</div>
 			<div class="col-md-3">
+				<label for="provizija_fiks_sezona" class="form-label">Fiksna provizija sezona €</label>
+				<input type="text" name ="provizija_fiks_sezona" class="form-control" <?php if(isset($flota)):?> value="<?php echo $flota['provizija_fiks_sezona'] ?>" <?php else:?> placeholder="40"   <?php endif ?> </input>
+			</div>
+			<div class="col-md-3">
 				<label for="provizija_postotak" class="form-label">Provizija postotak %</label>
 				<input type="text" name ="provizija_postotak" class="form-control" <?php if(isset($flota)):?> value="<?php echo $flota['provizija_postotak'] ?>" <?php else:?> placeholder="10"   <?php endif ?> </input>
 			</div>
@@ -61,6 +65,19 @@
 			<div class="col-md-3">
 				<label for="iznos_min_provizije" class="form-label">Iznos minimalne provizije u €</label>
 				<input type="text" name ="iznos_min_provizije" class="form-control" <?php if(isset($flota)):?> value="<?php echo $flota['iznos_min_provizije'] ?>" <?php else:?> placeholder="20"   <?php endif ?> </input>
+			</div>
+			<div class="col-md-3">
+				<label for="koristi_min_proviziju_sezona" class="form-label">Koristiti minimalnu proviziju za sezonu? </label>
+				<select class="form-select" name="koristi_min_proviziju_sezona" aria-label="Default select example">
+					<option value ="<?php echo $flota['koristi_min_proviziju_sezona']  ?>" selected ><?php if($flota['koristi_min_proviziju_sezona'] != '1'){ echo 'NE';} else{ echo 'DA';} ?></option>
+							<?php if($flota['koristi_min_proviziju_sezona'] != '0'){echo '<option value="0">NE</option>';} 
+								  if($flota['koristi_min_proviziju_sezona'] != '1'){echo '<option value="1">DA</option>';}
+							?>
+				</select>
+			</div>
+			<div class="col-md-3">
+				<label for="minimalna_provizija_sezona" class="form-label">Iznos minimalne provizije sezona u €</label>
+				<input type="text" name ="minimalna_provizija_sezona" class="form-control" <?php if(isset($flota)):?> value="<?php echo $flota['minimalna_provizija_sezona'] ?>" <?php else:?> placeholder="20"   <?php endif ?> </input>
 			</div>
 			<div class="col-md-3">
 				<label for="tvrtka_id" class="form-label">Tvrtka</label>

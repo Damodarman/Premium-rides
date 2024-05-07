@@ -29,6 +29,8 @@ class PrijaveModel extends Model
 			'nadopuna',
 			'timestamp',
 			'user_id',
+			'obradeno',
+			'obradeno_timestamp',
 			'fleet',
 	
 		];

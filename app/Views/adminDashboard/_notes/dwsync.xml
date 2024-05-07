@@ -4,9 +4,9 @@
 <file name="header.php" server="access941215561.webspace-data.io//" local="133592384169622503" remote="133592384170000000" Dst="2" />
 <file name="addDriver.php" server="access941215561.webspace-data.io//" local="133591239832097924" remote="133591239830000000" Dst="2" />
 <file name="obracun.php" server="access941215561.webspace-data.io//" local="133509981557938082" remote="133509981560000000" Dst="1" />
-<file name="drivers.php" server="access941215561.webspace-data.io//" local="133249299812694342" remote="133249299810000000" Dst="2" />
-<file name="driver.php" server="access941215561.webspace-data.io//" local="133591250004027791" remote="133591250010000000" Dst="2" />
-<file name="navBar.php" server="access941215561.webspace-data.io//" local="133591489035663092" remote="133591489040000000" Dst="2" />
+<file name="drivers.php" server="access941215561.webspace-data.io//" local="133593750344142695" remote="133593750350000000" Dst="2" />
+<file name="driver.php" server="access941215561.webspace-data.io//" local="133593778785115636" remote="133593778800000000" Dst="2" />
+<file name="navBar.php" server="access941215561.webspace-data.io//" local="133593848223388780" remote="133593848230000000" Dst="2" />
 <file name="obracun1.php" server="access941215561.webspace-data.io//" local="133588575691391713" remote="133588575700000000" Dst="2" />
 <file name="pdf_view.php" server="access941215561.webspace-data.io//" local="133209210067701911" remote="133209210070000000" Dst="1" />
 <file name="ugovoroRadu.php" server="access941215561.webspace-data.io//" local="133585976428905543" remote="133585976420000000" Dst="2" />
@@ -27,7 +27,7 @@
 <file name="dodajPrMjTr.php" server="access941215561.webspace-data.io//" local="133266418818836643" remote="133266418820000000" Dst="2" />
 <file name="addTrgovca.php" server="access941215561.webspace-data.io//" local="133289557471403972" remote="133289557480000000" Dst="2" />
 <file name="racuni.php" server="access941215561.webspace-data.io//" local="133289786278449912" remote="133289786280000000" Dst="2" />
-<file name="flota.php" server="access941215561.webspace-data.io//" local="133508613645674551" remote="133508613640000000" Dst="1" />
+<file name="flota.php" server="access941215561.webspace-data.io//" local="133593768391537946" remote="133593768400000000" Dst="2" />
 <file name="tvrtka.php" server="access941215561.webspace-data.io//" local="133284466492446181" remote="133284466500000000" Dst="2" />
 <file name="importForm.php" server="access941215561.webspace-data.io//" local="133287809106225962" remote="133287809110000000" Dst="2" />
 <file name="ulazniRacuni.php" server="access941215561.webspace-data.io//" local="133503952575974949" remote="133503952570000000" Dst="1" />
@@ -60,4 +60,9 @@
 <file name="potvrdaoPlacanju.php" server="access941215561.webspace-data.io//" local="133588167035753243" remote="133588167030000000" Dst="2" />
 <file name="knjigovoda.php" server="access941215561.webspace-data.io//" local="133591486449875877" remote="133591486460000000" Dst="2" />
 <file name="putNovca.php" server="access941215561.webspace-data.io//" local="133593714311613264" remote="133593714320000000" Dst="2" />
+<file name="driver.php" server="access941215561.webspace-data.io" local="133594571830596529" remote="133594571830000000" Dst="2" />
+<file name="navBar.php" server="access941215561.webspace-data.io" local="133594572840075553" remote="133594572840000000" Dst="2" />
+<file name="addDriver.php" server="access941215561.webspace-data.io" local="133594595209240221" remote="133594595210000000" Dst="2" />
+<file name="knjigovoda.php" server="access941215561.webspace-data.io" local="133595425860948119" remote="133595425860000000" Dst="2" />
+<file name="header.php" server="access941215561.webspace-data.io" local="133594935722918619" remote="133594935720000000" Dst="2" />
 </dwsync>

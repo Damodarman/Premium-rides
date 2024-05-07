@@ -2110,6 +2110,7 @@ c
 			'provizijaNaljepnice'	=> $this->request->getVar('provizijaNaljepnice'),
 			'IBAN'					=> $IBAN,
 			'pocetak_rada'			=> $this->request->getVar('pocetak_rada'),
+			'sezona'				=> $this->request->getVar('sezona'),
 			'zasticeniIBAN'			=> $zasticeniIBAN,
 			'strani_IBAN'			=> $strani_IBAN,
 			];
@@ -2550,6 +2551,7 @@ c
 			'radno_mjesto'			=> $this->request->getVar('radno_mjesto'),
 			'nacin_rada'			=> $this->request->getVar('nacin_rada'),
 			'isplata'				=> $this->request->getVar('isplata'),
+			'sezona'				=> $this->request->getVar('sezona'),
 			'radniOdnos'			=> $this->request->getVar('radniOdnos'),
 			'provizijaNaljepnice'	=> $this->request->getVar('provizijaNaljepnice'),
 			'IBAN'					=> $IBAN,
@@ -3396,6 +3398,37 @@ c
         }
     }
 	
-	
+public function fetchDriverData()
+{
+    // Check if vozac_id is provided in the GET parameters
+    $vozac_id = $this->request->getGet('vozac_id');
 
+    if ($vozac_id) {
+        // Load the DriverModel and PrijaveModel
+        $driverModel = new DriverModel();
+        $prijaveModel = new PrijaveModel();
+
+        // Perform a subquery to select the latest timestamp for each vozac_id
+        $subQuery = $prijaveModel->select('MAX(timestamp) as latest_timestamp')
+                                 ->where('vozac_id', $vozac_id)
+                                 ->groupBy('vozac_id');
+
+        // Join the vozaci table with the subquery to get the latest entry from prijaveModel
+        $query = $driverModel->select('vozaci.*, prijave.prekid_rada, prijave.id, prijave.vozac_id')
+                     ->join('prijave', 'prijave.vozac_id = vozaci.id AND prijave.timestamp = (SELECT MAX(timestamp) FROM prijave WHERE vozac_id = vozaci.id)', 'left')
+                     ->where('vozaci.id', $vozac_id)
+                     ->get();
+
+        // Fetch the result row
+        $driverData = $query->getRowArray();
+
+        // Return data as JSON
+        return $this->response->setJSON($driverData);
+    } else {
+        // If vozac_id is not provided, return an error response
+        return $this->response->setStatusCode(400)->setJSON(['error' => 'Vozac ID not provided']);
+    }
+}	
+	
+	
 }

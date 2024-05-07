@@ -77,6 +77,13 @@ class SignupController extends Controller
             'confirmpassword'  => 'matches[password]'
         ];
           
+		$emptyField =  $this->request->getVar('lastName');
+		 if (!empty($emptyField)) {
+				$session->setFlashdata('msgPoruka', ' Registration failed, BOTS are not allowed.');
+				session()->setFlashdata('alert-class', 'alert-danger');
+				return redirect()->to('/index.php/signup');
+		 }
+		
         if($this->validate($rules)){
 			$token = $this->generateToken();
             $userModel = new UserModel();

@@ -100,6 +100,13 @@
 			  <option value="Postotak">Postotak</option>
 			</select>
 		</div>
+			<div class="col-md-3">
+				<label for="sezona" class="form-label">Radi na sezoni ?</label>
+				<select class="form-select" name="sezona" aria-label="Default select example">
+				  <option value="1">DA</option>
+				  <option value="0" selected>NE</option>
+				</select>
+			</div>
 		<div class="col-md-3">
 			<label disabled for="iznos_provizije" class="form-label">Iznos provizije</label>
 			<select class="form-select" name="iznos_provizije" aria-label="Default select example">

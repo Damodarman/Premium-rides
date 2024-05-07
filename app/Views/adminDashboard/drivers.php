@@ -82,7 +82,7 @@
                     <th>Provizija</th>
                     <th>Iznos Provizije</th>
                     <th>Popust</th>
-                     <th>Prijava</th>
+                    <th>Prijava</th>
                     <th>Broj Sati</th>
    				</tr>
             </tfoot>

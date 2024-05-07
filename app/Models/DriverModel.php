@@ -40,6 +40,7 @@ class DriverModel extends Model
 		'blagMax',
 		'fleet',
 		'aktivan',
+		'sezona',
 		'radno_mjesto',
 		'provizijaNaljepnice',
 		'vrsta_nagrade',

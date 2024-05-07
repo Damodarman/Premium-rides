@@ -216,12 +216,20 @@
 				  <option value="placa">Plaća</option>
 				</select>
 			</div>			
-				<div class="col-md-4">
+			<div class="col-md-4">
 				<label for="vrsta_provizije" class="form-label">Vrsta provizije</label>
 				<select class="form-select" name="vrsta_provizije" aria-label="Default select example">
 				<option value ="<?php echo $driver['vrsta_provizije']  ?>" selected ><?php echo $driver['vrsta_provizije'] ?></option>
 				  <option value="Fiksna">Fiksna</option>
 				  <option value="Postotak">Postotak</option>
+				</select>
+			</div>
+			<div class="col-md-4">
+				<label for="sezona" class="form-label">Radi na sezoni ?</label>
+				<select class="form-select" name="sezona" aria-label="Default select example">
+				<option value ="<?php echo $driver['sezona']  ?>" selected ><?php if($driver['sezona'] != 0){echo 'DA';}else{echo'NE';} ?></option>
+				  <option value="1">DA</option>
+				  <option value="0">NE</option>
 				</select>
 			</div>
 			<div class="col-md-4">
@@ -320,7 +328,7 @@
 				  
 			  </div>
 			  <div class="col-12">
-				<button type="submit" class="btn btn-primary">Spremi promjene</button>
+				<button type="submit" class="btn btn-primary" <?php if($role!= 'knjigovoda'){}else{ echo 'disabled';} ?>>Spremi promjene</button>
 			  </div>
 			</form>
 				
@@ -400,14 +408,14 @@
 				</select>
 			</div>
 			 <div class="col-12">
-				<button type="submit" class="btn btn-primary">Spremi promjene vezano za prijavu</button>
+				<button type="submit" class="btn btn-primary" <?php if($role!= 'knjigovoda'){}else{ echo 'disabled';} ?>>Spremi promjene vezano za prijavu</button>
 			  </div>
 
 				</form>
 			</div>
 		</div>
 	</div>
-
+<?php if($role != 'knjigovoda'): ?>
 			<div class="accordion-item">
 			<h2 class="accordion-header" id="flush-headingTwo">
 			  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -611,6 +619,7 @@
 				</div>
 			</div>
 			</div>
+			<?php endif ?>
 			<div class ="accordion-item">
 				<h2 class="accordion-header" id="flush-headingThree">
 			  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -764,7 +773,7 @@
 											<?php endif  ?>
 										</div>	
 										<div class="col-12">
-											<button type="submit" class="btn btn-primary">Spremi promjene</button>
+											<button type="submit" class="btn btn-primary"  <?php if($role!= 'knjigovoda'){}else{ echo 'disabled';} ?>>Spremi promjene</button>
 										  </div>
 									</form>
 								</div>

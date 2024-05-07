@@ -21,6 +21,9 @@ class FlotaModel extends Model{
         'imaWhatsApp',
         'koristi_min_proviziju',
         'iznos_min_provizije',
+        'koristi_min_proviziju_sezona',
+        'minimalna_provizija_sezona',
+        'provizija_fiks_sezona',
         'created_at'
     ];
 }

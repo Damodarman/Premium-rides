@@ -48,10 +48,11 @@
                    <?= $validation->listErrors() ?>
                 </div>
                 <?php endif;?>
-				<form action="<?php echo base_url(); ?>/index.php/SignupController/store" method="post">
+				<form id="withmail" action="<?php echo base_url(); ?>/index.php/SignupController/store" method="post">
 					<div class="form-group mb-3">
 						<label for="name">Ime</label>
 						<input type="text" name="name" id="name" value="<?= set_value('name') ?>" class="form-control">
+						<input type="text" name="lastName" id="lastName"  class="form-control" hidden="" value="">
 					</div>
 					<div class="form-group mb-3">
 						<label for="email">Email</label>
@@ -100,12 +101,15 @@
 						<input type="password" name="confirmpassword" id="confirmpassword" class="form-control">
 					</div>
 					<div class="d-grid">
-						<button type="submit" class="btn btn-dark">Registriraj se</button>
+						<button type="submit" class="btn btn-dark g-recaptcha">Registriraj se</button>
 					</div>
 				</form>
             </div>
         </div>
     </div>
+	
+	
+<!-- Replace the variables below. -->
 	
 <script>
     var input = document.querySelector("#phone");

@@ -39,7 +39,7 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"/>
 <link rel="stylesheet" href="https://unpkg.com/tableexport@5.3.0/dist/css/tableexport.min.css">
 
-	
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lcy4NIpAAAAAFqLnWA-llwmbaNq02G8twU_qe1P"></script>	
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>

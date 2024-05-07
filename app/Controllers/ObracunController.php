@@ -83,6 +83,40 @@ class ObracunController extends BaseController
 		return redirect()->to('/index.php/obr');
 	}
 	
+	public function petiTjedan($vozac_id){
+		$obracunModel = new ObracunModel();
+		 $records = $obracunModel
+			 ->select('fiskalizacijaUber, fiskalizacijaBolt')
+			 ->where('vozac_id', $vozac_id)
+			 ->orderBy('id', 'DESC')
+			 ->limit(4) // Corrected syntax
+			 ->get()
+			 ->getResultArray();
+				
+				
+		 if (empty($records)) {
+            // If there are no records, return false
+            return false;
+        }
+		$total = 0;
+//			echo 'nakon IF';
+//			print_r($records);
+//			 die();
+
+
+        // Sum the 'fiskalizacijaUber' and 'fiskalizacijaBolt' values from the last 4 records
+        foreach ($records as $record) {
+            $fiskalizacijaUber = isset($record['fiskalizacijaUber']) ? $record['fiskalizacijaUber'] : 0;
+            $fiskalizacijaBolt = isset($record['fiskalizacijaBolt']) ? $record['fiskalizacijaBolt'] : 0;
+
+            // Add the sum of these fields to the total
+            $total += $fiskalizacijaUber + $fiskalizacijaBolt;
+        }
+		
+		
+		return $total == 0;
+	}
+	
 	public function obracunaj($week = null){
 		helper(['form']);
 		$session = session();
@@ -180,6 +214,8 @@ class ObracunController extends BaseController
 				$vozac['UUID_vozaca'] = $dr['UUID_vozaca'];
 				$vozac['tel_broj'] = $dr['mobitel'];
 				$vozac['dob'] = $dr['dob'];
+				$vozac['sezona'] = $dr['sezona'];
+				$vozac['vozac_id'] = $dr['id'];
 				$vozac['taximetar_unique_id'] = $dr['taximetar_unique_id'];
 				$vozac['provizijaNaljepnice'] = $dr['provizijaNaljepnice'];
 				$vozac['vrsta_provizije'] = $dr['vrsta_provizije'];
@@ -354,13 +390,21 @@ class ObracunController extends BaseController
 				$vozac['broj_sati'] = (float) $dr['broj_sati'];
 				$driverObracun['doprinosi'] = 0;
 				if($dr['prijava'] != 0){
-					$dopPlaca = $this->izracunajDoprinose($vozac);
-					$driverObracun['doprinosi'] = $dopPlaca['doprinosi'];
-					$firmaObracun['doprinosi'] += $dopPlaca['doprinosi'];
-					$driverObracun['cetvrtinaNetoPlace'] = $dopPlaca['cetvrtinaNetoPlace'];
-					$driverObracun['zaIsplatu'] -= $driverObracun['cetvrtinaNetoPlace'];
-					$driverObracun['zaIsplatu'] -= $driverObracun['doprinosi'];
-					$firmaObracun['netoPlaca'] += $dopPlaca['cetvrtinaNetoPlace'];
+					$petiTjedan = $this->petiTjedan($dr['id']);
+//					var_dump($petiTjedan);
+//					die();
+					if($petiTjedan != true){
+						$dopPlaca = $this->izracunajDoprinose($vozac);
+						$driverObracun['doprinosi'] = $dopPlaca['doprinosi'];
+						$firmaObracun['doprinosi'] += $dopPlaca['doprinosi'];
+						$driverObracun['cetvrtinaNetoPlace'] = $dopPlaca['cetvrtinaNetoPlace'];
+						$driverObracun['zaIsplatu'] -= $driverObracun['cetvrtinaNetoPlace'];
+						$driverObracun['zaIsplatu'] -= $driverObracun['doprinosi'];
+						$firmaObracun['netoPlaca'] += $dopPlaca['cetvrtinaNetoPlace'];
+					}else{
+						$driverObracun['doprinosi'] = 0;
+						$driverObracun['cetvrtinaNetoPlace'] = 0;
+					}
 				}
 				else{
 					$driverObracun['doprinosi'] = 0;
@@ -514,10 +558,6 @@ class ObracunController extends BaseController
 				->get()
 				->getRowArray();
 			
-//						echo '<pre>';
-//						print_r($mjesTrosak);
-//						var_dump($vozac);
-//						die();
 			if($pocetakPrijave != '0000-00-00'){
 				if($daniPrijave > 1){
 					if($age < 30){
@@ -550,8 +590,14 @@ class ObracunController extends BaseController
 			$postavkeFlote = $flotaModel->where('naziv', $fleet)->get()->getRowArray();
 			$vrstaProvizije = $vozac['vrsta_provizije'];
 			$iznosProvizije = (float) $vozac['iznos_provizije'];
-			$iznosFiksneProvizije = $postavkeFlote['provizija_fiks'];
+			if($vozac['sezona'] != 1){
+				$iznosFiksneProvizije = $postavkeFlote['provizija_fiks'];
+			}else{
+				$iznosFiksneProvizije = $postavkeFlote['provizija_fiks_sezona'];
+			}
+			
 			$minimalnaProvizija = $postavkeFlote['koristi_min_proviziju'];
+			
 			$iznosMinimalneProvizije = $postavkeFlote['iznos_min_provizije'];
 			$popustNaProviziju = (float) $vozac['popust_na_proviziju'];
 			$daniRada = $vozac['daniRada'];
@@ -593,6 +639,10 @@ class ObracunController extends BaseController
 								
 			}elseif($vrstaProvizije == 'Postotak'){
 				//Ako je postotak
+				$popustnaMinimalnuproviziju = (float) $iznosMinimalneProvizije *  (float) $popustNaProviziju / 10;
+				$iznosMinimalneProvizije = $iznosMinimalneProvizije - $popustnaMinimalnuproviziju;
+				$iznosMinimalneProvizije = round($iznosMinimalneProvizije, 2);
+				
 				if($minimalnaProvizija != true){
 					$iznosProvizije = (float) $iznosProvizije - (float) $popustNaProviziju;
 					$provizija = ($iznosProvizije / 100) * $ukupnoNetoWithTaximetar;

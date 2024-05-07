@@ -6,18 +6,18 @@
 <file name="SignupController.php" server="access941215561.webspace-data.io//" local="133591469935596323" remote="133591469940000000" Dst="2" />
 <file name="SigninController.php" server="access941215561.webspace-data.io//" local="133591394489254042" remote="133591394500000000" Dst="2" />
 <file name="ProfileController.php" server="access941215561.webspace-data.io//" local="133591481812761374" remote="133591481820000000" Dst="2" />
-<file name="AdminController.php" server="access941215561.webspace-data.io//" local="133593292484023244" remote="133593292490000000" Dst="2" />
-<file name="AdminController.php" server="access941215561.webspace-data.io" local="133189835862951202" remote="133189835860000000" Dst="1" />
+<file name="AdminController.php" server="access941215561.webspace-data.io//" local="133594517048456705" remote="133594517060000000" Dst="2" />
+<file name="AdminController.php" server="access941215561.webspace-data.io" local="133595418465351607" remote="133595418470000000" Dst="2" />
 <file name="PdfController.php" server="access941215561.webspace-data.io//" local="133213625041556833" remote="133213625050000000" Dst="1" />
 <file name="AdminController_noogloyiwy.php" server="access941215561.webspace-data.io//" local="133189819550000000" remote="133189819550000000" Dst="1" />
 <file name="AdminController_npfijoyixx.php" server="access941215561.webspace-data.io//" local="133189819900000000" remote="133189819900000000" Dst="1" />
 <file name="PdfConroller.php" server="access941215561.webspace-data.io//" local="133209213520000000" remote="133209213520000000" Dst="1" />
 <file name="ProfileControler.php" server="access941215561.webspace-data.io//" local="133171312220000000" remote="133171312220000000" Dst="1" />
-<file name="ObracunController.php" server="access941215561.webspace-data.io//" local="133558411951773246" remote="133558411960000000" Dst="1" />
+<file name="ObracunController.php" server="access941215561.webspace-data.io//" local="133594522347817941" remote="133594522360000000" Dst="2" />
 <file name="NumberGenerationController.php" server="access941215561.webspace-data.io//" local="133554274063288722" remote="133554274070000000" Dst="1" />
 <file name="KnjigovodstvoController.php" server="access941215561.webspace-data.io//" local="133591120804836265" remote="133591120810000000" Dst="2" />
 <file name="UputeController.php" server="access941215561.webspace-data.io//" local="133276770053244242" remote="133276770050000000" Dst="2" />
-<file name="FlotaController.php" server="access941215561.webspace-data.io//" local="133508612094955725" remote="133508612100000000" Dst="1" />
+<file name="FlotaController.php" server="access941215561.webspace-data.io//" local="133593768284377992" remote="133593768280000000" Dst="2" />
 <file name="TvrtkaController.php" server="access941215561.webspace-data.io//" local="133422626841563411" remote="133422626850000000" Dst="2" />
 <file name="ExcelImportController.php" server="access941215561.webspace-data.io//" local="133288154867368336" remote="133288154870000000" Dst="2" />
 <file name="UlazniRacuniController.php" server="access941215561.webspace-data.io//" local="133503951077166911" remote="133503951080000000" Dst="1" />
@@ -25,5 +25,9 @@
 <file name="PrijaveController.php" server="access941215561.webspace-data.io//" local="133591287749530371" remote="133591287760000000" Dst="2" />
 <file name="ImportController.php" server="access941215561.webspace-data.io//" local="133528116278244115" remote="133528116280000000" Dst="1" />
 <file name="KnjigovodaController.php" server="access941215561.webspace-data.io//" local="133591489884789690" remote="133591489890000000" Dst="2" />
-<file name="DugoviController.php" server="access941215561.webspace-data.io//" local="133593722792474197" remote="133593722800000000" Dst="2" />
+<file name="DugoviController.php" server="access941215561.webspace-data.io//" local="133593761496432579" remote="133593761500000000" Dst="2" />
+<file name="FleetDataController.php" server="access941215561.webspace-data.io//" local="133593833552725390" remote="133593833560000000" Dst="2" />
+<file name="ObracunController.php" server="access941215561.webspace-data.io" local="133594530331071655" remote="133594530330000000" Dst="2" />
+<file name="KnjigovodaController.php" server="access941215561.webspace-data.io" local="133595537030388513" remote="133595537040000000" Dst="2" />
+<file name="SignupController.php" server="access941215561.webspace-data.io" local="133594942177221661" remote="133594942170000000" Dst="2" />
 </dwsync>
