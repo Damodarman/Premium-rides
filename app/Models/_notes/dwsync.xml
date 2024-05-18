@@ -38,4 +38,7 @@
 <file name="TaximetarReportModel.php" server="access941215561.webspace-data.io//" local="133508382027846779" remote="133508382020000000" Dst="1" />
 <file name="DugoviNaplataModel.php" server="access941215561.webspace-data.io//" local="133593272498921874" remote="133593272510000000" Dst="2" />
 <file name="PrijaveModel.php" server="access941215561.webspace-data.io" local="133595410906841951" remote="133595410900000000" Dst="2" />
+<file name="NapomeneModel.php" server="access941215561.webspace-data.io" local="133601525591881020" remote="133601525590000000" Dst="2" />
+<file name="ActivityUberModel.php" server="access941215561.webspace-data.io" local="133601849477256763" remote="133601849480000000" Dst="2" />
+<file name="BoltDriverActivityModel.php" server="access941215561.webspace-data.io" local="133601916989702323" remote="133601916990000000" Dst="2" />
 </dwsync>

@@ -35,6 +35,12 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+$routes->get('logs', 'LogViewerController::index'); 
+//$routes->post('/admin/driver-activity', 'AdminController::driverActivity');
+$routes->add('/admin/driver-activity', 'AdminController::driverActivity', ['methods' => ['GET', 'POST']]);
+
+
 $routes->get('companies', 'FleetDataController::getCompanies');
 $routes->get('fleet-data', 'FleetDataController::getFleetDataStateLogs');
 $routes->get('/', 'Home::index');
@@ -75,6 +81,8 @@ $routes->match(['get', 'post'], 'AdminController/poslatiObracun', 'AdminControll
 $routes->match(['get', 'post'], 'AdminController/boltReportImport', 'AdminController::boltReportImport',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'ImportController/taximetarImport', 'ImportController::taximetarImport',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'ImportController/boltImport', 'ImportController::boltImport',['filter' => 'authGuard']);
+$routes->match(['get', 'post'], 'ImportController/uberActivityReportImport', 'ImportController::activityUberImport',['filter' => 'authGuard']);
+$routes->match(['get', 'post'], 'ImportController/boltActivityImport', 'ImportController::boltActivityImport',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/myPosReportImport', 'AdminController::myPosReportImport',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'NumberGenerationController/generate', 'NumberGenerationController::generate',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'KnjigovodstvoController/addTrgovcaSave', 'KnjigovodstvoController::addTrgovcaSave',['filter' => 'authGuard']);

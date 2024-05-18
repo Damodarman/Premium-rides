@@ -390,7 +390,8 @@ class ObracunController extends BaseController
 				$vozac['broj_sati'] = (float) $dr['broj_sati'];
 				$driverObracun['doprinosi'] = 0;
 				if($dr['prijava'] != 0){
-					$petiTjedan = $this->petiTjedan($dr['id']);
+					//$petiTjedan = $this->petiTjedan($dr['id']);
+					$petiTjedan = false;
 //					var_dump($petiTjedan);
 //					die();
 					if($petiTjedan != true){

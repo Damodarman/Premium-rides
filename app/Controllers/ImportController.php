@@ -11,6 +11,9 @@ use App\Models\DriverModel;
 use App\Models\FlotaModel;
 use App\Models\TvrtkaModel;
 use App\Models\TaximetarReportModel;
+use CodeIgniter\Files\File;
+use App\Models\ActivityUberModel;
+use App\Models\BoltDriverActivityModel;
 
 use Twilio\Rest\Client;
 use App\Libraries\UltramsgLib;
@@ -21,7 +24,235 @@ class ImportController extends BaseController
     public function __construct()
     {
     }
+	
+public function activityUberImport()
+{
+    $input = $this->validate([
+        'files' => 'uploaded[files.*]|max_size[files,10240]|ext_in[files,csv]|mime_in[files,text/csv]',
+    ]);
+    $model = new ActivityUberModel();
+    $files = $this->request->getFiles();
+    $successCount = 0; 
+    $duplicateCount = 0;
+    $errorCount = 0; 
+    $session = session();
 
+    foreach ($files['files'] as $file) {
+        if (!$file->isValid()) {
+            $errorCount++;
+            continue; // Skip to the next file if invalid
+        }
+
+        $tempPath = $file->getTempName();
+        $csvData = array_map('str_getcsv', file($tempPath));
+        array_shift($csvData); // Remove header
+
+        // Extract date from filename (add error handling)
+        $filename = $file->getName();
+        if (!preg_match('/(\d{4})(\d{2})(\d{2})/', $filename, $dateMatches)) {
+            $errorCount++;
+            continue; 
+        }
+
+        $datumUnosa = $dateMatches[1] . '-' . $dateMatches[2] . '-' . $dateMatches[3];
+        $fleet = $session->get('fleet'); // Get fleet once (optimize)
+        $dataToInsert = [];
+
+        foreach ($csvData as $row) {
+            list($uuid, $ime, $prezime, $voznje, $vrijemeMrezi, $vrijemeVoznje) = $row;
+
+            // Check for duplicates efficiently
+            if ($model->where('uuid_vozaca', $uuid)->where('datum_unosa', $datumUnosa)->countAllResults() > 0) {
+                $duplicateCount++;
+                continue;
+            }
+
+			 $dataToInsert[] = [
+					'uuid_vozaca' => $uuid,
+					'ime' => trim($ime),
+					'prezime' => trim($prezime),
+					'vozac' => trim($ime) . ' ' . trim($prezime),
+					'fleet' => $fleet,
+					'dovrsene_voznje' => (int)$voznje,
+					'vrijeme_na_mrezi' => $this->timeToHours($vrijemeMrezi),
+					'vrijeme_voznje' => $this->timeToHours($vrijemeVoznje),
+					'datum_unosa' => $datumUnosa
+				  ];
+		}
+
+        if (!empty($dataToInsert)) {
+            $model->insertBatch($dataToInsert);
+            $successCount++;
+        } 
+    }
+
+    $message = "Imported: $successCount | Duplicates: $duplicateCount | Errors: $errorCount";
+    $session->setFlashdata('msgActivityUber', $message);
+    $session->setFlashdata('alert-class', ($errorCount > 0) ? 'alert-warning' : 'alert-success'); // Conditional alert class
+
+    return redirect()->to("/index.php/uberImport");  
+}
+
+private function timeToHours($timeStr)
+{
+    list($days, $hours, $minutes) = explode(':', $timeStr);
+    $hours = $days * 24 + $hours + $minutes / 60; 
+	$hours = round($hours, 2);
+	return $hours;
+}	
+	
+public function boltActivityImport()
+    {
+	
+    $session = session();
+    $fleet = $session->get('fleet');
+
+    $input = $this->validate([
+        'files' => 'permit_empty|max_size[files,10240]|ext_in[files,csv]|mime_in[files,text/csv,application/csv]'
+    ]);
+
+    if (!$input) {
+        $errors = $this->validator->getErrors();
+        $session->setFlashdata('msgActivityBolt', 'Validation failed for Bolt CSV upload: ' . implode(', ', $errors));
+        $session->setFlashdata('alert-class', 'alert-danger');
+        return redirect()->to("/index.php/uberImport"); // Adjust route if needed
+    }
+
+    $model = new BoltDriverActivityModel();
+    $files = $this->request->getFiles();
+    $successCount = 0;
+    $duplicateCount = 0;
+    $errorCount = 0;
+
+    foreach ($files['files'] as $file) {
+        if ($file !== null) {  // Additional check for null file
+            if ($file->getError() === UPLOAD_ERR_OK && $file->getClientMimeType() === 'text/csv') { 
+                $originalFileName = $file->getName();
+
+                // File upload was successful and it's a CSV file, proceed with processing
+                $tempPath = $file->getTempName();
+        // Read the first line to get headers
+        $handle = fopen($tempPath, "r");
+        $headers = fgetcsv($handle);
+        fclose($handle);
+
+        // Process the remaining lines
+        $csvData = array_map('str_getcsv', file($tempPath));
+				
+					$header_row = array_shift($csvData);
+					$csvData = array_slice($csvData, 1);
+					$header_row = str_replace(['"', '﻿', '<pre>'], '', $header_row);
+					$header_row = str_replace(": ", "", $header_row);
+					$header_row = str_replace("'", "", $header_row);
+					$header_row = str_replace("č", "c", $header_row);
+					$header_row = str_replace("ć", "c", $header_row);
+					$header_row = str_replace("š", "s", $header_row);
+					$header_row = str_replace("ž", "z", $header_row);
+					$header_row = str_replace("đ", "d", $header_row);
+					$header_row = str_replace("(", "", $header_row);
+					$header_row = str_replace(")", "", $header_row);
+					$header_row = str_replace(" ", "_", $header_row);
+					$header_row = preg_replace('/[[:cntrl:]]/', '', $header_row);
+					$headers = str_replace(":", "_", $header_row);
+                // Extract dates from filename
+                preg_match('/(\d{2})_(\d{2})_(\d{4})-(\d{2})_(\d{2})_(\d{4})/', $originalFileName, $dateMatches);
+                $startDate = $dateMatches[3] . '-' . $dateMatches[2] . '-' . $dateMatches[1];
+                $endDate = $dateMatches[6] . '-' . $dateMatches[5] . '-' . $dateMatches[4];
+
+                $dataToInsert = [];
+
+                foreach ($csvData as $row) {
+                    // Check for empty rows
+                    if (empty(array_filter($row))) {
+                        continue; // Skip to the next row
+                    }
+                    $rowData = array_combine($headers, $row);
+
+                    // Check for duplicates
+                    if ($model->where('driver_id', $rowData['Jedinstveni_identifikator_vozaca'])
+                               ->where('start_date', $startDate)
+                               ->where('end_date', $endDate)
+                               ->countAllResults() > 0) {
+                        $duplicateCount++;
+                        continue;
+                    }
+//				print_r($rowData);
+//					die();
+					
+                $dataToInsert[] = [
+                'driver_id' => $rowData['Jedinstveni_identifikator_vozaca'],
+                'driver_name' => $rowData['Vozac'],
+                'phone_number' => $rowData['Telefonski_broj_vozaca'],
+                'email' => $rowData['E-mail'],
+                'cash_trips_enabled' => $rowData['Gotovinske_voznje_omogucene'] === 'DA' ? 1 : 0,
+                'driver_success_rate' => $this->cleanDecimalValue($rowData['Uspjesnost_vozaca']),
+                'completed_rides' => (int)$rowData['Dovrsene_voznje'],
+                'total_acceptance' => $this->cleanDecimalValue($rowData['Ukupno_prihvacanje']),
+                'required_acceptance' => $this->cleanDecimalValue($rowData['Potrebno_prihvacanje']),
+                'online_hours' => $this->minutesToHours($rowData['Sati_na_mrezi_min']),
+                'active_driving_hours' => $this->minutesToHours($rowData['Vrijeme_aktivne_voznje_min']),
+                'utilization' => $this->cleanDecimalValue($rowData['Utiliziranost']),
+                'rides_taken_rate' => $this->cleanDecimalValue($rowData['Stopa_odradenih_voznji']),
+                'rides_completed_rate' => $this->cleanDecimalValue($rowData['Stopa_zavrsenih_voznji']),
+                'average_rating' => $this->cleanDecimalValue($rowData['Prosjecna_ocjena_vozaca']),
+                'average_distance' => $this->metersToKilometers($rowData['Prosjecna_udaljenost_voznje_u_metrima']),
+                'fleet' => $fleet,
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+                'personal_code' => $rowData["Drivers_Personal_Code"]
+            ];
+                  }
+
+				
+				
+                if (!empty($dataToInsert)) {
+                    $model->insertBatch($dataToInsert);
+                    $successCount++;
+                } else {
+                    $errorCount++; 
+                }
+
+            } else {
+                // File upload failed or not a CSV
+                $errorCount++;
+                $session->setFlashdata('msgActivityBolt', 'Invalid file type or upload error. Please upload a valid CSV file.');
+                $session->setFlashdata('alert-class', 'alert-danger');
+                return redirect()->to("/index.php/uberImport"); 
+            }
+        } //end of if $file!=null
+    }
+
+    $message = "Imported: $successCount | Duplicates: $duplicateCount | Errors: $errorCount";
+    $session->setFlashdata('msgActivityBolt', $message);
+    $session->setFlashdata('alert-class', ($errorCount > 0) ? 'alert-warning' : 'alert-success');
+
+    return redirect()->to("/index.php/uberImport"); 
+    }
+
+    // Helper Methods
+
+    private function extractFleetFromFilename($filename)
+    {
+        // Implement your logic to get the fleet name from the filename
+        // For example, if it's always after the dates:
+        $parts = explode('-', $filename);
+        return trim($parts[2]); // Assuming fleet is the third part
+    }
+
+    private function metersToKilometers($meters)
+    {
+        return $meters / 1000;
+    }
+
+    private function minutesToHours($minutes)
+    {
+       return round((int)$minutes / 60, 2); 
+    }
+
+    private function cleanDecimalValue($value)
+    {
+        return str_replace(',', '.', $value); // Replace commas with dots for decimals
+    }
 	
 public function taximetarImport() {
     $session = session();

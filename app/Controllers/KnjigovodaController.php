@@ -12,21 +12,31 @@ class KnjigovodaController extends Controller
 		$fleet = $session->get('fleet');
 		$role = $session->get('role');
 		
-		$neobradenePrijave = $prijaveModel
-			->where('fleet', $fleet)
-			->where('obradeno', 0)
-			->orderBy('timestamp', 'DESC')
-			->groupBy('vozac_id')
-			->get()->getResultArray();
-        $obradenePrijave = $prijaveModel
-			->where('fleet', $fleet)
-			->where('obradeno', 1)
-			->orderBy('timestamp', 'DESC')
-			->groupBy('vozac_id')
+		$neobradenePrijave = $prijaveModel->select('prijave.*')
+			->join('(
+				SELECT vozac_id, MAX(timestamp) as max_timestamp
+				FROM prijave
+				WHERE obradeno = 0
+				GROUP BY vozac_id
+			) as latest', 'latest.vozac_id = prijave.vozac_id AND latest.max_timestamp = prijave.timestamp')
+			 ->where('prijave.fleet', $fleet)
+			->orderBy('prijave.timestamp', 'DESC')
 			->get()
 			->getResultArray();
 
-        // Get the current page from the URL, or default to the first page
+		$obradenePrijave = $prijaveModel->select('prijave.*')
+			->join('(
+				SELECT vozac_id, MAX(timestamp) as max_timestamp
+				FROM prijave
+				WHERE obradeno = 1
+				GROUP BY vozac_id
+			) as latest', 'latest.vozac_id = prijave.vozac_id AND latest.max_timestamp = prijave.timestamp')
+			
+			 ->where('prijave.fleet', $fleet)
+			->orderBy('prijave.obradeno_timestamp', 'DESC')
+			->get()
+			->getResultArray();
+		// Get the current page from the URL, or default to the first page
 		
 		$data['page'] = 'Dashboard knjigovođe';
 		$data['fleet'] = $fleet;

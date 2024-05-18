@@ -11,6 +11,7 @@ class NapomeneModel extends Model{
         'user',
         'driver_id',
         'napomena',
+        'vrsta_napomene',
         'fleet',
     ];
 }

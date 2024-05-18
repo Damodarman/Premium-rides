@@ -20,6 +20,9 @@ use App\Models\DugoviModel;
 use App\Models\DugoviNaplataModel;
 use App\Models\PrijaveModel;
 use App\Models\NapomeneModel;
+use App\Models\UserModel;
+use App\Models\ActivityUberModel;
+use App\Models\BoltDriverActivityModel;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use Twilio\Rest\Client;
@@ -391,6 +394,7 @@ echo $query;
 					'user' => $postData['user'],
 					'driver_id' => $postData['vozac_id'],
 					'napomena' => $text,
+					'vrsta_napomene' => 'uskrata',
 					'fleet' => $fleet
 				);
 					if($napomeneModel->insert($napomena)){
@@ -1137,6 +1141,107 @@ public function napomenaSave()
 		
 	}
 	
+	
+    function formatHours($decimalHours) {
+        $hours = floor($decimalHours);
+        $minutes = round(($decimalHours - $hours) * 60);
+        return $hours . ' h i ' . $minutes . ' min'; // You can change " h i " to " sati i " 
+    }
+
+	
+public function driverActivity()
+{
+	
+
+    // Retrieve POST data
+    $boltUniqueId = $this->request->getPost('boltUniqueId');
+    $uberUniqueId = $this->request->getPost('uberUniqueId');
+    $startDate = $this->request->getPost('startDate');
+    $endDate = $this->request->getPost('endDate');
+	
+//	echo $boltUniqueId .' This is bolt </br>';
+//	echo $uberUniqueId .'This is uber</br>';
+//	echo $startDate .'This is start</br>';
+//	echo $endDate .'This is end</br>';
+	
+
+    // Load models
+    $boltActivityModel = new BoltDriverActivityModel();
+    $uberActivityModel = new ActivityUberModel();
+
+    // Fetch data from the database
+    $uberActivity = $uberActivityModel->where('vozac', $uberUniqueId)
+                                      ->where('datum_unosa >=', $startDate) // Here might be the issue
+                                      ->where('datum_unosa <=', $endDate)   // And here as well
+                                      ->get()->getResultArray();
+
+    $boltActivity = $boltActivityModel->where('driver_name', $boltUniqueId)
+                                      ->where('start_date >=', $startDate) // Same here
+                                      ->where('start_date <=', $endDate)   // Same here
+                                      ->get()->getResultArray();
+
+	$uberDates = array_column($uberActivity, 'datum_unosa');
+
+	// Fetch dates from $boltActivity
+	$boltDates = array_column($boltActivity, 'start_date');
+
+	// Merge both arrays
+	$allDates = array_merge($uberDates, $boltDates);
+
+	// Remove duplicates
+	$uniqueDates = array_unique($allDates);
+
+	// Sort the array if needed
+	sort($uniqueDates);
+	
+    // Combine data and calculate totals
+    $combinedData = [];
+    foreach ($uberActivity as $uber) {
+        $combinedData[] = [
+            'datum' => $uber['datum_unosa'],
+             'total_online' => round((float)$uber['vrijeme_na_mrezi'], 2),
+			'total_vrijeme_voznje' => round((float)$uber['vrijeme_voznje'], 2),
+            'uber_online' => (float)$uber['vrijeme_na_mrezi'], 
+            'uber_vrijeme_voznje' => (float)$uber['vrijeme_voznje'],
+            'bolt_online' => 0.00,
+            'bolt_vrijeme_voznje' => 0.00
+        ];
+    }
+
+    foreach ($boltActivity as $bolt) {
+        $found = false;
+        foreach ($combinedData as &$item) {
+            if ($item['datum'] === $bolt['start_date']) {
+                $item['total_online'] = round($item['total_online'] + (float)$bolt['online_hours'], 2);
+        		$item['total_vrijeme_voznje'] = round($item['total_vrijeme_voznje'] + (float)$bolt['active_driving_hours'], 2);
+                $item['bolt_online'] = (float)$bolt['online_hours'];
+                $item['bolt_vrijeme_voznje'] = (float)$bolt['active_driving_hours'];
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $combinedData[] = [
+                'datum' => $bolt['start_date'],
+                'total_online' => (float)$bolt['online_hours'],
+                'total_vrijeme_voznje' => (float)$bolt['active_driving_hours'],
+                'uber_online' => 0.00,
+                'uber_vrijeme_voznje' => 0.00,
+                'bolt_online' => (float)$bolt['online_hours'],
+                'bolt_vrijeme_voznje' => (float)$bolt['active_driving_hours']
+            ];
+        }
+    }
+    
+    usort($combinedData, function($a, $b) {
+        return strtotime($a['datum']) - strtotime($b['datum']);
+    });
+
+    return $this->response->setJSON($combinedData);
+
+}
+
+	
 	public function driver($id = null){
         $session = session();
 		$fleet = $session->get('fleet');
@@ -1159,6 +1264,11 @@ public function napomenaSave()
 			$valjanost = $UltramsgLib->checkContact($mobitel);
 			$valjanost = $valjanost['status'];
 		}
+		$boltUniqueId = $driver['bolt_unique_id'];
+		$uberUniqueId = $driver['uber_unique_id'];
+		
+		
+		
 		
 		$driversFind = new DriverModel();
 		$drivers = $driversFind->select('vozac, id')->where('fleet', $fleet)->where('aktivan', '1')->get()->getResultArray();
@@ -2230,6 +2340,85 @@ c
 
 				$prijaveModel = new PrijaveModel();
 				$prijaveModel->insert($prijavaData);
+			
+				$userModel = new UserModel();
+				$knjigovoda = $userModel->where('fleet', $fleet)->where('role', 'knjigovoda')->get()->getResultArray();
+				
+				if(empty($knjigovoda)){
+					$session->setFlashdata('msgKnjigovoda', ' U bazi ne postoji knjigovođa. Obavijestiti ručno.');
+					session()->setFlashdata('alert-class', 'alert-danger');
+					return redirect()->to('/index.php/drivers/'.$id);
+				}
+				
+				
+				$brojNeobradenih = $prijaveModel->where('obradeno', 0)->where('fleet', $fleet)->countAllResults();
+				if($brojNeobradenih == 1){
+					// send email to knjigovoda 1 neobradeni
+					$msg = 1;
+					foreach($knjigovoda as $knjig){
+					$msg = 1;
+						$email = $knjig['email'];
+						if($this->sendEmailKnjigovoda($email, $msg)){
+							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novu prijavu.');
+							session()->setFlashdata('alert-class', 'alert-success');
+							if($prijava != 1){
+								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+							}
+							return redirect()->to('/index.php/drivers/'.$id);
+						}else{
+							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
+							session()->setFlashdata('alert-class', 'alert-danger');
+							if($prijava != 1){
+								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+							}
+							return redirect()->to('/index.php/drivers/'.$id);
+						}
+					}
+				}elseif($brojNeobradenih == 5){
+					// send email to knjigovoda 5 neobradeni
+					foreach($knjigovoda as $knjig){
+
+						$msg = 5;
+						$email = $knjig['email'];
+						if($this->sendEmailKnjigovoda($email, $msg)){
+							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novih 5 prijava.');
+							session()->setFlashdata('alert-class', 'alert-success');
+							if($prijava != 1){
+								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+							}
+							return redirect()->to('/index.php/drivers/'.$id);
+						}else{
+							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
+							session()->setFlashdata('alert-class', 'alert-danger');
+							if($prijava != 1){
+								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+							}
+							return redirect()->to('/index.php/drivers/'.$id);
+						}
+					}
+				}
+				elseif($brojNeobradenih == 10){
+					// send email to knjigovoda 5 neobradeni
+					foreach($knjigovoda as $knjig){
+						$msg = 10;
+						$email = $knjig['email'];
+						if($this->sendEmailKnjigovoda($email, $msg)){
+							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novih 5 prijava.');
+							session()->setFlashdata('alert-class', 'alert-success');
+							if($prijava != 1){
+								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+							}
+							return redirect()->to('/index.php/drivers/'.$id);
+						}else{
+							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
+							session()->setFlashdata('alert-class', 'alert-danger');
+							if($prijava != 1){
+								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+							}
+							return redirect()->to('/index.php/drivers/'.$id);
+						}
+					}
+				}
 			if($prijava != 1){
 				return redirect()->to('/index.php/kreirajRaskid/'. $id);
 			}
@@ -2585,6 +2774,64 @@ c
 				
 				$prijaveModel = new PrijaveModel();
 				$prijaveModel->insert($prijavaData);
+				$userModel = new UserModel();
+				$knjigovoda = $userModel->where('fleet', $fleet)->where('role', 'knjigovoda')->get()->getResultArray();
+				
+				if(empty($knjigovoda)){
+					$session->setFlashdata('msgKnjigovoda', ' U bazi ne postoji knjigovođa. Obavijestiti ručno.');
+					session()->setFlashdata('alert-class', 'alert-danger');
+					return redirect()->to('/index.php/drivers/'.$id);
+				}
+				
+				
+				$brojNeobradenih = $prijaveModel->where('obradeno', 0)->where('fleet', $fleet)->countAllResults();
+				if($brojNeobradenih == 1){
+					// send email to knjigovoda 1 neobradeni
+					$msg = 1;
+					foreach($knjigovoda as $knjig){
+					$msg = 1;
+						$email = $knjig['email'];
+						if($this->sendEmailKnjigovoda($email, $msg)){
+							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novu prijavu.');
+							session()->setFlashdata('alert-class', 'alert-success');
+							return redirect()->to('/index.php/drivers/'.$id);
+						}else{
+							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
+							session()->setFlashdata('alert-class', 'alert-danger');
+							return redirect()->to('/index.php/drivers/'.$id);
+						}
+					}
+				}elseif($brojNeobradenih == 5){
+					// send email to knjigovoda 5 neobradeni
+					foreach($knjigovoda as $knjig){
+
+						$msg = 5;
+						$email = $knjig['email'];
+						if($this->sendEmailKnjigovoda($email, $msg)){
+							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novih 5 prijava.');
+							session()->setFlashdata('alert-class', 'alert-success');
+						}else{
+							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
+							session()->setFlashdata('alert-class', 'alert-danger');
+							return redirect()->to('/index.php/drivers/'.$id);
+						}
+					}
+				}
+				elseif($brojNeobradenih == 10){
+					// send email to knjigovoda 5 neobradeni
+					foreach($knjigovoda as $knjig){
+						$msg = 10;
+						$email = $knjig['email'];
+						if($this->sendEmailKnjigovoda($email, $msg)){
+							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novih 5 prijava.');
+							session()->setFlashdata('alert-class', 'alert-success');
+						}else{
+							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
+							session()->setFlashdata('alert-class', 'alert-danger');
+							return redirect()->to('/index.php/drivers/'.$id);
+						}
+					}
+				}
 			
 				return redirect()->to('/index.php/drivers/'.$id);
 			}
@@ -2624,6 +2871,18 @@ c
 
 	}
 
+	private function sendEmailKnjigovoda($email, $msg){
+		$emailService = \Config\Services::email();
+		
+		$verificationLink = base_url("index.php/signin");
+
+		$emailService->setTo($email);
+		$emailService->setSubject('Prijave za obraditi');
+		$emailService->setMessage("Trenutno ima $msg prijava za obratiti. Možeš se prijaviti klikom na sljedeći link <a href=\"$verificationLink\">$verificationLink</a>");
+
+		return $emailService->send();
+	}
+	
 	
 	public function knjigovodstvo($week = null){
         $session = session();

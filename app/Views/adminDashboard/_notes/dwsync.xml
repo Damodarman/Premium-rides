@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
 <file name="admin.php" server="access941215561.webspace-data.io//" local="133581931258143246" remote="133581931260000000" Dst="2" />
-<file name="header.php" server="access941215561.webspace-data.io//" local="133592384169622503" remote="133592384170000000" Dst="2" />
+<file name="header.php" server="access941215561.webspace-data.io//" local="133604485279564656" remote="133604485280000000" Dst="2" />
 <file name="addDriver.php" server="access941215561.webspace-data.io//" local="133591239832097924" remote="133591239830000000" Dst="2" />
 <file name="obracun.php" server="access941215561.webspace-data.io//" local="133509981557938082" remote="133509981560000000" Dst="1" />
 <file name="drivers.php" server="access941215561.webspace-data.io//" local="133593750344142695" remote="133593750350000000" Dst="2" />
-<file name="driver.php" server="access941215561.webspace-data.io//" local="133593778785115636" remote="133593778800000000" Dst="2" />
+<file name="driver.php" server="access941215561.webspace-data.io//" local="133605084296290708" remote="133605084300000000" Dst="2" />
 <file name="navBar.php" server="access941215561.webspace-data.io//" local="133593848223388780" remote="133593848230000000" Dst="2" />
 <file name="obracun1.php" server="access941215561.webspace-data.io//" local="133588575691391713" remote="133588575700000000" Dst="2" />
 <file name="pdf_view.php" server="access941215561.webspace-data.io//" local="133209210067701911" remote="133209210070000000" Dst="1" />
@@ -59,10 +59,11 @@
 <file name="blagajnickiminmaxPdf.php" server="access941215561.webspace-data.io//" local="133588088474950879" remote="133588088470000000" Dst="2" />
 <file name="potvrdaoPlacanju.php" server="access941215561.webspace-data.io//" local="133588167035753243" remote="133588167030000000" Dst="2" />
 <file name="knjigovoda.php" server="access941215561.webspace-data.io//" local="133591486449875877" remote="133591486460000000" Dst="2" />
-<file name="putNovca.php" server="access941215561.webspace-data.io//" local="133593714311613264" remote="133593714320000000" Dst="2" />
-<file name="driver.php" server="access941215561.webspace-data.io" local="133594571830596529" remote="133594571830000000" Dst="2" />
-<file name="navBar.php" server="access941215561.webspace-data.io" local="133594572840075553" remote="133594572840000000" Dst="2" />
+<file name="putNovca.php" server="access941215561.webspace-data.io//" local="133604435826111159" remote="133604435830000000" Dst="2" />
+<file name="driver.php" server="access941215561.webspace-data.io" local="133604341703956880" remote="133604341710000000" Dst="2" />
+<file name="navBar.php" server="access941215561.webspace-data.io" local="133601498404067714" remote="133601498400000000" Dst="2" />
 <file name="addDriver.php" server="access941215561.webspace-data.io" local="133594595209240221" remote="133594595210000000" Dst="2" />
-<file name="knjigovoda.php" server="access941215561.webspace-data.io" local="133595425860948119" remote="133595425860000000" Dst="2" />
-<file name="header.php" server="access941215561.webspace-data.io" local="133594935722918619" remote="133594935720000000" Dst="2" />
+<file name="knjigovoda.php" server="access941215561.webspace-data.io" local="133601504661273872" remote="133601504660000000" Dst="2" />
+<file name="header.php" server="access941215561.webspace-data.io" local="133601001130449983" remote="133601001130000000" Dst="2" />
+<file name="importUber.php" server="access941215561.webspace-data.io" local="133601934329705265" remote="133601934330000000" Dst="2" />
 </dwsync>

@@ -9,6 +9,10 @@
 		<div class="col-2">
 			<ul class="list-group  border-danger">
 				<?php
+				$bUId = $driver['bolt_unique_id'];
+				$UbUId = $driver['uber_unique_id'];
+	
+				
 				$activeIndex = -1; // Initialize the active index to a value that won't match any valid index
 
 				// Find the index of the active item
@@ -43,6 +47,11 @@
 												<?php if (session()->has('msgNapomena')){ ?>
 										<div class="alert <?=session()->getFlashdata('alert-class') ?>">
 											<?=session()->getFlashdata('msgNapomena') ?>
+										</div>
+									<?php } ?>
+												<?php if (session()->has('msgKnjigovoda')){ ?>
+										<div class="alert <?=session()->getFlashdata('alert-class') ?>">
+											<?=session()->getFlashdata('msgKnjigovoda') ?>
 										</div>
 									<?php } ?>
 
@@ -956,6 +965,44 @@
 			</div>
 		</div>
 </div>
+
+				
+			
+				
+<div class="row">
+	<div class="col-md-12">
+		<label for="daterange" class="form-label">Raspon</label>
+        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span>Pick a date range</span> 
+            <i class="fa fa-caret-down"></i>
+        </div>
+	  </div>
+    <table id="activityTable" class="display">
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Uber online</th>
+                <th>Uber vrijeme vožnje</th>
+                <th>Bolt online</th>
+                <th>Bolt vrijeme vožnje</th>
+                <th>Total online</th>
+                <th>Total vrijeme vožnje</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <th colspan="5" style="text-align:right">Total:</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+				
+				
+				</div>				
+				
 <div class="d-flex justify-content-end fixed-bottom fixed-right">
     <!-- Create Previous and Next buttons based on the active item -->
     <?php if ($activeIndex > 0): ?>
@@ -976,14 +1023,14 @@
 		</div>
 	</div>
 </div>
-
+<?php //print_r($driverActivity); ?>
 
 
 
 <!-- Bootstrap 5 JavaScript Bundle with Popper -->
 
 <!-- Vanilla Datepicker JS -->
-<script src='https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.1.4/dist/js/datepicker-full.min.js'></script>
+
 		
 <script>
     // Function to check and toggle visibility of 'krajPrijave'
@@ -1082,5 +1129,212 @@ $(document).ready(function() {
 })();
 </script>		
 
+<script>
+
+$(document).ready(function() {
+    // Initialize DateRangePicker (with your specific ranges)
+    var start = moment().subtract(1, 'weeks').startOf('isoWeek'); // Start of last week
+    var end = moment().subtract(1, 'weeks').endOf('isoWeek'); // End of today (last day of the week)    $('#reportrange').daterangepicker({
+    $('#reportrange').daterangepicker({
+        ranges: {
+            'Today': [moment(), moment()], // Use colons here
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')], 
+            'This Week': [moment().startOf('isoWeek'), moment().endOf('isoWeek')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+		 startDate: start, // Set initial startDate
+		endDate: end,     // Set initial endDate
+		opens: 'left',
+        locale: {
+            format: 'YYYY-MM-DD' // Ensure consistent date format
+        }
+    });
+
+	  jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+    "time-h-min-pre": function ( a ) {
+      var timeParts = a.split(" "); // Split into hours and minutes parts
+      var hours = parseInt(timeParts[0], 10) || 0;  // Extract hours (default 0)
+      var minutes = parseInt(timeParts[1], 10) || 0; // Extract minutes (default 0)
+      return hours * 60 + minutes;  // Convert to total minutes
+    },
+
+    "time-h-min-asc": function ( a, b ) {
+      return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    },
+
+    "time-h-min-desc": function ( a, b ) {
+      return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+    }
+  });
+	
+    // Initialize DataTable
+    var table = $('#activityTable').DataTable({
+		paging: false,
+        ajax: {
+            url: '<?= base_url("index.php/admin/driver-activity") ?>',
+            type: "POST",
+            data: function (d) {
+                // Get the selected date range directly from the picker
+				$('#reportrange span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
+				$('#startDate').val(start.format('YYYY-MM-DD'));
+				$('#endDate').val(end.format('YYYY-MM-DD'));
+                
+                 d.startDate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD') || start.format('YYYY-MM-DD');
+                d.endDate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD') || end.format('YYYY-MM-DD');               // Add your other data parameters (boltUniqueId, uberUniqueId) here
+                d.boltUniqueId = '<?php echo $bUId; ?>';
+                d.uberUniqueId = '<?php echo $UbUId; ?>';
+                return d;
+            },
+			
+            dataSrc: function (json) {
+				 if (json.uberActivity && json.uberActivity.length > 0) {
+					json.uberActivity.forEach(item => {
+					  item.datum = moment(item.datum, 'YYYY-MM-DD').format('DD.MM.YYYY');
+					});
+				  }
+				  if (json.boltActivity && json.boltActivity.length > 0) {
+					json.boltActivity.forEach(item => {
+					  item.datum = moment(item.datum, 'YYYY-MM-DD').format('DD.MM.YYYY');
+					});
+				  }
+
+
+                // Calculate totals and update footer (if needed)
+                // ... 
+                return json;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('AJAX Error:', textStatus, errorThrown);
+                // Log the raw response text for further debugging
+				return json; 
+            }
+        },
+        columns: [
+             { data: "datum",
+        render: function (data, type, row) {
+          // Check if 'data' is not empty before trying to parse and format
+          return data ? moment(data, 'YYYY-MM-DD').format('DD.MM.YYYY') : '';
+        }
+      },
+            { 
+        data: "uber_online", 
+        render: function (data, type, row) {
+          return formatDecimalHours(data); // Use the new formatting function
+        }
+      },
+             { 
+        data: "uber_vrijeme_voznje", 
+        render: function (data, type, row) {
+          return formatDecimalHours(data); // Use the new formatting function
+        }
+      },
+             { 
+        data: "bolt_online", 
+        render: function (data, type, row) {
+          return formatDecimalHours(data); // Use the new formatting function
+        }
+      },
+             { 
+        data: "bolt_vrijeme_voznje", 
+        render: function (data, type, row) {
+          return formatDecimalHours(data); // Use the new formatting function
+        }
+      },
+             { 
+        data: "total_online", 
+        render: function (data, type, row) {
+          return formatDecimalHours(data); // Use the new formatting function
+        }
+      },
+             { 
+        data: "total_vrijeme_voznje", 
+        render: function (data, type, row) {
+          return formatDecimalHours(data); // Use the new formatting function
+        }
+      },
+        ],
+		
+		
+		
+        footerCallback: function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+
+            // ... (same intVal function as before) ...
+			var intVal = function ( i ) {
+        return typeof i === 'string' ?
+          i.replace(/[\$,.]/g, '')*1 :   // Remove commas and periods (if present)
+          typeof i === 'number' ?
+            i : 0;
+      },
+             // Total over all pages
+  total_online = api
+    .column( 5 )
+    .data()
+    .reduce( function (a, b) {
+      return intVal(a) + intVal(b); // Sum the decimal hour values
+    }, 0 );
+
+  total_vrijeme_voznje = api
+    .column( 6 )
+    .data()
+    .reduce( function (a, b) {
+      return intVal(a) + intVal(b); // Sum the decimal hour values
+    }, 0 );
+
+  // Update footer using the formatDecimalHours function
+  $( api.column( 5 ).footer() ).html(
+    formatDecimalHours(total_online) 
+  );
+  $( api.column( 6 ).footer() ).html(
+    formatDecimalHours(total_vrijeme_voznje) 
+  );
+}
+		
+		
+		
+		
+		
+    });
+	
+function formatDecimalHours(decimalHours) {
+  const totalMinutes = Math.round(decimalHours * 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  // Use singular "h" and "min" for values of 1
+  const hourLabel = hours === 1 ? "h" : "h";
+  const minuteLabel = minutes === 1 ? "min" : "min";
+
+  // Create the formatted string
+  let formattedTime = "";
+  if (hours > 0) {
+    formattedTime += `${hours} ${hourLabel} i `; // Add space after hours
+  }
+  if (minutes > 0) {
+    formattedTime += `${minutes} ${minuteLabel}`;
+  }
+
+  // Handle the case where both hours and minutes are zero
+  if (formattedTime === "") {
+    formattedTime = "0 min"; 
+  }
+
+  return formattedTime;
+}
+	
+
+    // Trigger DataTable reload when the date range is changed
+    $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+        table.ajax.reload(); 
+    });
+});
+
+		
+		
+		</script>		
+		
 </body>
 </html>
