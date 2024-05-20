@@ -37,6 +37,7 @@ class ObracunFirmaModel extends Model{
         'myPosNapojnica',
         'myPosPovrati',
         'doprinosi',
+        'activity',
         'myPosPovrati',
         'netoPlaca',
         'myPosPovrati',

@@ -54,6 +54,15 @@
 				</select>
 			</div>
 			<div class="col-md-3">
+				<label for="koristi_activity" class="form-label">Koristiti activity u obračunu ? </label>
+				<select class="form-select" name="koristi_activity" aria-label="Default select example">
+					<option value ="<?php echo $flota['koristi_activity']  ?>" selected ><?php if($flota['koristi_activity'] != '1'){ echo 'NE';} else{ echo 'DA';} ?></option>
+							<?php if($flota['koristi_activity'] != '0'){echo '<option value="0">NE</option>';} 
+								  if($flota['koristi_activity'] != '1'){echo '<option value="1">DA</option>';}
+							?>
+				</select>
+			</div>
+			<div class="col-md-3">
 				<label for="koristi_min_proviziju" class="form-label">Koristiti minimalnu proviziju ? </label>
 				<select class="form-select" name="koristi_min_proviziju" aria-label="Default select example">
 					<option value ="<?php echo $flota['koristi_min_proviziju']  ?>" selected ><?php if($flota['koristi_min_proviziju'] != '1'){ echo 'NE';} else{ echo 'DA';} ?></option>

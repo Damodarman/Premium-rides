@@ -1212,8 +1212,8 @@ public function driverActivity()
         $found = false;
         foreach ($combinedData as &$item) {
             if ($item['datum'] === $bolt['start_date']) {
-                $item['total_online'] = round($item['total_online'] + (float)$bolt['online_hours'], 2);
-        		$item['total_vrijeme_voznje'] = round($item['total_vrijeme_voznje'] + (float)$bolt['active_driving_hours'], 2);
+                $item['total_online'] = round((float)$item['total_online'] + (float)$bolt['online_hours'], 2);
+        		$item['total_vrijeme_voznje'] = round((float)$item['total_vrijeme_voznje'] + (float)$bolt['active_driving_hours'], 2);
                 $item['bolt_online'] = (float)$bolt['online_hours'];
                 $item['bolt_vrijeme_voznje'] = (float)$bolt['active_driving_hours'];
                 $found = true;
@@ -1253,6 +1253,8 @@ public function driverActivity()
 		$driverObracunModel = new ObracunModel();
 		$driverObracun = $driverObracunModel->where('vozac_id', $id)->get()->getResultArray();
 		$driver = $driverData->where('id', $id)->get()->getRowArray();
+		$koristi_activity = $postavkeFlote['koristi_activity'];
+		
 		if(!empty($driver['whatsApp'])){
 			$mobitel = $driver['whatsApp'];
 		}else{
@@ -1294,6 +1296,7 @@ public function driverActivity()
 
 		$data['aneks'] = $aneks;
 		$data['prijave'] = $prijave;
+		$data['koristi_activity'] = $koristi_activity;
 		$data['napomene'] = $napomene;
 		$data['valjanost'] = $valjanost;
 		$data['vozilo'] = $vozilo;
@@ -2301,7 +2304,7 @@ c
 			'radno_mjesto'			=> $this->request->getVar('radno_mjesto'),
 		
 		);
-
+		
 		
 		$driverModel->update($id, $data);
 		
@@ -3005,6 +3008,7 @@ c
 		$driversFind = new DriverModel();
 		$referalBonusModel = new ReferalBonusModel();
 		$doprinosiModel = new DoprinosiModel();
+		$flotaModel = new FlotaModel();
 		
 		if(isset($week)){
 			$obracunModel = new ObracunModel();
@@ -3422,6 +3426,7 @@ c
 				);
 				
 				$poslatiSlikeJson = json_encode($poslatiSlike);
+				
 
 				$data['poslatiSlikeJson'] = $poslatiSlikeJson;
 				$data['poslatiSlike'] = $poslatiSlike;

@@ -61,6 +61,47 @@
 					<h6 class=" border-dark"><a href="<?php echo base_url('/index.php/editirajObracun/'). '/' .$driver['id']?>"><?php echo $driver['raspon']; ?></a></h6>
 					</div>
 					<div class="card-body">
+						<?php if($obracunFirma['activity'] != 0): ?>
+	
+						<div class="row text-center">
+							<table class="table table-sm table-bordered table-dark">
+								 <thead>
+									<tr>
+										<th>Service</th>
+										<th>Sati na mreži</th>
+										<th>Sati u vožnji</th>
+										<th>€/h na mreži</th>
+										<th>€/h u vožnji</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Uber</td>
+										<td><?=$driver['uberOnline'] ?></td>
+										<td><?=$driver['uberActiv'] ?></td>
+										<td><?=$driver['uberPerOH'] ?></td>
+										<td><?=$driver['uberPerH'] ?></td>
+									</tr>
+									<tr>
+										<td>Bolt</td>
+										<td><?=$driver['boltOnline'] ?></td>
+										<td><?=$driver['boltActiv'] ?></td>
+										<td><?=$driver['boltPerOH'] ?></td>
+										<td><?=$driver['boltPerH'] ?></td>
+									</tr>
+									<tr>
+										<td>Ukupno</td>
+										<td><?=$driver['uberOnline'] + $driver['boltOnline'] ?></td>
+										<td><?=$driver['uberActiv'] + $driver['boltActiv'] ?></td>
+										<td><?=$driver['totalPerOH'] ?></td>
+										<td><?=$driver['totalPerH'] ?></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<?php endif ?>
+						
 						<div class="row text-center">
 							<div class="col-sm">
 								<h4>Obračun</h4>

@@ -39,6 +39,18 @@ class ObracunModel extends Model{
 		'myPosNapojnica',
 		'myPosPovrat',
 		'ukupnoNapojnica',
+		
+		'uberOnline',
+		'uberActiv',
+		'uberPerH',
+		'boltOnline',
+		'boltActiv',
+		'boltPerH',
+		'totalPerH',
+		'uberPerOH',
+		'boltPerOH',
+		'totalPerOH',
+		
 		'ukupnoPovrat',
 		'cetvrtinaNetoPlace',
 		'fiskalizacijaUber',

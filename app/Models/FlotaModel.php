@@ -19,6 +19,7 @@ class FlotaModel extends Model{
         'tvrtka_naziv',
         'tvrtka_id',
         'imaWhatsApp',
+		'koristi_activity',
         'koristi_min_proviziju',
         'iznos_min_provizije',
         'koristi_min_proviziju_sezona',

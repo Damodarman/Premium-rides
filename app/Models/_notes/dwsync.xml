@@ -6,11 +6,11 @@
 <file name="BoltReportModel.php" server="access941215561.webspace-data.io//" local="133509940656647104" remote="133509940660000000" Dst="1" />
 <file name="MyPosReportModel.php" server="access941215561.webspace-data.io//" local="133224939115633597" remote="133224939120000000" Dst="1" />
 <file name="DriverModel.php" server="access941215561.webspace-data.io//" local="133593771842466012" remote="133593771850000000" Dst="2" />
-<file name="ObracunModel.php" server="access941215561.webspace-data.io//" local="133431349681940385" remote="133431349690000000" Dst="1" />
+<file name="ObracunModel.php" server="access941215561.webspace-data.io//" local="133606858715615491" remote="133606858730000000" Dst="2" />
 <file name="FiskalizacijaModel.php" server="access941215561.webspace-data.io//" local="133201539447931170" remote="133201539450000000" Dst="1" />
-<file name="ObracunFirmaModel.php" server="access941215561.webspace-data.io//" local="133433488040434549" remote="133433488050000000" Dst="1" />
+<file name="ObracunFirmaModel.php" server="access941215561.webspace-data.io//" local="133606867870167003" remote="133606867880000000" Dst="2" />
 <file name="ReferalBonusModel.php" server="access941215561.webspace-data.io//" local="133207516502376732" remote="133207516510000000" Dst="1" />
-<file name="FlotaModel.php" server="access941215561.webspace-data.io//" local="133593763975149988" remote="133593763980000000" Dst="2" />
+<file name="FlotaModel.php" server="access941215561.webspace-data.io//" local="133606792758756120" remote="133606792770000000" Dst="2" />
 <file name="TvrtkaModel.php" server="access941215561.webspace-data.io//" local="133284466050138084" remote="133284466050000000" Dst="2" />
 <file name="VozilaModel.php" server="access941215561.webspace-data.io//" local="133422718216028871" remote="133422718220000000" Dst="2" />
 <file name="DriverModel_xg6q7owa99.php" server="access941215561.webspace-data.io//" local="133188774220000000" remote="133188774220000000" Dst="1" />

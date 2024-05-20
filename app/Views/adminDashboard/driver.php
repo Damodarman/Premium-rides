@@ -134,7 +134,7 @@
 				  <label for="datepicker2" class="form-label">Datum rođenja</label>
 				<div class="input-group mb-4">
 				  <i class="bi bi-calendar-date input-group-text"></i>
-				  <input type="text" name="dob" id="datepicker2" class="datepicker_input form-control" value ="<?php echo $driver['dob']  ?>" required>
+				  <input data-date-format="mm/dd/yyyy" type="text" name="dob" id="datepicker2" class="datepicker_input form-control" value ="<?php echo $driver['dob']  ?>" required>
 					<div class="invalid-feedback">Odaberite datum rođenja.</div>
 				</div>
 			</div>
@@ -362,12 +362,12 @@
 					</select>
 				</div>
 			  <div class="col-md-3">
-				<label for="pocetakPrijave" class="form-label">Početak prijave </label>
-				<input type="text" class="form-control other-datepicker" name="pocetak_prijave"  value ="<?php echo $driver['pocetak_prijave']  ?>">
+				<label for="pocetakPrijave datepicker3" class="form-label" data-date-format="yyyy-mm-dd">Početak prijave </label>
+				<input type="text" id="datepicker3" class="form-control datepicker_input" name="pocetak_prijave"  value ="<?php echo $driver['pocetak_prijave']  ?>">
 			  </div>
 			<div id="krajPrijave" class="col-md-2">
-				<label for="kraj_prijave" class="form-label">Kraj prijave </label>
-				<input type="text" class="form-control" name="kraj_prijave" value ="<?php echo $driver['kraj_prijave']  ?>">
+				<label for="kraj_prijave datepicker4" class="form-label">Kraj prijave </label>
+				<input type="text" class="datepicker_input form-control" data-date-format="yyyy-mm-dd" id="datepicker4" name="kraj_prijave" value ="<?php echo $driver['kraj_prijave']  ?>">
 			</div>
 				<div class="col-md-3">
 					<label for="radniOdnos" class="form-label">Radni odnos</label>
@@ -400,8 +400,8 @@
 			  <input type="hidden" class="form-control" name="IBAN"  value ="<?php echo $driver['IBAN']  ?>">
 			  <input type="hidden" class="form-control" name="zasticeniIBAN"  value ="<?php echo $driver['zasticeniIBAN']  ?>">
 			  <input type="hidden" class="form-control" name="strani_IBAN"  value ="<?php echo $driver['strani_IBAN']  ?>">
-			<label for="pocetak_promjene" class="form-label">Početak promjene </label>
-				<input type="text" class="form-control other-datepicker" name="pocetak_promjene"  value ="<?php echo $driver['pocetak_promjene']  ?>" required>
+			<label for="pocetak_promjene datepicker5" class="form-label">Početak promjene </label>
+				<input type="text" class="form-control datepicker_input " data-date-format="yyyy-mm-dd" id="datepicker5" name="pocetak_promjene"  value ="<?php echo $driver['pocetak_promjene']  ?>" required>
 				  <div class="invalid-feedback">Početak promjene je obavezan.</div>
 			  </div>
 		  <div class="col-md-6">
@@ -460,6 +460,46 @@
 					<h6 class=" border-dark"><a href="<?php echo base_url('/index.php/editirajObracun/'). '/' .$driver['id']?>"><?php echo $driver['raspon']; ?></a></h6>
 					</div>
 					<div class="card-body">
+						<?php if($koristi_activity != 0): ?>
+	
+						<div class="row text-center">
+							<table class="table table-sm table-bordered table-dark">
+								 <thead>
+									<tr>
+										<th>Service</th>
+										<th>Sati na mreži</th>
+										<th>Sati u vožnji</th>
+										<th>€/h na mreži</th>
+										<th>€/h u vožnji</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Uber</td>
+										<td><?=$driver['uberOnline'] ?></td>
+										<td><?=$driver['uberActiv'] ?></td>
+										<td><?=$driver['uberPerOH'] ?></td>
+										<td><?=$driver['uberPerH'] ?></td>
+									</tr>
+									<tr>
+										<td>Bolt</td>
+										<td><?=$driver['boltOnline'] ?></td>
+										<td><?=$driver['boltActiv'] ?></td>
+										<td><?=$driver['boltPerOH'] ?></td>
+										<td><?=$driver['boltPerH'] ?></td>
+									</tr>
+									<tr>
+										<td>Ukupno</td>
+										<td><?=$driver['uberOnline'] + $driver['boltOnline'] ?></td>
+										<td><?=$driver['uberActiv'] + $driver['boltActiv'] ?></td>
+										<td><?=$driver['totalPerOH'] ?></td>
+										<td><?=$driver['totalPerH'] ?></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<?php endif ?>
 						<div class="row text-center">
 							<div class="col-sm">
 								<h4>Obračun</h4>
@@ -1056,32 +1096,200 @@
     toggleKrajPrijave();
 </script>
 		
+<script>
+$('#datepicker2').daterangepicker({
+    "singleDatePicker": true,
+    "showDropdowns": true,
+    "autoApply": true,
+    "locale": {
+        "format": "DD/MM/YYYY",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "W",
+        "daysOfWeek": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+        ],
+        "monthNames": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ],
+        "firstDay": 1
+    },
+    "showCustomRangeLabel": false,
+//    "startDate": "05/14/2024",
+//    "endDate": "05/20/2024",
+    "opens": "center"
+});		
 		
+</script>
 		
 <script>
-$(document).ready(function() {
-    // Initialize datepicker with 'dd/mm/yyyy' format for specific element
-    $('#datepicker2').datepicker({
-        format: 'dd/mm/yyyy',
-        autoclose: true
-    });
-
-    // Initialize datepicker with 'yyyy-mm-dd' format for other elements
-    $('.other-datepicker').datepicker({
-        format: 'yyyy-mm-dd',
-        autoclose: true
-    });
-
-    // Helper function to format the date as "yyyy-mm-dd"
-    function formatDate(date) {
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        return year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
-    }
-});
+//$(document).ready(function() {
+//    // Initialize datepicker with 'dd/mm/yyyy' format for specific element
+//    $('#datepicker2').datepicker({
+//        format: 'dd/mm/yyyy',
+//        autoclose: true
+//    });
+//});
 </script>
-
+<script>
+$('#datepicker3').daterangepicker({
+    "singleDatePicker": true,
+    "showDropdowns": true,
+    "autoApply": true,
+    "locale": {
+        "format": "YYYY-MM-DD",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "W",
+        "daysOfWeek": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+        ],
+        "monthNames": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ],
+        "firstDay": 1
+    },
+    "showCustomRangeLabel": false,
+//    "startDate": "05/14/2024",
+//    "endDate": "05/20/2024",
+    "opens": "center"
+});		
+		
+</script>
+<script>
+$('#datepicker4').daterangepicker({
+    "singleDatePicker": true,
+    "showDropdowns": true,
+    "autoApply": true,
+    "locale": {
+        "format": "YYYY-MM-DD",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "W",
+        "daysOfWeek": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+        ],
+        "monthNames": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ],
+        "firstDay": 1
+    },
+    "showCustomRangeLabel": false,
+//    "startDate": "05/14/2024",
+//    "endDate": "05/20/2024",
+    "opens": "center"
+});		
+		
+</script>
+<script>
+$('#datepicker5').daterangepicker({
+    "singleDatePicker": true,
+    "showDropdowns": true,
+    "autoApply": true,
+    "locale": {
+        "format": "YYYY-MM-DD",
+        "separator": " - ",
+        "applyLabel": "Apply",
+        "cancelLabel": "Cancel",
+        "fromLabel": "From",
+        "toLabel": "To",
+        "customRangeLabel": "Custom",
+        "weekLabel": "W",
+        "daysOfWeek": [
+            "Su",
+            "Mo",
+            "Tu",
+            "We",
+            "Th",
+            "Fr",
+            "Sa"
+        ],
+        "monthNames": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ],
+        "firstDay": 1
+    },
+    "showCustomRangeLabel": false,
+//    "startDate": "05/14/2024",
+//    "endDate": "05/20/2024",
+    "opens": "center"
+});		
+		
+</script>
 		
 		
 		

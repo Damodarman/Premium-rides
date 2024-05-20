@@ -15,9 +15,23 @@ class SigninController extends Controller
   
     public function loginAuth()
     {
-        $session = session();
-        $userModel = new UserModel();
-        $FlotaModel = new FlotaModel();
+		$session = session();
+		$userModel = new UserModel();
+		$FlotaModel = new FlotaModel();
+
+		// Validation rules for email and password
+		$validationRules = [
+			'email' => 'required|valid_email',
+			'password' => 'required|min_length[6]' // Example: Minimum password length of 6 characters
+		];
+
+		// Run the validation
+		if (!$this->validate($validationRules)) {
+			// If validation fails, redirect back to the login page with validation errors
+			$session->setFlashdata('msg', 'Please enter a valid email and password.');
+			session()->setFlashdata('alert-class', 'alert-danger');
+			return redirect()->to('/index.php/signin')->withInput();
+		}
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
         

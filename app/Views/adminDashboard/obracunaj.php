@@ -85,6 +85,18 @@ ini_set('max_input_vars', 2000);   // Change to the desired maximum number of in
 				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][ukupnoRazlika]"  value ="<?php echo $obracun['ukupnoRazlika']  ?>">
 				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][zaIsplatu]"  value ="<?php echo $obracun['zaIsplatu']  ?>">
 				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][fiskalizacijaUber]"  value ="<?php echo $obracun['fiskalizacijaUber']  ?>">
+				
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][uberOnline]"  value ="<?php echo $obracun['uberOnline']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][uberActiv]"  value ="<?php echo $obracun['uberActiv']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][uberPerH]"  value ="<?php echo $obracun['uberPerH']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][boltOnline]"  value ="<?php echo $obracun['boltOnline']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][boltActiv]"  value ="<?php echo $obracun['boltActiv']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][boltPerH]"  value ="<?php echo $obracun['boltPerH']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][totalPerH]"  value ="<?php echo $obracun['totalPerH']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][uberPerOH]"  value ="<?php echo $obracun['uberPerOH']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][boltPerOH]"  value ="<?php echo $obracun['boltPerOH']  ?>">
+				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][totalPerOH]"  value ="<?php echo $obracun['totalPerOH']  ?>">
+			
 				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][fiskalizacijaBolt]"  value ="<?php echo $obracun['fiskalizacijaBolt']  ?>">
 				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][doprinosi]"  value ="<?php echo $obracun['doprinosi']  ?>">
 				<input type="hidden" class="form-control" name="obracun[<?php echo $br ?>][IBAN]"  value ="<?php echo $obracun['IBAN']  ?>">

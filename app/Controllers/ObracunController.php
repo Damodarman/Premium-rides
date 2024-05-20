@@ -16,6 +16,8 @@ use App\Models\BoltReportModel;
 use App\Models\MyPosReportModel;
 use App\Models\DugoviModel;
 use App\Models\TaximetarReportModel;
+use App\Models\ActivityUberModel;
+use App\Models\BoltDriverActivityModel;
 
 //ini_set('post_max_size', '64M');   // Change to the desired size
 //ini_set('max_input_vars', 2000);   // Change to the desired maximum number of input variables
@@ -139,6 +141,7 @@ class ObracunController extends BaseController
 		$flotaModel = new FlotaModel();
 		$vozilaModel = new VozilaModel();
 		$postavkeFlote = $flotaModel->where('naziv', $fleet)->get()->getRowArray();
+		$koristi_activity = $postavkeFlote['koristi_activity'];
 		
 		// Ako ima vozaca na proviziju
 		if(!empty($naProviziju)){
@@ -164,6 +167,7 @@ class ObracunController extends BaseController
 				$firmaObracun['myPosGotovina'] = 0;
 				$firmaObracun['provizija'] = 0;
 				$firmaObracun['taximetar'] = 0;
+				$firmaObracun['activity'] = 0;
 				$firmaObracun['doprinosi'] = 0;
 				$firmaObracun['netoPlaca'] = 0;
 				$firmaObracun['refBonus'] = 0;
@@ -339,6 +343,43 @@ class ObracunController extends BaseController
 				$firmaObracun['ukupnoPovratiSvi'] += $driverObracun['ukupnoPovrati'];
 				$firmaObracun['ukupnoGotovinaSvi'] += $driverObracun['ukupnoGotovina'];
 				$firmaObracun['ukupnoRazlikaSvi'] += $driverObracun['ukupnoRazlika'];
+				
+				
+				
+				
+				if($koristi_activity != 0){
+					$bUId = $vozac['bolt_unique_id'];
+					$uUId = $vozac['uber_unique_id'];
+					$activity = $this->izracunajActivity($bUId, $uUId, $week);
+					$uberOnline = $activity['uberOnline'];
+					$uberActiv = $activity['uberActiv'];
+					$boltOnline = $activity['boltOnline'];
+					$boltActiv = $activity['boltActiv'];
+					$uberPerH = ($uberActiv != 0) ? round($driverObracun['uberNeto'] / $uberActiv, 2) : 0;
+					$boltPerH = ($boltActiv != 0) ? round($driverObracun['boltNeto'] / $boltActiv, 2) : 0;
+					$uberPerOH = ($uberOnline != 0) ? round($driverObracun['uberNeto'] / $uberOnline, 2) : 0;
+					$boltPerOH = ($boltOnline != 0) ? round($driverObracun['boltNeto'] / $boltOnline, 2) : 0;
+					$totalOnline = $uberOnline + $boltOnline;
+					$totalActiv = $uberActiv + $boltActiv;
+					$totNeto = $driverObracun['uberNeto'] + $driverObracun['boltNeto'];
+					$totalPerOH = ($totalOnline != 0) ? round($totNeto / $totalOnline, 2) : 0;
+					$totalPerH = ($totalActiv != 0) ? round($totNeto / $totalActiv, 2) : 0;
+					$driverObracun['uberOnline'] = $uberOnline;
+					$driverObracun['uberActiv'] = $uberActiv;
+					$driverObracun['uberPerH'] = $uberPerH;
+					$driverObracun['uberPerOH'] = $uberPerOH;
+					$driverObracun['boltOnline'] = $boltOnline;
+					$driverObracun['boltActiv'] = $boltActiv;
+					$driverObracun['boltPerH'] = $boltPerH;
+					$driverObracun['boltPerOH'] = $boltPerOH;
+					$driverObracun['totalPerH'] = $totalPerH;
+					$driverObracun['totalPerOH'] = $totalPerOH;
+//					print_r($driverObracun);
+//					die();
+					
+				}
+				
+				
 					//Provizija
 				$drivProvizija = $this->izracunajProviziju($vozac);
 				$vozac['ukupnoNeto'] += $driverObracun['myPosNeto'];
@@ -487,6 +528,10 @@ class ObracunController extends BaseController
 		
 		//
 		
+		if($koristi_activity != 0){
+			$firmaObracun['activity'] = 1;
+		}
+		
 		// Ako ima vozaca na placu
 		if(!empty($naPlacu)){
 			$data['naPlacu'] = $naPlacu;
@@ -513,6 +558,57 @@ class ObracunController extends BaseController
 		. view('adminDashboard/obracunaj')
 			. view('footer');
 		
+	}
+	
+	public function izracunajActivity($bUId, $uUId, $week){
+		
+		// Extract year and week number
+		$year = substr($week, 0, 4);
+		$weekNumber = substr($week, 4);
+
+		// Calculate start and end dates using DateTime
+		$date = new \DateTime(); 
+		$date->setISODate($year, $weekNumber); // Set to the first day (Monday) of the week
+
+		$startDate = $date->format('Y-m-d'); // Get start date in YYYY-MM-DD format
+		$date->modify('+6 days'); // Move to the end of the week (Sunday)
+		$endDate = $date->format('Y-m-d');  // Get end date in YYYY-MM-DD format
+		
+		
+		$boltActivityModel = new BoltDriverActivityModel();
+		$uberActivityModel = new ActivityUberModel();
+
+		// Fetch data from the database
+		$uberActivity = $uberActivityModel->where('vozac', $uUId)
+										  ->where('datum_unosa >=', $startDate) // Here might be the issue
+										  ->where('datum_unosa <=', $endDate)   // And here as well
+										  ->get()->getResultArray();
+
+		$boltActivity = $boltActivityModel->where('driver_name', $bUId)
+										  ->where('start_date >=', $startDate) // Same here
+										  ->where('start_date <=', $endDate)   // Same here
+										  ->get()->getResultArray();
+
+		$uberOnline = 0;
+		$uberActiv = 0;
+		$boltOnline = 0;
+		$boltActiv = 0;
+		foreach($uberActivity as $ub){
+			$uberOnline += $ub['vrijeme_na_mrezi'];
+			$uberActiv += $ub['vrijeme_voznje'];
+		}
+		foreach($boltActivity as $ub){
+			$boltOnline += $ub['online_hours'];
+			$boltActiv += $ub['active_driving_hours'];
+		}
+		$data= array(
+			'uberOnline' => $uberOnline,
+			'uberActiv' => $uberActiv,
+			'boltOnline' => $boltOnline,
+			'boltActiv' => $boltActiv,
+		);
+		
+		return($data);
 	}
 	
 		public function referalReward($vozac){
