@@ -15,6 +15,8 @@ use App\Models\TvrtkaModel;
 use App\Models\ReferalBonusModel;
 use App\Models\VozilaModel;
 use App\Models\DoprinosiModel;
+use App\Models\ActivityUberModel;
+use App\Models\BoltDriverActivityModel;
 
 class VoditeljController extends BaseController
 {
@@ -25,11 +27,35 @@ class VoditeljController extends BaseController
 		$fleet = $session->get('fleet');
 		$data = $session->get();
 		$data['page'] = 'Dashboard';
+		$boltActivityModel = new BoltDriverActivityModel();
+		$uberActivityModel = new ActivityUberModel();
+
+		// Fetch data from the database
+		$uberActivity = $uberActivityModel->select('datum_unosa')
+										  ->where('fleet', $fleet)
+										  ->get()->getResultArray();
+
+		$boltActivity = $boltActivityModel->select('start_date')
+										  ->where('fleet', $fleet)
+										  ->get()->getResultArray();
+
+		$uberDates = array_column($uberActivity, 'datum_unosa');
+
+		// Fetch dates from $boltActivity
+		$boltDates = array_column($boltActivity, 'start_date');
+		$uberDates = array_unique($uberDates);
+
+		// Fetch dates from $boltActivity
+		$boltDates = array_unique($boltDates);
+		$data['boltDates'] = $boltDates;
+		$data['uberDates'] = $uberDates;
+//		print_r($boltDates);
+//		die();
 
         return view('adminDashboard/header', $data)
 			. view('adminDashboard/navBar')
-			. view('adminDashboard/voditelj')		
 			. view('adminDashboard/putNovca')		
+			. view('adminDashboard/voditelj')		
 			. view('footer');
 	}
 	

@@ -21,7 +21,7 @@
 <file name="TvrtkaController.php" server="access941215561.webspace-data.io//" local="133422626841563411" remote="133422626850000000" Dst="2" />
 <file name="ExcelImportController.php" server="access941215561.webspace-data.io//" local="133288154867368336" remote="133288154870000000" Dst="2" />
 <file name="UlazniRacuniController.php" server="access941215561.webspace-data.io//" local="133503951077166911" remote="133503951080000000" Dst="1" />
-<file name="VoditeljController.php" server="access941215561.webspace-data.io//" local="133592272686053394" remote="133592272690000000" Dst="2" />
+<file name="VoditeljController.php" server="access941215561.webspace-data.io//" local="133607515429232633" remote="133607515430000000" Dst="2" />
 <file name="PrijaveController.php" server="access941215561.webspace-data.io//" local="133591287749530371" remote="133591287760000000" Dst="2" />
 <file name="ImportController.php" server="access941215561.webspace-data.io//" local="133528116278244115" remote="133528116280000000" Dst="1" />
 <file name="KnjigovodaController.php" server="access941215561.webspace-data.io//" local="133591489884789690" remote="133591489890000000" Dst="2" />
@@ -30,5 +30,5 @@
 <file name="ObracunController.php" server="access941215561.webspace-data.io" local="133600751800918305" remote="133600751800000000" Dst="2" />
 <file name="KnjigovodaController.php" server="access941215561.webspace-data.io" local="133601828651849839" remote="133601828650000000" Dst="2" />
 <file name="SignupController.php" server="access941215561.webspace-data.io" local="133600114838137191" remote="133600114830000000" Dst="2" />
-<file name="ImportController.php" server="access941215561.webspace-data.io" local="133602755766828593" remote="133602755760000000" Dst="2" />
+<file name="ImportController.php" server="access941215561.webspace-data.io" local="133607625817149482" remote="133607625810000000" Dst="2" />
 </dwsync>

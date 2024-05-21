@@ -27,6 +27,9 @@ class ImportController extends BaseController
 	
 public function activityUberImport()
 {
+	    $session = session();
+    $role = $session->get('role');
+
     $input = $this->validate([
         'files' => 'uploaded[files.*]|max_size[files,10240]|ext_in[files,csv]|mime_in[files,text/csv]',
     ]);
@@ -89,8 +92,11 @@ public function activityUberImport()
     $message = "Imported: $successCount | Duplicates: $duplicateCount | Errors: $errorCount";
     $session->setFlashdata('msgActivityUber', $message);
     $session->setFlashdata('alert-class', ($errorCount > 0) ? 'alert-warning' : 'alert-success'); // Conditional alert class
-
-    return redirect()->to("/index.php/uberImport");  
+	if($role != 'admin'){
+		return redirect()->to("/index.php/voditelj");  
+	}else{
+		return redirect()->to("/index.php/uberImport");  
+	}
 }
 
 private function timeToHours($timeStr)
@@ -104,7 +110,8 @@ private function timeToHours($timeStr)
 public function boltActivityImport()
     {
 	
-    $session = session();
+	$session = session();
+    $role = $session->get('role');
     $fleet = $session->get('fleet');
 
     $input = $this->validate([
@@ -217,7 +224,11 @@ public function boltActivityImport()
                 $errorCount++;
                 $session->setFlashdata('msgActivityBolt', 'Invalid file type or upload error. Please upload a valid CSV file.');
                 $session->setFlashdata('alert-class', 'alert-danger');
-                return redirect()->to("/index.php/uberImport"); 
+				if($role != 'admin'){
+					return redirect()->to("/index.php/voditelj");  
+				}else{
+					return redirect()->to("/index.php/uberImport");  
+				}
             }
         } //end of if $file!=null
     }
@@ -226,7 +237,11 @@ public function boltActivityImport()
     $session->setFlashdata('msgActivityBolt', $message);
     $session->setFlashdata('alert-class', ($errorCount > 0) ? 'alert-warning' : 'alert-success');
 
-    return redirect()->to("/index.php/uberImport"); 
+				if($role != 'admin'){
+					return redirect()->to("/index.php/voditelj");  
+				}else{
+					return redirect()->to("/index.php/uberImport");  
+				}
     }
 
     // Helper Methods

@@ -40,6 +40,7 @@
 <link rel="stylesheet" href="https://unpkg.com/tableexport@5.3.0/dist/css/tableexport.min.css">
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
@@ -65,6 +66,12 @@
 https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js
 ">
 	</script>
+<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.6/underscore-umd-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/index.global.min.js" integrity="sha512-WPqMaM2rVif8hal2KZZSvINefPKQa8et3Q9GOK02jzNL51nt48n+d3RYeBCfU/pfYpb62BeeDf/kybRY4SJyyw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/locales/hr.global.min.js'></script>
+
+
+	
 <style>
         /* Style for placeholder animation */
         .skeleton-row {
@@ -81,6 +88,26 @@ https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js
                 background-position: 200% 0;
             }
         }
+   #calendar {
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .fc-day-grid-event { /* This will style your date cells */
+            border: none !important;
+            padding: 2px !important;
+        }
+
+        .both { background-color: green !important; }
+        .bolt-only { background-color: orange !important; }
+        .uber-only { background-color: blue !important; }
+        .no-data { /* Optional if you need to style days with no data */
+            background-color: lightgray !important;
+        }	
+	.fc-day-grid-event .fc-content .both { background-color: green !important; }
+	.fc-day-grid-event .fc-content .bolt-only { background-color: orange !important; }
+	.fc-day-grid-event .fc-content .uber-only { background-color: blue !important; }
+	
     </style>
 	<!-- Template Main CSS File -->
   <link href="<?php echo base_url('/assets/css/style.css')?>" rel="stylesheet">
