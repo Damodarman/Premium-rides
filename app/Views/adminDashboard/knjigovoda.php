@@ -27,7 +27,7 @@
         </thead>
         <tbody>
             <?php foreach($neobradenePrijave as $driver):  ?>
-            <tr  data-vozac-id="<?php echo $driver['vozac_id']; ?>">
+            <tr  data-vozac-id="<?php echo $driver['vozac_id']; ?>" data-prijava-id="<?php echo $driver['id']; ?>">
                 <td>
                     <input type="checkbox" class="row-checkbox" />
                 </td>
@@ -278,7 +278,7 @@
                 <!-- Content inside the modal -->
             </div>
             <div class="modal-footer">
-				<form action="<?php echo base_url(); ?>/index.php/obradenoDa" class="form">
+				<form method="post" action="<?php echo base_url(); ?>/index.php/obradenoDa" class="form">
 					<input id="prijavaId" type="text" name="id"  hidden value="">
 					<input id="imePrezime" type="text" name="vozac" hidden  value="">
 				<button type="submit" class="btn btn-success">Označi kao obrađeno</button>
@@ -324,6 +324,19 @@ $(document).ready(function () {
     });
 });
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -382,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to handle AJAX request
     function fetchData(vozacId) {
         $.ajax({
-            url: '<?php echo base_url('index.php/fetchDriverData'); ?>',
+            url: '<?php echo site_url('fetchDriverData'); ?>',
             method: 'GET',
             data: {
                 vozac_id: vozacId
@@ -452,7 +465,6 @@ function formatDOB(dateString) {
         document.getElementById('ibanZasticeni').innerText = data.zasticeniIBAN;
         document.getElementById('ibanRevolut').innerText = data.strani_IBAN;
 		document.getElementById('imePrezime').value = data.ime + ' ' + data.prezime;
-		document.getElementById('prijavaId').value = data.id;    
     document.getElementById('imePrezimeVozacaInput').value = data.ime + ' ' + data.prezime;
     document.getElementById('imeInput').value = data.ime;
     document.getElementById('prezimeInput').value = data.prezime;
@@ -504,7 +516,10 @@ copyButtons.forEach(function(button) {
     // Function to handle click event on table rows
     function handleRowClick(row) {
         var vozacId = row.getAttribute('data-vozac-id');
+        var prijavaId = row.getAttribute('data-prijava-id');
         console.log('Vozac ID:', vozacId);
+        console.log('Prijava ID:', prijavaId);
+		document.getElementById('prijavaId').value = prijavaId;
         fetchData(vozacId); // Call fetchData function with vozacId
     }
 
@@ -525,6 +540,8 @@ copyButtons.forEach(function(button) {
     });
 });
 </script>
+
+
 <script>
 $(document).ready(function () {
     var table = $('#exampleNeobradeno').DataTable({

@@ -56,8 +56,8 @@
 			  </a>
 				</li>
 			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-				<li><a class="dropdown-item" href="<?php echo base_url('/index.php/signin')?>">Log in</a></li>
-				<li><a class="dropdown-item" href="<?php echo base_url('/index.php/signup')?>">Register</a></li>
+				<li><a class="dropdown-item" href="<?php echo site_url('signin')?>">Log in</a></li>
+				<li><a class="dropdown-item" href="<?php echo site_url('signup')?>">Register</a></li>
 			  </ul>
 			</div>
         </ul>

@@ -9,10 +9,10 @@
 
 
 <div class="container">
-		<form class="row g-3 mt-3" action="<?php echo base_url('index.php/ObracunController/obracunSavedodatni');?>" method="post">
+		<form class="row g-3 mt-3" action="<?php echo site_url('ObracunController/obracunSavedodatni');?>" method="post">
 	<?php  
 			ini_set('post_max_size', '64M');   // Change to the desired size
-ini_set('max_input_vars', 2000);   // Change to the desired maximum number of input variables
+ini_set('max_input_vars', 30000);   // Change to the desired maximum number of input variables
 	$obracunFirmaJson = json_encode($firmaObracun);
 	
 	?>

@@ -30,7 +30,7 @@ class SigninController extends Controller
 			// If validation fails, redirect back to the login page with validation errors
 			$session->setFlashdata('msg', 'Please enter a valid email and password.');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/signin')->withInput();
+			return redirect()->to('signin')->withInput();
 		}
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
@@ -61,22 +61,22 @@ class SigninController extends Controller
 						'isLoggedIn' => TRUE
 					];
 					$session->set($ses_data);
-					return redirect()->to('/index.php/profile');
+					return redirect()->to('profile');
 				}else{
 					$session->setFlashdata('msg', 'Your account is not verifyed, please check your ' .$data['email'].' to verify your account' );
 					session()->setFlashdata('alert-class', 'alert-warning');
-					return redirect()->to('/index.php/signin');
+					return redirect()->to('signin');
 				}
             
             }else{
                 $session->setFlashdata('msg', 'Password is incorrect.');
                 session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/signin');
+				return redirect()->to('signin');
             }
         }else{
             $session->setFlashdata('msg', 'Email does not exist.');
 			session()->setFlashdata('alert-class', 'alert-danger');
-            return redirect()->to('/index.php/signin');
+            return redirect()->to('signin');
         }
     }
 }

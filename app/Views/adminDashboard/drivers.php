@@ -1,8 +1,21 @@
 <div class="row m-5">
 	<div class="d-grid gap-2">
-	  <a href="<?php echo base_url('/index.php/neaktdrivers/')?>" class="btn btn-danger" role="button" >Pogledaj neaktivne vozače</a>
+	  <a href="<?php echo site_url('neaktdrivers/')?>" class="btn btn-danger" role="button" >Pogledaj neaktivne vozače</a>
 </div>
-        <table id="example" class="table table-striped table-dark table-sm" style="width:100%">
+	<div class="row">
+		<h3 class="text-center">Pregled radnih sati vozača</h3>
+		<div class="col-6 border border-dark bg-dark pt-2 pb-2">
+			<div class="d-grid">
+				<a href="<?php echo site_url('naProviziju/'); ?>" class="btn btn-info" role="button">Na Proviziju</a>
+			</div>
+		</div>
+		<div class="col-6 border border-dark bg-dark pt-2 pb-2">
+			<div class="d-grid">
+				<a href="<?php echo site_url('naPlacu/'); ?>" class="btn btn-secondary" role="button">Na plaću</a>
+			</div>
+		</div>
+	</div>
+	<table id="example" class="table table-striped table-dark table-sm" style="width:100%">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -27,7 +40,7 @@
 				<?php foreach($drivers as $driver):  ?>
                 <tr>
                     <td><?php echo $driver['id'] ?></td>
-					<td><a class="text-decoration-none" href="<?php echo base_url('/index.php/drivers/'). '/' .$driver['id']?>"><?php echo $driver['vozac'] ?></a></td>
+					<td><a class="text-decoration-none" href="<?php echo site_url('drivers/'). '/' .$driver['id']?>"><?php echo $driver['vozac'] ?></a></td>
                     <td><?php echo $driver['email'] ?></td>
                     <td><?php echo $driver['mobitel'] ?></td>
                     <td><?php echo $driver['dob'] ?> </td>

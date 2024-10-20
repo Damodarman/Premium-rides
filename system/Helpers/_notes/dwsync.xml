@@ -13,4 +13,17 @@
 <file name="text_helper.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530600000000" Dst="1" />
 <file name="url_helper.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530600000000" Dst="1" />
 <file name="xml_helper.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530610000000" Dst="1" />
+<file name="array_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704830000000" Dst="2" />
+<file name="cookie_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704830000000" Dst="2" />
+<file name="date_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704830000000" Dst="2" />
+<file name="filesystem_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704840000000" Dst="2" />
+<file name="form_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704840000000" Dst="2" />
+<file name="html_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704840000000" Dst="2" />
+<file name="inflector_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704850000000" Dst="2" />
+<file name="number_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704850000000" Dst="2" />
+<file name="security_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704850000000" Dst="2" />
+<file name="test_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704850000000" Dst="2" />
+<file name="text_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704860000000" Dst="2" />
+<file name="url_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704860000000" Dst="2" />
+<file name="xml_helper.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704860000000" Dst="2" />
 </dwsync>

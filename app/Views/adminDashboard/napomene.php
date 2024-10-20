@@ -15,7 +15,7 @@
 					<td><?php echo $napomena['timestamp'] ?></td>
                     <td><?php echo $napomena['user'] ?></td>
 
-					<td><a class="text-decoration-none" href="<?php echo base_url('/index.php/drivers/'). '/' .$napomena['driver_id']?>"><?php echo $napomena['driver_name'] ?></a></td>
+					<td><a class="text-decoration-none" href="<?php echo site_url('drivers/'). '/' .$napomena['driver_id']?>"><?php echo $napomena['driver_name'] ?></a></td>
                     <td><?php echo $napomena['napomena'] ?> </td>
 					<?php endforeach ?>
 				</tr>

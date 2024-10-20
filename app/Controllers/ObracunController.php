@@ -82,44 +82,64 @@ class ObracunController extends BaseController
 		
 		$session->setFlashdata('obracunDelete', ' Obračun za ' .$week .' je obrisan');
 		session()->setFlashdata('alert-class', 'alert-dark');
-		return redirect()->to('/index.php/obr');
+		return redirect()->to('obr');
 	}
+	
+	public function getPlaceData(){
+		$session = session();
+		$fleet = $session->get('fleet');
+		$role = $session->get('role');
+		$weeks = $this->request->getVar('weeks');
+		print_r($weeks);
+		die();
+		
+		
+		return view('adminDashboard/header', $data)
+		. view('adminDashboard/navBar')
+		. view('adminDashboard/placeForm')
+			. view('footer');
+		
+	}
+	
+	
+	public function place(){
+		
+		$session = session();
+		$fleet = $session->get('fleet');
+		$role = $session->get('role');
+		$ObracunModel = new ObracunModel();
+		$ObracunFirmaModel = new ObracunFirmaModel();
+		
+		$weeks = $ObracunFirmaModel->select('week')->where('fleet', $fleet)->get()->getResultArray();
+		
+		$data['page'] = 'Izvoz plaća';
+		$data['fleet'] = $fleet;
+		$data['weeks'] = $weeks;
+		$data['role'] = $role;
+			
+		return view('adminDashboard/header', $data)
+		. view('adminDashboard/navBar')
+		. view('adminDashboard/placeForm')
+			. view('footer');
+	}	
 	
 	public function petiTjedan($vozac_id){
-		$obracunModel = new ObracunModel();
-		 $records = $obracunModel
-			 ->select('fiskalizacijaUber, fiskalizacijaBolt')
-			 ->where('vozac_id', $vozac_id)
-			 ->orderBy('id', 'DESC')
-			 ->limit(4) // Corrected syntax
-			 ->get()
-			 ->getResultArray();
-				
-				
-		 if (empty($records)) {
-            // If there are no records, return false
-            return false;
-        }
-		$total = 0;
-//			echo 'nakon IF';
-//			print_r($records);
-//			 die();
 
-
-        // Sum the 'fiskalizacijaUber' and 'fiskalizacijaBolt' values from the last 4 records
-        foreach ($records as $record) {
-            $fiskalizacijaUber = isset($record['fiskalizacijaUber']) ? $record['fiskalizacijaUber'] : 0;
-            $fiskalizacijaBolt = isset($record['fiskalizacijaBolt']) ? $record['fiskalizacijaBolt'] : 0;
-
-            // Add the sum of these fields to the total
-            $total += $fiskalizacijaUber + $fiskalizacijaBolt;
-        }
-		
-		
-		return $total == 0;
 	}
 	
-	public function obracunaj($week = null){
+	public function obracunaj(){
+		
+		$week = $this->request->getPost('wkN');
+		$ptj = $this->request->getPost('ptj');
+		
+		if(isset($ptj)){
+			$petiTjedan = true;
+		}else{
+			$petiTjedan = false;
+		}
+		
+		
+		
 		helper(['form']);
 		$session = session();
 		$fleet = $session->get('fleet');
@@ -186,6 +206,8 @@ class ObracunController extends BaseController
 					}else{
 						$driverObracun['najamVozila'] = 0;
 					}
+				}else{
+					$driverObracun['najamVozila'] = 0;
 				}
 				$driverObracun['vozac_id'] = $dr['id']; 
 				$driverObracun['vozac'] = $dr['vozac']; 
@@ -209,7 +231,7 @@ class ObracunController extends BaseController
 				$driverObracun['myPosTransakcije'] = 0; 
 				$driverObracun['aktivan'] = $dr['aktivan'];
 				$driverObracun['week'] = $week;
-				$driverObracun['isplataNa'] = $dr['isplata'];
+				$driverObracun['isplataNa'] = $dr['tjedna_isplata'];
 				$driverObracun['IBAN'] = $dr['IBAN'];
 				$driverObracun['fleet'] = $fleet;
 				$vozac['week'] = $week;
@@ -431,10 +453,8 @@ class ObracunController extends BaseController
 				$vozac['broj_sati'] = (float) $dr['broj_sati'];
 				$driverObracun['doprinosi'] = 0;
 				if($dr['prijava'] != 0){
-					//$petiTjedan = $this->petiTjedan($dr['id']);
-					$petiTjedan = false;
-//					var_dump($petiTjedan);
-//					die();
+
+					// Provjera dali je peti tjedan
 					if($petiTjedan != true){
 						$dopPlaca = $this->izracunajDoprinose($vozac);
 						$driverObracun['doprinosi'] = $dopPlaca['doprinosi'];
@@ -444,8 +464,21 @@ class ObracunController extends BaseController
 						$driverObracun['zaIsplatu'] -= $driverObracun['doprinosi'];
 						$firmaObracun['netoPlaca'] += $dopPlaca['cetvrtinaNetoPlace'];
 					}else{
-						$driverObracun['doprinosi'] = 0;
-						$driverObracun['cetvrtinaNetoPlace'] = 0;
+						// Ako je peti tjedan i vozač ne radi kod nas puni mjesec
+						if($vozac['daniPrijave'] < 31 ){
+							$dopPlaca = $this->izracunajDoprinose($vozac);
+							$driverObracun['doprinosi'] = $dopPlaca['doprinosi'];
+							$firmaObracun['doprinosi'] += $dopPlaca['doprinosi'];
+							$driverObracun['cetvrtinaNetoPlace'] = $dopPlaca['cetvrtinaNetoPlace'];
+							$driverObracun['zaIsplatu'] -= $driverObracun['cetvrtinaNetoPlace'];
+							$driverObracun['zaIsplatu'] -= $driverObracun['doprinosi'];
+							$firmaObracun['netoPlaca'] += $dopPlaca['cetvrtinaNetoPlace'];
+						}else{
+							// Ako je peti tjedan i vozač radi kod nas puni mjesec
+							$driverObracun['doprinosi'] = 0;
+							$driverObracun['cetvrtinaNetoPlace'] = 0;
+						}
+						
 					}
 				}
 				else{
@@ -694,8 +727,12 @@ class ObracunController extends BaseController
 			}
 			
 			$minimalnaProvizija = $postavkeFlote['koristi_min_proviziju'];
-			
+			$minimalnaProvizijaSezona = $postavkeFlote['koristi_min_proviziju_sezona'];
 			$iznosMinimalneProvizije = $postavkeFlote['iznos_min_provizije'];
+			$iznosMinimalneProvizijeSezona = $postavkeFlote['minimalna_provizija_sezona'];
+			
+			
+			
 			$popustNaProviziju = (float) $vozac['popust_na_proviziju'];
 			$daniRada = $vozac['daniRada'];
 			$ukupnoNeto = $vozac['ukupnoNeto'];
@@ -740,6 +777,12 @@ class ObracunController extends BaseController
 				$iznosMinimalneProvizije = $iznosMinimalneProvizije - $popustnaMinimalnuproviziju;
 				$iznosMinimalneProvizije = round($iznosMinimalneProvizije, 2);
 				
+				
+				$iznosMinimalneProvizijeSezona = $iznosMinimalneProvizijeSezona - $popustnaMinimalnuproviziju;
+				$iznosMinimalneProvizijeSezona = round($iznosMinimalneProvizijeSezona, 2);
+			
+			if($vozac['sezona'] != 1){
+			
 				if($minimalnaProvizija != true){
 					$iznosProvizije = (float) $iznosProvizije - (float) $popustNaProviziju;
 					$provizija = ($iznosProvizije / 100) * $ukupnoNetoWithTaximetar;
@@ -751,7 +794,23 @@ class ObracunController extends BaseController
 					if($provizija < $iznosMinimalneProvizije){
 						$provizija = $iznosMinimalneProvizije;
 					}
-				}
+				}				
+				
+			}else{
+				if($minimalnaProvizija != true){
+					$iznosProvizije = (float) $iznosProvizije - (float) $popustNaProviziju;
+					$provizija = ($iznosProvizije / 100) * $ukupnoNetoWithTaximetar;
+					$provizija = round($provizija, 2);
+				}else{
+					$iznosProvizije = (float) $iznosProvizije - (float) $popustNaProviziju;
+					$provizija = ($iznosProvizije / 100) * $ukupnoNetoWithTaximetar;
+					$provizija = round($provizija, 2);
+					if($provizija < $iznosMinimalneProvizijeSezona){
+						$provizija = $iznosMinimalneProvizijeSezona;
+					}
+				}				
+			}
+
 				
 			
 			}
@@ -901,7 +960,7 @@ class ObracunController extends BaseController
 				$bolt_bruto = (float) $bolt['Bruto_iznos'] - (float) $bolt['Napojnica'] - (float) $bolt['Nadoknade'] - (float) $bolt['Naknada_za_cestarinu'] -  (float)$bolt['Bonus'];
 				$bolt_naknada = $bolt_bruto * 0.25;
 				$bolt_naknada = round($bolt_naknada, 2);
-				$boltNeto = (float) $bolt_bruto + (float) $bolt['Otkazna_naknada'] + (float) $bolt['Naknada_za_rezervaciju_placanje'] + (float) $bolt['Naknada_za_rezervaciju_odbitak'] - (float) $bolt_naknada + (float) $bolt['Nadoknade'] + (float) $bolt['Povrati_novca'];
+				$boltNeto = (float) $bolt_bruto + (float) $bolt['Naknada_za_rezervaciju_placanje'] + (float) $bolt['Naknada_za_rezervaciju_odbitak'] - (float) $bolt_naknada + (float) $bolt['Nadoknade'] + (float) $bolt['Povrati_novca'];
 				$boltNapojnica = (float) $bolt['Napojnica'];
 				$boltPovrati =  (float) $bolt['Naknada_za_cestarinu'];
 				$boltGotovina = 0 - (float) $bolt['Voznje_placene_gotovinom_prikupljena_gotovina'];
@@ -991,7 +1050,7 @@ class ObracunController extends BaseController
 		$obracunModel->insertBatch($obracun);
 		
 		$obracunFirmaModel->insert($obracunFirma);
-		return redirect()->to('/index.php/obracun');
+		return redirect()->to('obracun');
 		
 	}
 	
@@ -1208,7 +1267,7 @@ public function skinutiSlike() {
 		
 		$obracunFirmaModel->insert($obracunFirma);
 
-		return redirect()->to('/index.php/obracun');
+		return redirect()->to('obracun');
 	}
 	
 	 public function exportData(){ 
@@ -1265,8 +1324,212 @@ public function skinutiSlike() {
 		$obracunModel = new ObracunModel();
 		
 		$obracunModel -> update($id, $data);
-		return redirect()->to('/index.php/editirajObracun/' .$id);
+		return redirect()->to('editirajObracun/' .$id);
 		
 	}
+	
+	
+	public function checkId($week = null){
+		$session = session();
+		$fleet = $session->get('fleet');
+		$role = $session->get('role');
+		$DriverModel = new DriverModel();
+		$UberReportModel = new UberReportModel();
+		$BoltReportModel = new BoltReportModel();
+		$MyPosReportModel = new MyPosReportModel();
+		$TaximetarReportModel = new TaximetarReportModel();
+		
+		// GET ALL FROM UBER REPORTS AND CHECK AGAINST ALL DRIVERS
+		
+		$uberReport = $UberReportModel->where('report_for_week', $week)->where('fleet', $fleet)->get()->getResultArray();
+		$vozac = '';
+		$ubercount = 0;
+		$ubercountIspravni = 0;
+		$ubercountNeispravni = 0;
+		$uber = array();
+		foreach($uberReport as $report){
+			$ubercount += 1;
+			$vozac = $report['Vozac'];
+			$result = $DriverModel->select('vozac, aktivan')->where('fleet', $fleet)->where('uber_unique_id', $vozac)->get()->getRowArray();
+			if(!empty($result)){
+				if($result['aktivan'] != 0){
+					$uber[] = array(
+						'Vozac' => $vozac,
+						'ispravan' => 'DA',
+						'aktivan' => 'DA',
+					);
+					$ubercountIspravni += 1;
+				}else{
+					$uber[] = array(
+						'Vozac' => $vozac,
+						'ispravan' => 'DA',
+						'aktivan' => 'NE',
+						);
+					$ubercountNeispravni += 1;
+				}
+			}else{
+				$uber[] = array(
+					'Vozac' => $vozac,
+					'ispravan' => 'NE',
+					'aktivan' => 'NE',
+					);
+					$ubercountNeispravni += 1;
+			}
+		}
+		$uberCount= array(
+			'ubercountNeispravni' => $ubercountNeispravni,
+			'ubercountIspravni' => $ubercountIspravni,
+			'ubercount' => $ubercount,
+		);
+		
+		// GET ALL FROM BOLT REPORTS AND CHECK AGAINST ALL DRIVERS
+		$boltReport = $BoltReportModel->where('report_for_week', $week)->where('fleet', $fleet)->get()->getResultArray();
+		$vozac = '';
+		$boltcount = 0;
+		$boltcountIspravni = 0;
+		$boltcountNeispravni = 0;
+		$bolt = array();
+		foreach($boltReport as $report){
+			$boltcount += 1;
+			$vozac = $report['Vozac'];
+			$result = $DriverModel->select('vozac, aktivan')->where('fleet', $fleet)->where('bolt_unique_id', $vozac)->get()->getRowArray();
+			if(!empty($result)){
+				if($result['aktivan'] != 0){
+					$bolt[] = array(
+						'Vozac' => $vozac,
+						'ispravan' => 'DA',
+						'aktivan' => 'DA',
+					);
+					$boltcountIspravni += 1;
+				}else{
+					$bolt[] = array(
+						'Vozac' => $vozac,
+						'ispravan' => 'DA',
+						'aktivan' => 'NE',
+						);
+					$boltcountNeispravni += 1;
+				}
+			}else{
+				$bolt[] = array(
+					'Vozac' => $vozac,
+					'ispravan' => 'NE',
+					'aktivan' => 'NE',
+					);
+					$boltcountNeispravni += 1;
+			}
+		}
+		$boltCount= array(
+			'boltcountNeispravni' => $boltcountNeispravni,
+			'boltcountIspravni' => $boltcountIspravni,
+			'boltcount' => $boltcount,
+		);
+				// GET ALL FROM MYPOS REPORTS AND CHECK AGAINST ALL DRIVERS
+		$myPosReport = $MyPosReportModel->where('report_for_week', $week)->where('fleet', $fleet)->get()->getResultArray();
+		$vozac = '';
+		$myPoscount = 0;
+		$myPoscountIspravni = 0;
+		$myPoscountNeispravni = 0;
+		$myPos = array();
+		foreach($myPosReport as $report){
+			$myPoscount += 1;
+			$vozac = $report['Terminal_name'];
+			$result = $DriverModel->select('vozac, aktivan')->where('fleet', $fleet)->where('myPos_unique_id', $vozac)->get()->getRowArray();
+			if(!empty($result)){
+				if($result['aktivan'] != 0){
+					$myPos[] = array(
+						'Vozac' => $vozac,
+						'ispravan' => 'DA',
+						'aktivan' => 'DA',
+					);
+					$myPoscountIspravni += 1;
+				}else{
+					$myPos[] = array(
+						'Vozac' => $vozac,
+						'ispravan' => 'DA',
+						'aktivan' => 'NE',
+						);
+					$myPoscountNeispravni += 1;
+				}
+			}else{
+				$myPos[] = array(
+					'Vozac' => $vozac,
+					'ispravan' => 'NE',
+					'aktivan' => 'NE',
+					);
+					$myPoscountNeispravni += 1;
+			}
+		}
+		$myPosCount= array(
+			'myPoscountNeispravni' => $myPoscountNeispravni,
+			'myPoscountIspravni' => $myPoscountIspravni,
+			'myPoscount' => $myPoscount,
+		);
+		// GET ALL FROM TAXIMETAR REPORTS AND CHECK AGAINST ALL DRIVERS
+		$taximetarReport = $TaximetarReportModel->where('week', $week)->where('fleet', $fleet)->get()->getResultArray();
+		$vozac = '';
+		$taximetarcount = 0;
+		$taximetarcountIspravni = 0;
+		$taximetarcountNeispravni = 0;
+		$taximetar = array();
+		foreach($taximetarReport as $report){
+			$taximetarcount += 1;
+			$vozac = $report['Ime_vozaca'];
+			$uniqueID = $report['Email_vozaca'];
+			$result = $DriverModel->select('vozac, aktivan')->where('fleet', $fleet)->where('taximetar_unique_id', $uniqueID)->get()->getRowArray();
+			if(!empty($result)){
+				if($result['aktivan'] != 0){
+					$taximetar[] = array(
+						'Vozac' => $vozac,
+						'ispravan' => 'DA',
+						'aktivan' => 'DA',
+					);
+					$taximetarcountIspravni += 1;
+				}else{
+					$taximetar[] = array(
+						'Vozac' => $vozac,
+						'ispravan' => 'DA',
+						'aktivan' => 'NE',
+						);
+					$taximetarcountNeispravni += 1;
+				}
+			}else{
+				$taximetar[] = array(
+					'Vozac' => $vozac,
+					'ispravan' => 'NE',
+					'aktivan' => 'NE',
+					);
+					$taximetarcountNeispravni += 1;
+			}
+		}
+		$taximetarCount= array(
+			'taximetarcountNeispravni' => $taximetarcountNeispravni,
+			'taximetarcountIspravni' => $taximetarcountIspravni,
+			'taximetarcount' => $taximetarcount,
+		);		
+		
+		$data['taximetar'] = $taximetar;
+		$data['taximetarCount'] = $taximetarCount;
+		$data['myPos'] = $myPos;
+		$data['myPosCount'] = $myPosCount;
+		$data['bolt'] = $bolt;
+		$data['boltCount'] = $boltCount;
+		$data['uber'] = $uber;
+		$data['uberCount'] = $uberCount;
+		$data['page'] = 'Provjeri unique ID';
+		$data['fleet'] = $fleet;
+		$data['role'] = $role;
+		return view('adminDashboard/header', $data)
+		. view('adminDashboard/navBar')
+		. view('adminDashboard/provjeraUniqueID',$data)
+			. view('footer');
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 }

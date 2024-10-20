@@ -4,4 +4,8 @@
 <file name="Cookie.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530310000000" Dst="1" />
 <file name="CookieInterface.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530310000000" Dst="1" />
 <file name="CookieStore.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530310000000" Dst="1" />
+<file name="CloneableCookieInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704130000000" Dst="2" />
+<file name="Cookie.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704140000000" Dst="2" />
+<file name="CookieInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704140000000" Dst="2" />
+<file name="CookieStore.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704140000000" Dst="2" />
 </dwsync>

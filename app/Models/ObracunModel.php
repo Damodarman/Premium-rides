@@ -39,7 +39,6 @@ class ObracunModel extends Model{
 		'myPosNapojnica',
 		'myPosPovrat',
 		'ukupnoNapojnica',
-		
 		'uberOnline',
 		'uberActiv',
 		'uberPerH',
@@ -63,4 +62,16 @@ class ObracunModel extends Model{
 		'myPosTransakcije',
 		'slikaObracuna'
     ];
+	
+	public function getDriversPerWeek($fleet)
+	{
+    return $this->select('obracun.week, COUNT(DISTINCT obracun.vozac_id) as driver_count, obracunFirma.zaradaFirme')
+                ->join('obracunFirma', 'obracun.week = obracunFirma.week AND obracun.fleet = obracunFirma.fleet') // Join on week and fleet
+                ->where('obracun.fleet', $fleet) // Apply fleet condition
+                ->where('obracun.zaIsplatu !=', 0) 
+                ->groupBy('obracun.week, obracunFirma.zaradaFirme') // Group by week and zaradaFirmi
+                ->orderBy('obracun.week', 'ASC')
+                ->findAll();
+	}
+	
 }

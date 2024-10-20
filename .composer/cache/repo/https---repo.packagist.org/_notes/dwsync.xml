@@ -7,4 +7,11 @@
 <file name="provider-phenx~php-font-lib.json" server="access941215561.webspace-data.io//" local="133213621860000000" remote="133213621860000000" Dst="1" />
 <file name="provider-phenx~php-svg-lib.json" server="access941215561.webspace-data.io//" local="133213621860000000" remote="133213621860000000" Dst="1" />
 <file name="provider-sabberworm~php-css-parser.json" server="access941215561.webspace-data.io//" local="133213621860000000" remote="133213621860000000" Dst="1" />
+<file name="packages.json" server="access941215561.webspace-data.io" local="133213621860000000" remote="133708694360000000" Dst="2" />
+<file name="provider-dompdf~dompdf.json" server="access941215561.webspace-data.io" local="133213621860000000" remote="133708694360000000" Dst="2" />
+<file name="provider-dompdf~dompdf~dev.json" server="access941215561.webspace-data.io" local="133213621860000000" remote="133708694360000000" Dst="2" />
+<file name="provider-masterminds~html5.json" server="access941215561.webspace-data.io" local="133213621860000000" remote="133708694360000000" Dst="2" />
+<file name="provider-phenx~php-font-lib.json" server="access941215561.webspace-data.io" local="133213621860000000" remote="133708694360000000" Dst="2" />
+<file name="provider-phenx~php-svg-lib.json" server="access941215561.webspace-data.io" local="133213621860000000" remote="133708694370000000" Dst="2" />
+<file name="provider-sabberworm~php-css-parser.json" server="access941215561.webspace-data.io" local="133213621860000000" remote="133708694370000000" Dst="2" />
 </dwsync>

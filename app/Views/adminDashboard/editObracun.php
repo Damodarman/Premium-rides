@@ -8,7 +8,7 @@
 
 <div class="row">
 	<div class="col-12">
-		<form class="row g-3" action="<?php echo base_url('index.php/ObracunController/obracunUpdate');?>" method="post">
+		<form class="row g-3" action="<?php echo site_url('ObracunController/obracunUpdate');?>" method="post">
 			<input type="hidden" class="form-control" name="id"  value ="<?php echo $obracun['id']  ?>">
 			<input type="hidden" class="form-control" name="vozac_id"  value ="<?php echo $obracun['vozac_id']  ?>">
 			<input type="hidden" class="form-control" name="vozac"  value ="<?php echo $obracun['vozac']  ?>">

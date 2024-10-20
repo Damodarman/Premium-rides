@@ -16,6 +16,9 @@
             <th>Ime</th>
             <th>OIB</th>
             <th>Datum rođenja</th>
+            <th>Adresa</th>
+            <th>Grad</th>
+            <th>Država</th>
             <th>Vrsta zaposlenja</th>
             <th>Početak prijave</th>
             <th>Kraj prijave</th>
@@ -56,6 +59,9 @@
                 <td><?= $radnik['vozac'] ?></td>
                 <td><?= $radnik['OIB'] ?></td>
                 <td><?= $radnik['dob'] ?></td>
+                <td><?= $radnik['adresa'] ?></td>
+                <td><?= $radnik['grad'] ?></td>
+                <td><?= $radnik['drzava'] ?></td>
                 <td><?= $radnik['vrsta_zaposlenja'] ?></td>
                 <td class="text-nowrap <?=$colorPrijave?>"><?= $radnik['pocetak_prijave'] ?></td>
                 <td><?= $radnik['kraj_prijave'] ?></td>
@@ -120,7 +126,7 @@
 						<tr>
 							<!-- Display data for the latest row based on highest 'id' -->
 							<th scope="row"><?php echo $num; ?></th>
-							<td><a href="<?php echo base_url('/index.php/drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
+							<td><a href="<?php echo site_url('drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
 							<td><?php echo $radnik['prezime']; ?></td>
 							<td><?php echo $radnik['OIB']; ?></td>
 							<td><?php echo $radnik['dob']; ?></td>
@@ -141,7 +147,7 @@
 						<tr>
 							<!-- Display data for the latest row based on highest 'id' -->
 							<th scope="row"><i class="bi bi-arrow-90deg-up ms-3"></i></th>
-							<td><a href="<?php echo base_url('/index.php/drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
+							<td><a href="<?php echo site_url('drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
 							<td><?php echo $radnik['prezime']; ?></td>
 							<td><?php echo $radnik['OIB']; ?></td>
 							<td><?php echo $radnik['dob']; ?></td>
@@ -167,7 +173,7 @@
 					
 				<tr>
 							<th scope="row"><?php echo $num; ?></th>
-							<td><a href="<?php echo base_url('/index.php/drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
+							<td><a href="<?php echo site_url('drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
 							<td><?php echo $radnik['prezime']; ?></td>
 							<td><?php echo $radnik['OIB']; ?></td>
 							<td><?php echo $radnik['dob']; ?></td>

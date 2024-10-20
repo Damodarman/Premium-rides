@@ -35,7 +35,7 @@
                          <button type="submit" class="btn btn-success">Signin</button>
                     </div>     
                 </form>
-				<a class="nav-link" href="<?php echo base_url('/index.php/passwordRecovery')?>">Forgot your password?</a>
+				<a class="nav-link" href="<?php echo site_url('passwordRecovery')?>">Forgot your password?</a>
             </div>
               
         </div>

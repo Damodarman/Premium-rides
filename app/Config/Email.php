@@ -47,7 +47,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPHost = 'smtp.ionos.co.uk';
+    public $SMTPHost = 'mail.agregator.online';
 
     /**
      * SMTP Username

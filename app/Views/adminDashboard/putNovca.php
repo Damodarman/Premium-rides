@@ -145,9 +145,9 @@ $(document).ready(function() {
         // Further logic based on the extracted number
         let ajaxUrl;
         if (clickedSpanId.startsWith('predano_')) {
-            ajaxUrl = '<?= base_url("index.php/dugovi/predano") ?>'; // URL to the predano method
+            ajaxUrl = '<?= site_url("dugovi/predano") ?>'; // URL to the predano method
         } else if (clickedSpanId.startsWith('primljeno_')) {
-            ajaxUrl = '<?= base_url("index.php/dugovi/primljeno") ?>'; // URL to the primljeno method
+            ajaxUrl = '<?= site_url("dugovi/primljeno") ?>'; // URL to the primljeno method
         }
 
         // Send an AJAX request to the appropriate controller method
@@ -174,7 +174,7 @@ $(document).ready(function() {
         console.log("Fetching data with:", formData);
 
         $.ajax({
-            url: '<?= base_url("index.php/dugovi/getFilteredData") ?>', // Your endpoint
+            url: '<?= site_url("dugovi/getFilteredData") ?>', // Your endpoint
             method: 'POST', // Or 'GET' depending on your implementation
             data: formData, // Data for filtering
             success: function(response) {

@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-10">
-			<form action="<?php echo base_url('index.php/getRacuni'); ?> " method="post">
+			<form action="<?php echo site_url('getRacuni'); ?> " method="post">
 			<div class="form-group">
 				<label for="start_date">Start Date:</label>
 				<input type="text" class="form-control datepicker" id="start_date" name="start_date">

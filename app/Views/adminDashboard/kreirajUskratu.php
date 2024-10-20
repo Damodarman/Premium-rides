@@ -46,7 +46,7 @@ $months = array(
 		<?php endif ?>
 	</div>
 	<div class="row">
-		<form class="row g-3 needs-validation" action="<?php echo base_url('index.php/AdminController/uskrataSave');?>" method="post" novalidate>
+		<form class="row g-3 needs-validation" action="<?php echo site_url('AdminController/uskrataSave');?>" method="post" novalidate>
 			<div class="col-md-4">
 				<label for="iznos" class="form-label">Iznos</label>
 				<input type="text" name="iznos" class="form-control" value="<?= $uskraceno ?>" required>

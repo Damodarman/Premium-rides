@@ -10,7 +10,7 @@
 	<div class="row">
 	<h1 class="text-center">Raskid ugovora o radu za vozača/icu <?php echo $driver['vozac'] ?></h1>
 		
-		<form class="row g-3" action="<?php echo base_url('index.php/AdminController/raskidUgovora');?>" method="post">
+		<form class="row g-3" action="<?php echo site_url('AdminController/raskidUgovora');?>" method="post">
 			<div class="form-group">
 				<label for="vrstaRaskida">Vrsta otkaza ugovora</label>
 				   <select class="form-control" id="vrstaRaskida" name="vrstaRaskida">

@@ -5,7 +5,7 @@
 </head>
 <body>
 	<h1>Number Generator</h1>
-	<form action="<?php echo base_url('index.php/NumberGenerationController/generate');?>" method="post">
+	<form action="<?php echo site_url('NumberGenerationController/generate');?>" method="post">
 		<label for="total_sum">Total Sum:</label>
 		<input type="number" id="total_sum" name="total_sum" required><br><br>
 

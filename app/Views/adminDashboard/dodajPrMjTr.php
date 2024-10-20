@@ -6,7 +6,7 @@
 				</div>
 			<?php } ?>
 
-		<form class="row g-3" action="<?php echo base_url('index.php/KnjigovodstvoController/addPrMjTrSave');?>" method="post">
+		<form class="row g-3" action="<?php echo site_url('KnjigovodstvoController/addPrMjTrSave');?>" method="post">
 			<div class="mb-3">
 			<label for="trgovci_id" class="form-label">Trgovci:</label>
 			<select class="form-select" name="trgovci_id">
@@ -15,7 +15,7 @@
 			  <option value="<?php echo $trgovac['id'] ?>"><?php echo $trgovac['nazivTrgovca'] ?></option>
 				<?php endforeach ?>
 			</select>
-			<a class="nav-link" href="<?php echo base_url('/index.php/addTrgovca')?>">Dodaj Trgovca ako ga nema na popisu</a>
+			<a class="nav-link" href="<?php echo site_url('addTrgovca')?>">Dodaj Trgovca ako ga nema na popisu</a>
 			</div>
 		  <div class="mb-3">
 			<label for="mjestoBroj" class="form-label">Prodajno mjesto broj:</label>

@@ -1,11 +1,12 @@
 <div class="row m-5">
 		<div class="d-grid gap-2">
-	  <a href="<?php echo base_url('/index.php/drivers/')?>" class="btn btn-success" role="button" >Pogledaj aktivne vozače</a>
+	  <a href="<?php echo site_url('drivers/')?>" class="btn btn-success" role="button" >Pogledaj aktivne vozače</a>
 </div>
 
         <table id="example" class="table table-striped table-dark table-sm" style="width:100%">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Vozač</th>
                     <th>email</th>
                     <th>Mobitel</th>
@@ -26,7 +27,8 @@
             <tbody>
 				<?php foreach($drivers as $driver):  ?>
                 <tr>
-					<td><a class="text-decoration-none" href="<?php echo base_url('/index.php/drivers/'). '/' .$driver['id']?>"><?php echo $driver['vozac'] ?></a></td>
+                    <td><?php echo $driver['id'] ?></td>
+					<td><a class="text-decoration-none" href="<?php echo site_url('drivers/'). '/' .$driver['id']?>"><?php echo $driver['vozac'] ?></a></td>
                     <td><?php echo $driver['email'] ?></td>
                     <td><?php echo $driver['mobitel'] ?></td>
                     <td><?php echo $driver['dob'] ?> </td>
@@ -67,6 +69,7 @@
             </tbody>
             <tfoot>
                 <tr>
+                    <th>ID</th>
                     <th>Vozač</th>
                     <th>email</th>
                     <th>Mobitel</th>

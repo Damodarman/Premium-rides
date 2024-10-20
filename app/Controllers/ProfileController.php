@@ -10,14 +10,14 @@ class ProfileController extends Controller
 		$data = $session->get();
 		$role = $session->get('role');
 		if ($role == 'admin'){
-			return redirect()-> to('index.php/admin');
+			return redirect()-> to('admin');
 		}
 		elseif($role == 'voditelj'){
-			return redirect()-> to('index.php/voditelj');
+			return redirect()-> to('voditelj');
 			
 		}
 		elseif($role == 'knjigovoda'){
-			return redirect()-> to('index.php/knjigovoda');
+			return redirect()-> to('knjigovoda');
 			
 		}
 			else{
@@ -31,7 +31,7 @@ class ProfileController extends Controller
 	{
         $session = session();
 		$session->destroy();
-        return redirect()->to('/index.php/home');
+        return redirect()->to('home');
 		
 	}
 }

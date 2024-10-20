@@ -39,9 +39,9 @@ class PrijaveController extends BaseController
 		
 		$driverModel = new DriverModel();
 		
-		$vozaci = $driverModel->select('id, ime, prezime, OIB, dob, pocetak_prijave, vrsta_zaposlenja, kraj_prijave, broj_sati, IBAN, zasticeniIBAN, strani_IBAN, radno_mjesto') ->where('fleet', $fleet)->where('aktivan', 1)->where('prijava', '1')->get()->getResultArray();
+		$vozaci = $driverModel->select('id, ime, prezime, OIB, dob, adresa, grad, drzava, pocetak_prijave, vrsta_zaposlenja, kraj_prijave, broj_sati, IBAN, zasticeniIBAN, strani_IBAN, radno_mjesto') ->where('fleet', $fleet)->where('aktivan', 1)->where('prijava', '1')->get()->getResultArray();
 
-		$prijave = $driverModel->select('id, vozac, OIB, dob, vrsta_zaposlenja, kraj_prijave, pocetak_prijave, broj_sati, IBAN, zasticeniIBAN, strani_IBAN, radno_mjesto') ->where('fleet', $fleet)->get()->getResultArray();
+		$prijave = $driverModel->select('id, vozac, OIB, dob, adresa, grad, drzava, vrsta_zaposlenja, kraj_prijave, pocetak_prijave, broj_sati, IBAN, zasticeniIBAN, strani_IBAN, radno_mjesto') ->where('fleet', $fleet)->get()->getResultArray();
 		
 		$radnici1 = array();
 		//$prvi_unos = array();
@@ -75,6 +75,9 @@ class PrijaveController extends BaseController
 				'vozac' => $prijava['vozac'],
 				'OIB' => $prijava['OIB'],
 				'dob' => $prijava['dob'],
+				'adresa' => $prijava['adresa'],
+				'grad' => $prijava['grad'],
+				'drzava' => $prijava['drzava'],
 				'vrsta_zaposlenja' => $prijava['vrsta_zaposlenja'],
 				'pocetak_prijave' => $prijava['pocetak_prijave'],
 				'kraj_prijave' => $prijava['kraj_prijave'],
@@ -128,6 +131,8 @@ usort($radnici1, function ($a, $b) {
 
 				// Format the date in DD/MM/YYYY format
 				$formattedDatePromjena = $dateTime->format('d/m/Y');
+			}else{
+				$formattedDatePromjena = '00/00/0000';
 			}
 			if($radnik['kraj_prijave'] != null && $radnik['kraj_prijave'] != 'nema' && $radnik['kraj_prijave'] != '0000-00-00'){
 				$originalDate1 = $radnik['kraj_prijave'];
@@ -158,6 +163,9 @@ usort($radnici1, function ($a, $b) {
 				'vozac' => $radnik['vozac'],
 				'OIB' => $radnik['OIB'],
 				'dob' => $radnik['dob'],
+				'adresa' => $radnik['adresa'],
+				'grad' => $radnik['grad'],
+				'drzava' => $radnik['drzava'],
 				'vrsta_zaposlenja' => $prijava['vrsta_zaposlenja'],
 				'kraj_prijave' => $formattedDateKraj,
 				'pocetak_prijave' => $formattedDate,
@@ -206,6 +214,8 @@ usort($radnici1, function ($a, $b) {
 			. view('adminDashboard/prijaveRadnika')		
 			. view('footer');
 	}
+	
+
 	
 	
 	

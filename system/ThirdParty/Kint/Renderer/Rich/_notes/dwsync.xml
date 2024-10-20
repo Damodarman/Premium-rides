@@ -19,4 +19,23 @@
 <file name="TimestampPlugin.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531040000000" Dst="1" />
 <file name="TraceFramePlugin.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531050000000" Dst="1" />
 <file name="ValuePluginInterface.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531050000000" Dst="1" />
+<file name="ArrayLimitPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705900000000" Dst="2" />
+<file name="BinaryPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705900000000" Dst="2" />
+<file name="BlacklistPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705900000000" Dst="2" />
+<file name="CallablePlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705910000000" Dst="2" />
+<file name="ClosurePlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705910000000" Dst="2" />
+<file name="ColorPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705910000000" Dst="2" />
+<file name="DepthLimitPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705920000000" Dst="2" />
+<file name="DocstringPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705920000000" Dst="2" />
+<file name="MicrotimePlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705920000000" Dst="2" />
+<file name="Plugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705930000000" Dst="2" />
+<file name="PluginInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705930000000" Dst="2" />
+<file name="RecursionPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705930000000" Dst="2" />
+<file name="SimpleXMLElementPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705930000000" Dst="2" />
+<file name="SourcePlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705940000000" Dst="2" />
+<file name="TablePlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705940000000" Dst="2" />
+<file name="TabPluginInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705940000000" Dst="2" />
+<file name="TimestampPlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705940000000" Dst="2" />
+<file name="TraceFramePlugin.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705950000000" Dst="2" />
+<file name="ValuePluginInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708705950000000" Dst="2" />
 </dwsync>

@@ -90,7 +90,7 @@ class TvrtkaController extends Controller
 			if($tvrtkaModel->save($tvrtka)){
 				$session->setFlashdata('msgtvrtka', ' Uspješno dodana tvrtka.');
 				session()->setFlashdata('alert-class', 'alert-success');
-				return redirect()->to('/index.php/admin/flota');
+				return redirect()->to('admin/flota');
 			}
 			else{
 				$session->setFlashdata('msgtvrtka', ' Tvrtka nije dodana.');

@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Dompdf\\Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
+    'UltraMsg\\WhatsAppApi' => $vendorDir . '/ultramsg/whatsapp-php-sdk/ultramsg.class.php',
 );

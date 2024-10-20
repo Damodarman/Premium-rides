@@ -18,7 +18,7 @@
 					<td><?php echo $vozilo['proizvodac'] ?></td>
 					<td><?php echo $vozilo['model'] ?></td>
 					<td><?php echo $vozilo['reg'] ?></td>
-					<td><a class="text-decoration-none" href="<?php echo base_url('/index.php/drivers/'). '/' .$vozilo['vozac_id']?>"><?php echo $vozilo['vozac'] ?></a></td>
+					<td><a class="text-decoration-none" href="<?php echo site_url('drivers/'). '/' .$vozilo['vozac_id']?>"><?php echo $vozilo['vozac'] ?></a></td>
 					<td><?php echo $vozilo['placa_firma'] ?></td>
 					<td><?php echo $vozilo['cijena_tjedno'] ?></td>
 				<?php endforeach ?>

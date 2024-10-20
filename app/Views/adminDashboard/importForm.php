@@ -17,7 +17,7 @@
             <div class="alert alert-success"><?php echo $success; ?></div>
         <?php endif; ?>
 
-        <form method="post" action="<?php echo base_url('index.php/excel/import'); ?>" enctype="multipart/form-data">
+        <form method="post" action="<?php echo site_url('excel/import'); ?>" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="csv_file" class="form-label">Select Excel File</label>
                 <input type="file" class="form-control" id="csv_file" name="csv_file" accept=".csv" required>

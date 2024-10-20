@@ -23,6 +23,7 @@ class DriverModel extends Model
 		'uber', 
 		'bolt', 
 		'taximetar',
+		'mobTaximetar',
 		'myPos',
 		'refered_by', 
 		'referal_reward', 
@@ -45,7 +46,8 @@ class DriverModel extends Model
 		'provizijaNaljepnice',
 		'vrsta_nagrade',
 		'nacin_rada',
-		'isplata',
+		'tjedna_isplata',
+		'isplata_place',
 		'IBAN',
 		'zasticeniIBAN',
 		'strani_IBAN',
@@ -58,4 +60,26 @@ class DriverModel extends Model
 		'pocetak_rada'
 	
 	];
+	
+	
+	public function getActiveDriversCount($fleet){
+	return $this->where('fleet', $fleet)->where('aktivan', 1)->countAllResults();	
+	}
+
+	public function getInactiveDriversCount($fleet){
+		return $this->where('fleet', $fleet)->where('aktivan', 0)->countAllResults();	
+	}
+
+	public function getAllDriversCount($fleet){
+		return $this->where('fleet', $fleet)->countAllResults();	
+	}
+	
+	public function getActiveDrivers($fleet){
+		return $this->where('fleet', $fleet)->where('aktivan', 1)->get()->getResultArray();
+	}
+	public function getInactiveDrivers($fleet){
+		return $this->where('fleet', $fleet)->where('aktivan', 0)->get()->getResultArray();
+	}
+	
+	
 }

@@ -29,7 +29,7 @@
 			if(isset($gotoviObracuni)){
 			foreach($gotoviObracuni as $obracun): ?>
 			<tr>
-			  <th class="text-center" scope="row"><a class="nav-link" href="<?php echo base_url('/index.php/obracun/'.$obracun['week'])?>">Obračun za <?php echo $obracun['week'] ?></a></th>
+			  <th class="text-center" scope="row"><a class="nav-link" href="<?php echo site_url('obracun/'.$obracun['week'])?>">Obračun za <?php echo $obracun['week'] ?></a></th>
 			  <td class="text-center"><?php echo $obracun['ukupnoNetoSvi']; ?></td>
 			  <td class="text-center"><?php echo $obracun['ukupnoGotovinaSvi']; ?></td>
 			  <td class="text-center"><?php echo $obracun['ukupnoRazlikaSvi']; ?></td>
@@ -42,7 +42,7 @@
 				  <div class="dropend text-danger">
 				  	<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-trash" style="font-size: 1.5rem; color: red;"></i></a>
 					<ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
-						<li><a class="dropdown-item bg-dark text-danger" href="<?php echo base_url('/index.php/obrDel/'). '/' .$obracun['week']?>">Obriši obračun</a></li>
+						<li><a class="dropdown-item bg-dark text-danger" href="<?php echo site_url('obrDel/'). '/' .$obracun['week']?>">Obriši obračun</a></li>
 					</ul>
 				  </div>
 				</td>
@@ -64,19 +64,64 @@
 	</div>
 	<div class="col-4 bg-dark"></div>
 </div>
+<!--
 <div class="row bg-dark text-center">
 	<div class="list-group bg-dark text-center mb-3">
 		<?php if($dostupnoZaObracun != 0): ?>
 			<?php foreach($dostupnoZaObracun as $dZO) : ?>
-			  <a href="<?php echo base_url('/index.php/obracunaj/'). '/' .$dZO['week']?>" class="list-group-item list-group-item-action bg-dark text-white border-top border-danger ms-2 me-2"> Klikni me i napravi obračun za <?php echo $dZO['week'] ; ?> tjedan.</a>
+			  <a href="<?php echo site_url('obracunaj/'). '/' .$dZO['week']?>" class="list-group-item list-group-item-action bg-dark text-white border-top border-danger ms-2 me-2"> Klikni me i napravi obračun za <?php echo $dZO['week'] ; ?> tjedan.</a>
 			<?php endforeach ?>
 		<?php else: ?>
 	  <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-top border-danger ms-2 me-2"> Obračuni po svim dostupnim reportima su napravljeni !!</a>
 		<?php endif ?>
 	</div>	
 </div>
+-->
+<div class="row bg-dark text-center">
+    <div class="list-group bg-dark text-center mb-3">
+        <?php if($dostupnoZaObracun != 0): ?>
+            <?php foreach($dostupnoZaObracun as $dZO) : ?>
+                <a href="#" onclick="openModal('<?php echo $dZO['week']; ?>')" class="list-group-item list-group-item-action bg-dark text-white border-top border-danger ms-2 me-2"> Klikni me i napravi obračun za <?php echo $dZO['week']; ?> tjedan.</a>
+				<a href="<?php echo site_url('provjeriuniqueID/'). '/' .$dZO['week']?>" class="list-group-item list-group-item-action bg-dark text-white border-top border-danger ms-2 me-2"> Klikni me i provjeri unique ID za <?php echo $dZO['week']; ?> tjedan.</a>
+            <?php endforeach ?>
+        <?php else: ?>
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-top border-danger ms-2 me-2"> Obračuni po svim dostupnim reportima su napravljeni !!</a>
+        <?php endif ?>
+    </div>  
+</div>
+	
 </div>
 
+<div class="modal fade" id="weekModal" tabindex="-1" aria-labelledby="weekModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="weekModalLabel">Obračun za tjedan </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="weekForm" method="post" action="<?php echo site_url('obracunaj'); ?>">
+          <input type="hidden" name="wkN" id="wkN">
+          <div class="mb-3">
+            <label for="ptj" class="form-label">Označi ako je peti tjedan:</label>
+            <input type="checkbox" name="ptj" id="ptj" class="form-check-input">
+          </div>
+          <button type="submit" class="btn btn-primary">Obračunaj</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+function openModal(week) {
+    document.getElementById('wkN').value = week;
+     document.getElementById('weekModalLabel').textContent = 'Obračun za tjedan: ' + week;
+    var modal = new bootstrap.Modal(document.getElementById('weekModal'));
+    modal.show();
+}
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

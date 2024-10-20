@@ -9,4 +9,13 @@
 <file name="model.tpl.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530220000000" Dst="1" />
 <file name="seeder.tpl.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530220000000" Dst="1" />
 <file name="validation.tpl.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530220000000" Dst="1" />
+<file name="command.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703900000000" Dst="2" />
+<file name="config.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703910000000" Dst="2" />
+<file name="controller.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703910000000" Dst="2" />
+<file name="entity.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703920000000" Dst="2" />
+<file name="filter.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703920000000" Dst="2" />
+<file name="migration.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703920000000" Dst="2" />
+<file name="model.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703920000000" Dst="2" />
+<file name="seeder.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703930000000" Dst="2" />
+<file name="validation.tpl.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703930000000" Dst="2" />
 </dwsync>

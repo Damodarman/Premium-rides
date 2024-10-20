@@ -15,19 +15,482 @@ use CodeIgniter\Files\File;
 use App\Models\ActivityUberModel;
 use App\Models\BoltDriverActivityModel;
 
+use CodeIgniter\I18n\Time;
+
 use Twilio\Rest\Client;
 use App\Libraries\UltramsgLib;
 
 class ImportController extends BaseController
 {
+	protected $uberReportModel;
+	protected $boltReportModel;
+	protected $taximetarReportModel;
+	protected $myPosReportModel;
 
     public function __construct()
     {
+		$this -> uberReportModel = new UberReportModel();
+		$this -> boltReportModel = new BoltReportModel();
+		$this -> taximetarReportModel = new TaximetarReportModel();
+		$this -> myPosReportModel = new MyPosReportModel();
     }
+	
+	public function index(){
+        $session = session();
+		$fleet = $session->get('fleet');
+        // Fetch data for the dashboard
+
+		// Pass data to the dashboard view
+		return view('appReports/reportsUpload', [
+			'title' => 'Reports upload',
+		]);
+	}
+	
+public function tempUberReportImport()
+{
+    $session = session();
+    $fleet = $session->get('fleet');
+    $data = $session->get();
+	$session->set('previous_url', current_url());
+    // Validate the uploaded file
+	$input = $this->validate([
+		'file' => 'uploaded[file]|max_size[file,10240]|ext_in[file,csv]|mime_in[file,text/csv]',
+	]);
+    if ($this->request->getMethod() === 'post') {
+        // Get the uploaded file
+        $file = $this->request->getFile('file');
+
+        if ($file !== null) {
+            if ($file->getError() === UPLOAD_ERR_OK) {
+                // Check if the file has a valid extension and MIME type
+                if ($file->getClientMimeType() === 'text/csv') {
+                    // File upload was successful and it's an Excel file
+					$originalFileName = $file->getName();
+					$pattern = '/(\d{2})_(\d{2})_(\d{4})/';
+
+					// Perform the regex match
+					 $originalName = $file->getClientName();
+					// Extract the date from the original file name
+					$year = substr($originalName, 0, 4);   // First 4 characters are the year
+					$month = substr($originalName, 4, 2);  // Next 2 characters are the month
+					$day = substr($originalName, 6, 2);    // Next 2 characters are the day
+					$date = $year . '-' . $month . '-' . $day;
+
+					// Calculate the week number based on the extracted date
+					$week = date("W", strtotime($date));
+					$week = $year . $week;
+					// Generate a random name for the file
+					$randomFileName = bin2hex(random_bytes(8)); // Generates a random hexadecimal string
+
+					// Move the uploaded file to the desired location with the random name
+					$file->move('../public/csvfile', $randomFileName);					
+					$file = fopen("../public/csvfile/".$randomFileName,"r");
+					
+					$rows   = array_map('str_getcsv', file("../public/csvfile/".$randomFileName));
+					//$rows = array_slice($rows, 1);
+					$header_row = array_shift($rows);
+					//Get the first row that is the HEADER row.
+					$header_row = str_replace(['"', '﻿', '<pre>'], '', $header_row);
+					$header_row = str_replace(": ", "", $header_row);
+					$header_row = str_replace("'", "", $header_row);
+					$header_row = str_replace("|", "", $header_row);
+					$header_row = str_replace("- ", "", $header_row);
+					$header_row = str_replace("€", "", $header_row);
+					$header_row = str_replace("č", "c", $header_row);
+					$header_row = str_replace("ć", "c", $header_row);
+					$header_row = str_replace("š", "s", $header_row);
+					$header_row = str_replace("ž", "z", $header_row);
+					$header_row = str_replace("đ", "d", $header_row);
+					$header_row = str_replace(" ", "_", $header_row);
+					$header_row = str_replace(":", "_", $header_row);
+					$header_row = preg_replace('/[[:cntrl:]]/', '', $header_row);
+					//This array holds the final response.
+					$taximetarReport    = array();
+					$countReport = 0;
+					foreach($rows as $row) {
+						if(!empty($row)){
+							$taximetarReport[] = array_combine($header_row, $row);
+							$countReport++;
+						}
+					}
+					
+					foreach($taximetarReport as &$report){
+						$report['fleet'] = $fleet;
+						$report['week'] = $week;
+						$taximetarReport1[]= array(
+							'UUID_vozaca' => 'none',
+							'Vozac' 			=> $report['Vozacevo_ime'] .' ' .$report['Vozacevo_prezime'],
+							'Vozacevo_ime' 	=> $report['Vozacevo_ime'],
+							'Vozacevo_prezime'	=> $report['Vozacevo_prezime'],
+							'Ukupna_zarada' 	=> $report['Ukupna_zarada'],
+							'Ukupna_zarada_Neto_cijena'	=> $report['Ukupna_zarada'],
+							'Povrati_i_troskovi' 	=> 0,
+							'Isplate'	=> 0,
+							'Isplate_Preneseno_na_bankovni_racun' 	=> 0,
+							'Isplate_Naplaceni_iznos_u_gotovini'	=> $report['Naplaceni_iznos_u_gotovini'],
+							'Povrati_i_troskovi_Povrati_Pristojba_za_zracnu_luku' 	=> 0,
+							'Ukupna_zarada_Napojnica'	=> 0,
+							'Ukupna_zarada_Ostala_zarada_Povrat_izgubljenih_predmeta' 	=> 0,
+							'Ukupna_zarada_Promocije'	=> 0,
+							'Povrati_i_troskovi_Povrati_Cestarina'	=> 0,
+							'fleet' 		=> $report['fleet'],
+							'report_for_week' 			=> $report['week'],
+						);
+					}
+					//$taximetarReport = array_slice($taximetarReport, 1);
+					
+
+//					echo '<pre>';
+//					var_dump($taximetarReport1);
+//					die();
+				
+				$TaximetarReportModel = new UberReportModel();
+				$findRecord = $TaximetarReportModel->where('report_for_week', $week)->where('fleet', $fleet)->countAllResults();
+					
+				$count1 = 0;
+				if($findRecord == 0){
+					if($TaximetarReportModel->insertBatch($taximetarReport1)){
+						$errorMessage = $countReport .' vozača je unikatno i spremljeno u bazu podataka';
+						$session->setFlashdata('messageBolt', $errorMessage);
+						session()->setFlashdata('alert-class', 'alert-success');
+					   return redirect()->to("uberImport");
+					}else{
+						$errorMessage = $countReport .' vozača je unikatno ali je došlo do nepoznate pogreške prilikom spremanja u bazu podataka. Kontaktirati administratora';
+						$session->setFlashdata('messageBolt', $errorMessage);
+						session()->setFlashdata('alert-class', 'alert-danger');
+					   return redirect()->to("uberImport");
+					}
+				}else{
+					$updateCount = 0;
+					$insertCount = 0;
+					foreach($taximetarReport1 as $report){
+						$existingRecord = $TaximetarReportModel->where('week', $report['week'])
+													 ->where('fleet', $report['fleet'])
+													 ->where('Email_vozaca', $report['Email_vozaca'])
+													 ->first();
+
+						if ($existingRecord) {
+							// Data exists in the database
+							if ($existingRecord['Ukupni_promet'] != $report['Ukupni_promet']) {
+								// Update Ukupni_promet if different
+								$TaximetarReportModel->update($existingRecord['id'], ['Ukupni_promet' => $report['Ukupni_promet']]);
+								$updateCount++;
+							}
+							// Skip if data matches
+							continue;
+						}else{
+							$TaximetarReportModel->insert($report);
+							$insertCount++;
+						}						
+					}
+					$errorMessage = $countReport .' vozača je na popisu od toga ' .$updateCount .' već postoji u bazi, ali su podaci ažurirani i ' .$insertCount .' nije postojalo u bazi pa su spremljeni';
+					$session->setFlashdata('messageUber', $errorMessage);
+					session()->setFlashdata('alert-class', 'alert-success');
+				   return redirect()->to("uberImport");
+				}
+
+					
+               } else {
+                    // Invalid file type
+                    $errorMessage = 'Invalid file type. Only .csv files are allowed.';
+                    $session->setFlashdata('messageUber', $errorMessage);
+                    session()->setFlashdata('alert-class', 'alert-danger');
+                   return redirect()->to("uberImport");
+                }
+            } else {
+                // Handle the upload error
+                switch ($file->getError()) {
+                    case UPLOAD_ERR_INI_SIZE:
+                    case UPLOAD_ERR_FORM_SIZE:
+                        $errorMessage = 'The uploaded file exceeds the maximum file size limit.';
+                        break;
+                    case UPLOAD_ERR_PARTIAL:
+                        $errorMessage = 'The uploaded file was only partially uploaded.';
+                        break;
+                    case UPLOAD_ERR_NO_FILE:
+                        $errorMessage = 'No file was uploaded.';
+                        break;
+                    case UPLOAD_ERR_NO_TMP_DIR:
+                        $errorMessage = 'Missing a temporary folder. Upload failed.';
+                        break;
+                    case UPLOAD_ERR_CANT_WRITE:
+                        $errorMessage = 'Failed to write file to disk. Upload failed.';
+                        break;
+                    case UPLOAD_ERR_EXTENSION:
+                        $errorMessage = 'A PHP extension stopped the file upload. Upload failed.';
+                        break;
+                    default:
+                        $errorMessage = 'Unknown upload error. Upload failed.';
+                        break;
+                }
+                $session->setFlashdata('messageUber', $errorMessage);
+                session()->setFlashdata('alert-class', 'alert-danger');
+                   return redirect()->to("uberImport");
+            }
+        } else {
+				$errorMessage = 'No file posted';
+                $session->setFlashdata('messageUber', $errorMessage);
+                session()->setFlashdata('alert-class', 'alert-danger');
+                   return redirect()->to("uberImport");
+        }
+    }
+}
+	
+	public function getUberReports(){
+		$this -> uberReportModel = new UberReportModel();
+		$session = session();
+		$fleet = $session->get('fleet');
+
+		$reports = $this->uberReportModel->where('fleet', $fleet)->get()->getResultArray();
+		$weeksReports = $this->uberReportModel->select('report_for_week')->distinct()->orderBy('report_for_week','desc')->where('fleet', $fleet)->get()->getResultArray();
+		$weekData = [];
+
+		foreach ($weeksReports as $weekReport) {
+			$weekString = $weekReport['report_for_week'];
+
+			// Extract year and week from the report_for_week string
+			$year = substr($weekString, 0, 4); // First 4 characters are the year
+			$week = substr($weekString, 4, 2); // Last 2 characters are the week number
+
+			// Create a DateTime object for the start of the week
+			$date = new \DateTime();
+			$date->setISODate($year, $week); // Set the date to the start of the given year and week
+
+			// Get the start date (Monday) and end date (Sunday) of the week
+			$startDate = $date->format('d.m.Y'); // Start of the week (Monday)
+			$date->modify('+6 days');  // Add 6 days to get the end date (Sunday)
+			$endDate = $date->format('d.m.Y');   // End of the week (Sunday)
+
+			// Add the week, start date, and end date to the weekData array
+			$weekData[] = [
+				'week' => $weekString,
+				'start_date' => $startDate,
+				'end_date' => $endDate
+			];
+		}
+		
+		// Get the pagination links
+		return view('appReports/uberReports', [
+				'title' => 'Uber reports List',
+				'reports' => $reports,
+				'weekData' => $weekData,
+    ]);
+
+	}
+	public function getBoltReports(){
+		$this -> uberReportModel = new BoltReportModel();
+		$session = session();
+		$fleet = $session->get('fleet');
+
+		$reports = $this->uberReportModel->where('fleet', $fleet)->get()->getResultArray();
+		$weeksReports = $this->uberReportModel->select('report_for_week')->distinct()->orderBy('report_for_week','desc')->where('fleet', $fleet)->get()->getResultArray();
+		$weekData = [];
+
+		foreach ($weeksReports as $weekReport) {
+			$weekString = $weekReport['report_for_week'];
+
+			// Extract year and week from the report_for_week string
+			$year = substr($weekString, 0, 4); // First 4 characters are the year
+			$week = substr($weekString, 4, 2); // Last 2 characters are the week number
+
+			// Create a DateTime object for the start of the week
+			$date = new \DateTime();
+			$date->setISODate($year, $week); // Set the date to the start of the given year and week
+
+			// Get the start date (Monday) and end date (Sunday) of the week
+			$startDate = $date->format('d.m.Y'); // Start of the week (Monday)
+			$date->modify('+6 days');  // Add 6 days to get the end date (Sunday)
+			$endDate = $date->format('d.m.Y');   // End of the week (Sunday)
+
+			// Add the week, start date, and end date to the weekData array
+			$weekData[] = [
+				'week' => $weekString,
+				'start_date' => $startDate,
+				'end_date' => $endDate
+			];
+		}
+		
+		// Get the pagination links
+		return view('appReports/boltReports', [
+				'title' => 'Bolt reports List',
+				'reports' => $reports,
+				'weekData' => $weekData,
+    ]);
+
+	}
+	public function getTaximetarReports(){
+		$this -> taximetarReportModel = new TaximetarReportModel();
+		$session = session();
+		$fleet = $session->get('fleet');
+
+		$reports = $this->taximetarReportModel->where('fleet', $fleet)->get()->getResultArray();
+		$weeksReports = $this->taximetarReportModel->select('week')->distinct()->orderBy('week','desc')->where('fleet', $fleet)->get()->getResultArray();
+		$weekData = [];
+
+		foreach ($weeksReports as $weekReport) {
+			$weekString = $weekReport['week'];
+
+			// Extract year and week from the report_for_week string
+			$year = substr($weekString, 0, 4); // First 4 characters are the year
+			$week = substr($weekString, 4, 2); // Last 2 characters are the week number
+
+			// Create a DateTime object for the start of the week
+			$date = new \DateTime();
+			$date->setISODate($year, $week); // Set the date to the start of the given year and week
+
+			// Get the start date (Monday) and end date (Sunday) of the week
+			$startDate = $date->format('d.m.Y'); // Start of the week (Monday)
+			$date->modify('+6 days');  // Add 6 days to get the end date (Sunday)
+			$endDate = $date->format('d.m.Y');   // End of the week (Sunday)
+
+			// Add the week, start date, and end date to the weekData array
+			$weekData[] = [
+				'week' => $weekString,
+				'start_date' => $startDate,
+				'end_date' => $endDate
+			];
+		}
+		
+		// Get the pagination links
+		return view('appReports/taximetarReports', [
+				'title' => 'Taximetar reports List',
+				'reports' => $reports,
+				'weekData' => $weekData,
+    ]);
+
+	}
+	public function getMyPosReports(){
+		$session = session();
+		$fleet = $session->get('fleet');
+
+		$reports = $this->myPosReportModel->where('fleet', $fleet)->get()->getResultArray();
+		$weeksReports = $this->myPosReportModel->select('report_for_week')->distinct()->orderBy('report_for_week','desc')->where('fleet', $fleet)->get()->getResultArray();
+		$weekData = [];
+
+		foreach ($weeksReports as $weekReport) {
+			$weekString = $weekReport['report_for_week'];
+
+			// Extract year and week from the report_for_week string
+			$year = substr($weekString, 0, 4); // First 4 characters are the year
+			$week = substr($weekString, 4, 2); // Last 2 characters are the week number
+
+			// Create a DateTime object for the start of the week
+			$date = new \DateTime();
+			$date->setISODate($year, $week); // Set the date to the start of the given year and week
+
+			// Get the start date (Monday) and end date (Sunday) of the week
+			$startDate = $date->format('d.m.Y'); // Start of the week (Monday)
+			$date->modify('+6 days');  // Add 6 days to get the end date (Sunday)
+			$endDate = $date->format('d.m.Y');   // End of the week (Sunday)
+
+			// Add the week, start date, and end date to the weekData array
+			$weekData[] = [
+				'week' => $weekString,
+				'start_date' => $startDate,
+				'end_date' => $endDate
+			];
+		}
+		
+		// Get the pagination links
+		return view('appReports/myPosReports', [
+				'title' => 'MyPos reports List',
+				'reports' => $reports,
+				'weekData' => $weekData,
+    ]);
+
+	}
+	public function deleteUberReport()
+{
+    // Validate the request to ensure we received the week number
+    $week = $this->request->getPost('week');
+    
+    if ($week) {
+        // Delete all records matching the selected week
+        $this->uberReportModel->where('report_for_week', $week)->delete();
+        
+        // Set a flash message to notify the user
+        session()->setFlashdata('success', "Data for week {$week} has been successfully deleted.");
+
+        // Redirect back to the view or dashboard
+        return redirect()->to('/reports/uber');
+    } else {
+        // Set a flash message for the error
+        session()->setFlashdata('error', 'Invalid week selected.');
+
+        // Redirect back to the view or dashboard
+        return redirect()->to('/reports/uber');
+    }
+}
+	public function deleteBoltReport()
+{
+    // Validate the request to ensure we received the week number
+    $week = $this->request->getPost('week');
+    
+    if ($week) {
+        // Delete all records matching the selected week
+        $this->boltReportModel->where('report_for_week', $week)->delete();
+        
+        // Set a flash message to notify the user
+        session()->setFlashdata('success', "Data for week {$week} has been successfully deleted.");
+
+        // Redirect back to the view or dashboard
+        return redirect()->to('/reports/bolt');
+    } else {
+        // Set a flash message for the error
+        session()->setFlashdata('error', 'Invalid week selected.');
+
+        // Redirect back to the view or dashboard
+        return redirect()->to('/reports/bolt');
+    }
+}
+	public function deleteTaximetarReport()
+{
+    // Validate the request to ensure we received the week number
+    $week = $this->request->getPost('week');
+    
+    if ($week) {
+        // Delete all records matching the selected week
+        $this->taximetarReportModel->where('report_for_week', $week)->delete();
+        
+        // Set a flash message to notify the user
+        session()->setFlashdata('success', "Data for week {$week} has been successfully deleted.");
+
+        // Redirect back to the view or dashboard
+        return redirect()->to('/reports/taximetar');
+    } else {
+        // Set a flash message for the error
+        session()->setFlashdata('error', 'Invalid week selected.');
+
+        // Redirect back to the view or dashboard
+        return redirect()->to('/reports/taximetar');
+    }
+}
+	public function deleteMyPosReport()
+{
+    // Validate the request to ensure we received the week number
+    $week = $this->request->getPost('week');
+    
+    if ($week) {
+        // Delete all records matching the selected week
+        $this->myPosReportModel->where('report_for_week', $week)->delete();
+        
+        // Set a flash message to notify the user
+        session()->setFlashdata('success', "Data for week {$week} has been successfully deleted.");
+
+        // Redirect back to the view or dashboard
+        return redirect()->to('/reports/myPos');
+    } else {
+        // Set a flash message for the error
+        session()->setFlashdata('error', 'Invalid week selected.');
+
+        // Redirect back to the view or dashboard
+        return redirect()->to('/reports/myPos');
+    }
+}
 	
 public function activityUberImport()
 {
-	    $session = session();
+	$session = session();
     $role = $session->get('role');
 
     $input = $this->validate([
@@ -93,9 +556,9 @@ public function activityUberImport()
     $session->setFlashdata('msgActivityUber', $message);
     $session->setFlashdata('alert-class', ($errorCount > 0) ? 'alert-warning' : 'alert-success'); // Conditional alert class
 	if($role != 'admin'){
-		return redirect()->to("/index.php/voditelj");  
+		return redirect()->to("voditelj");  
 	}else{
-		return redirect()->to("/index.php/uberImport");  
+		return redirect()->to("uberImport");  
 	}
 }
 
@@ -118,11 +581,12 @@ public function boltActivityImport()
         'files' => 'permit_empty|max_size[files,10240]|ext_in[files,csv]|mime_in[files,text/csv,application/csv]'
     ]);
 
+	
     if (!$input) {
         $errors = $this->validator->getErrors();
         $session->setFlashdata('msgActivityBolt', 'Validation failed for Bolt CSV upload: ' . implode(', ', $errors));
         $session->setFlashdata('alert-class', 'alert-danger');
-        return redirect()->to("/index.php/uberImport"); // Adjust route if needed
+        return redirect()->to("uberImport"); 
     }
 
     $model = new BoltDriverActivityModel();
@@ -170,12 +634,14 @@ public function boltActivityImport()
 
                 foreach ($csvData as $row) {
                     // Check for empty rows
-                    if (empty(array_filter($row))) {
+                  if (empty(array_filter($row))) {
                         continue; // Skip to the next row
                     }
+//  					print_r($row);
+//					die();
                     $rowData = array_combine($headers, $row);
 
-                    // Check for duplicates
+                 // Check for duplicates
                     if ($model->where('driver_id', $rowData['Jedinstveni_identifikator_vozaca'])
                                ->where('start_date', $startDate)
                                ->where('end_date', $endDate)
@@ -206,7 +672,7 @@ public function boltActivityImport()
                 'fleet' => $fleet,
                 'start_date' => $startDate,
                 'end_date' => $endDate,
-                'personal_code' => $rowData["Drivers_Personal_Code"]
+                'personal_code' => $rowData["Jedinstveni_identifikator"]
             ];
                   }
 
@@ -225,9 +691,9 @@ public function boltActivityImport()
                 $session->setFlashdata('msgActivityBolt', 'Invalid file type or upload error. Please upload a valid CSV file.');
                 $session->setFlashdata('alert-class', 'alert-danger');
 				if($role != 'admin'){
-					return redirect()->to("/index.php/voditelj");  
+					return redirect()->to("voditelj");  
 				}else{
-					return redirect()->to("/index.php/uberImport");  
+					return redirect()->to("uberImport");  
 				}
             }
         } //end of if $file!=null
@@ -238,9 +704,9 @@ public function boltActivityImport()
     $session->setFlashdata('alert-class', ($errorCount > 0) ? 'alert-warning' : 'alert-success');
 
 				if($role != 'admin'){
-					return redirect()->to("/index.php/voditelj");  
+					return redirect()->to("voditelj");  
 				}else{
-					return redirect()->to("/index.php/uberImport");  
+					return redirect()->to("uberImport");  
 				}
     }
 
@@ -366,12 +832,12 @@ public function taximetarImport() {
 						$errorMessage = $countReport .' vozača je unikatno i spremljeno u bazu podataka';
 						$session->setFlashdata('messageTaximetar', $errorMessage);
 						session()->setFlashdata('alert-class', 'alert-success');
-					   return redirect()->to("/index.php/uberImport");
+					   return redirect()->to("uberImport");
 					}else{
 						$errorMessage = $countReport .' vozača je unikatno ali je došlo do nepoznate pogreške prilikom spremanja u bazu podataka. Kontaktirati administratora';
 						$session->setFlashdata('messageTaximetar', $errorMessage);
 						session()->setFlashdata('alert-class', 'alert-danger');
-					   return redirect()->to("/index.php/uberImport");
+					   return redirect()->to("uberImport");
 					}
 				}else{
 					$updateCount = 0;
@@ -399,7 +865,7 @@ public function taximetarImport() {
 					$errorMessage = $countReport .' vozača je na popisu od toga ' .$updateCount .' već postoji u bazi, ali su podaci ažurirani i ' .$insertCount .' nije postojalo u bazi pa su spremljeni';
 					$session->setFlashdata('messageTaximetar', $errorMessage);
 					session()->setFlashdata('alert-class', 'alert-success');
-				   return redirect()->to("/index.php/uberImport");
+				   return redirect()->to("uberImport");
 				}
 
 					
@@ -408,7 +874,7 @@ public function taximetarImport() {
                     $errorMessage = 'Invalid file type. Only .csv files are allowed.';
                     $session->setFlashdata('messageTaximetar', $errorMessage);
                     session()->setFlashdata('alert-class', 'alert-danger');
-                   return redirect()->to("/index.php/uberImport");
+                   return redirect()->to("uberImport");
                 }
             } else {
                 // Handle the upload error
@@ -438,13 +904,13 @@ public function taximetarImport() {
                 }
                 $session->setFlashdata('messageTaximetar', $errorMessage);
                 session()->setFlashdata('alert-class', 'alert-danger');
-                   return redirect()->to("/index.php/uberImport");
+                   return redirect()->to("uberImport");
             }
         } else {
 				$errorMessage = 'No file posted';
                 $session->setFlashdata('messageTaximetar', $errorMessage);
                 session()->setFlashdata('alert-class', 'alert-danger');
-                   return redirect()->to("/index.php/uberImport");
+                   return redirect()->to("uberImport");
         }
     }
 }
@@ -559,12 +1025,12 @@ public function boltImport() {
 						$errorMessage = $countReport .' vozača je unikatno i spremljeno u bazu podataka';
 						$session->setFlashdata('messageBolt', $errorMessage);
 						session()->setFlashdata('alert-class', 'alert-success');
-					   return redirect()->to("/index.php/uberImport");
+					   return redirect()->to("uberImport");
 					}else{
 						$errorMessage = $countReport .' vozača je unikatno ali je došlo do nepoznate pogreške prilikom spremanja u bazu podataka. Kontaktirati administratora';
 						$session->setFlashdata('messageBolt', $errorMessage);
 						session()->setFlashdata('alert-class', 'alert-danger');
-					   return redirect()->to("/index.php/uberImport");
+					   return redirect()->to("uberImport");
 					}
 				}else{
 					$updateCount = 0;
@@ -592,7 +1058,7 @@ public function boltImport() {
 					$errorMessage = $countReport .' vozača je na popisu od toga ' .$updateCount .' već postoji u bazi, ali su podaci ažurirani i ' .$insertCount .' nije postojalo u bazi pa su spremljeni';
 					$session->setFlashdata('messageBolt', $errorMessage);
 					session()->setFlashdata('alert-class', 'alert-success');
-				   return redirect()->to("/index.php/uberImport");
+				   return redirect()->to("uberImport");
 				}
 
 					
@@ -601,7 +1067,7 @@ public function boltImport() {
                     $errorMessage = 'Invalid file type. Only .csv files are allowed.';
                     $session->setFlashdata('messageBolt', $errorMessage);
                     session()->setFlashdata('alert-class', 'alert-danger');
-                   return redirect()->to("/index.php/uberImport");
+                   return redirect()->to("uberImport");
                 }
             } else {
                 // Handle the upload error
@@ -631,13 +1097,13 @@ public function boltImport() {
                 }
                 $session->setFlashdata('messageBolt', $errorMessage);
                 session()->setFlashdata('alert-class', 'alert-danger');
-                   return redirect()->to("/index.php/uberImport");
+                   return redirect()->to("uberImport");
             }
         } else {
 				$errorMessage = 'No file posted';
                 $session->setFlashdata('messageBolt', $errorMessage);
                 session()->setFlashdata('alert-class', 'alert-danger');
-                   return redirect()->to("/index.php/uberImport");
+                   return redirect()->to("uberImport");
         }
     }
 }

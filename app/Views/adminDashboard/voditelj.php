@@ -46,7 +46,7 @@ $lastDay = mktime(0, 0, 0, $currentMonth + 1, 0, $currentYear);
 								</div>
 							<?php } ?>
 						</div>
-						<form action="<?php echo base_url('index.php/ImportController/uberActivityReportImport'); ?>" method="post" enctype="multipart/form-data">
+						<form action="<?php echo site_url('ImportController/uberActivityReportImport'); ?>" method="post" enctype="multipart/form-data">
 							<div class="form-group mb-3">
 								<div class="mb-3">
 									<input type="file" name="files[]" class="form-control" id="files" multiple> 
@@ -75,7 +75,7 @@ $lastDay = mktime(0, 0, 0, $currentMonth + 1, 0, $currentYear);
 									</div>
 								<?php } ?>
 							</div>
-				   <form action="<?php echo base_url('index.php/ImportController/boltActivityImport'); ?>" method="post" enctype="multipart/form-data">
+				   <form action="<?php echo site_url('ImportController/boltActivityImport'); ?>" method="post" enctype="multipart/form-data">
 						<div class="form-group mb-3">
 							<div class="mb-3">
 								<input type="file" name="files[]" class="form-control" id="files" multiple>

@@ -14,7 +14,7 @@
 			<?php } ?>
 		</div>
 			
-            <form  action="<?php echo base_url('index.php/UlazniRacuniController/saveRacuna');?>" method="post">
+            <form  action="<?php echo site_url('UlazniRacuniController/saveRacuna');?>" method="post">
                 <div class="row">
                             <input type="hidden" value="0" class="form-control" name="tip_retka" id="tip_retka">
                             <input type="hidden" value="UFA" class="form-control" name="klasa" id="klasa">

@@ -5,4 +5,9 @@
 <file name="ImagickImageBackEnd.php" server="access941215561.webspace-data.io//" local="133149088170000000" remote="133261204560000000" Dst="2" />
 <file name="SvgImageBackEnd.php" server="access941215561.webspace-data.io//" local="133149088170000000" remote="133261204560000000" Dst="2" />
 <file name="TransformationMatrix.php" server="access941215561.webspace-data.io//" local="133149088170000000" remote="133261204560000000" Dst="2" />
+<file name="EpsImageBackEnd.php" server="access941215561.webspace-data.io" local="133149088170000000" remote="133708695760000000" Dst="2" />
+<file name="ImageBackEndInterface.php" server="access941215561.webspace-data.io" local="133149088170000000" remote="133708695760000000" Dst="2" />
+<file name="ImagickImageBackEnd.php" server="access941215561.webspace-data.io" local="133149088170000000" remote="133708695760000000" Dst="2" />
+<file name="SvgImageBackEnd.php" server="access941215561.webspace-data.io" local="133149088170000000" remote="133708695770000000" Dst="2" />
+<file name="TransformationMatrix.php" server="access941215561.webspace-data.io" local="133149088170000000" remote="133708695770000000" Dst="2" />
 </dwsync>

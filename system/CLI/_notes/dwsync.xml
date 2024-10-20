@@ -6,4 +6,10 @@
 <file name="Commands.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530150000000" Dst="1" />
 <file name="Console.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530150000000" Dst="1" />
 <file name="GeneratorTrait.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530160000000" Dst="1" />
+<file name="BaseCommand.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703750000000" Dst="2" />
+<file name="CLI.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703760000000" Dst="2" />
+<file name="CommandRunner.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703760000000" Dst="2" />
+<file name="Commands.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703760000000" Dst="2" />
+<file name="Console.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703760000000" Dst="2" />
+<file name="GeneratorTrait.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708703780000000" Dst="2" />
 </dwsync>

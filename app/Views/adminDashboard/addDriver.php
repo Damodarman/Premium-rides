@@ -11,7 +11,7 @@
 	$postotak = $postavkeFlote['provizija_postotak'];
 	
 ?>
-	<form class="row g-3" action="<?php echo base_url('index.php/AdminController/addDriverSave');?>" method="post">
+	<form class="row g-3" action="<?php echo site_url('AdminController/addDriverSave');?>" method="post">
 		<div class="col-md-6">
 			<label for="ime" class="form-label">Ime</label>
 			<input type="text" name ="ime" class="form-control" placeholder="Marko">
@@ -74,16 +74,22 @@
 			  <label class="form-check-label" for="inlineCheckbox2">Bolt</label>
 			</div>
 			<div class="form-check form-check-inline">
-			  <input class="form-check-input" name="taximetarCheck" type="hidden" id="inlineCheckbox3" value="0">
-			  <input class="form-check-input" name="taximetarCheck" type="checkbox" id="inlineCheckbox3" value="1">
-			  <label class="form-check-label" for="inlineCheckbox3">Taximetar</label>
-			</div>
+				<input class="form-check-input" name="taximetarCheck" type="checkbox" id="taximetarCheckbox" value="1">
+				<label class="form-check-label" for="taximetarCheckbox">Taximetar</label>
+			  </div>
+		
 			<div class="form-check form-check-inline">
 			  <input class="form-check-input" name="myPosCheck" type="hidden" id="inlineCheckbox4" value="0">
 			  <input class="form-check-input" name="myPosCheck" type="checkbox" id="inlineCheckbox4" value="1">
 			  <label class="form-check-label" for="inlineCheckbox4">MyPos</label>
 			</div>
+		  <div class="col-md-6" id="mobTaximetarDiv" style="display: none;">
+			<label for="mobTaximetar" class="form-label">Model mobitela za taximetar</label>
+			<input type="text" class="form-control" name="mobTaximetar"  id="mobTaximetarInput">
+		  </div>		
 		</div>
+	
+	
 		<hr class="hr" />
 
 		<div class="col-md-3">
@@ -179,7 +185,7 @@
 	</div>
 		  <div class="col-md-3">
 			<label for="referal_reward" class="form-label">Nagrada preporučitelju</label>
-			<input type="text" class="form-control" name="referal_reward" id="referal_reward" value="0" placeholder="13 € ili 3%">
+			<input type="text" class="form-control" name="referal_reward" id="referal_reward" value="0" placeholder="13 ili 3 samo broj bez znakova">
 		  </div>
 	<div class="col-md-3"></div>
 
@@ -247,23 +253,32 @@
 			</select>
 		</div>
 		<hr class="hr" />
-		<div class="col-md-3">
-			<label for="isplata" class="form-label">Isplata na </label>
-			<select class="form-select" name="isplata" aria-label="Default select example">
+		<div class="col-md-6">
+			<label for="tjedna_isplata" class="form-label">Tjedna isplata na  </label>
+			<select class="form-select" name="tjedna_isplata" aria-label="Default select example">
 			  <option value="hrIBAN" >HR IBAN</option>
+			  <option value="zasticeniIBAN" >Zaštičeni HR IBAN</option>
+			  <option value="Revolut"  >Revolut</option>
+			</select>
+		</div>
+		<div class="col-md-6">
+			<label for="isplata_place" class="form-label">Isplata plaće na </label>
+			<select class="form-select" name="isplata_place" aria-label="Default select example">
+			  <option value="hrIBAN" >HR IBAN</option>
+			  <option value="zasticeniIBAN" >Zaštičeni IBAN</option>
 			  <option value="Revolut"  >Revolut</option>
 			</select>
 		</div>
 
-			  <div class="col-md-3">
+			  <div class="col-md-4">
 				<label for="IBAN" class="form-label">IBAN računa za isplatu </label>
 				<input type="text" class="form-control" name="IBAN"  placeholder="HR...../LT....">
 			  </div>
-			  <div class="col-md-3">
+			  <div class="col-md-4">
 				<label for="zasticeniIBAN" class="form-label">IBAN zaštičenog računa za isplatu </label>
 				<input type="text" class="form-control" name="zasticeniIBAN"  placeholder="HR...../LT....">
 			  </div>
-			  <div class="col-md-3">
+			  <div class="col-md-4">
 				<label for="strani_IBAN" class="form-label">IBAN Stranog Računa za isplatu(REVOLUT) </label>
 				<input type="text" class="form-control" name="strani_IBAN"  placeholder="LT....">
 			  </div>
@@ -376,4 +391,30 @@ $(document).ready(function() {
 });
 </script>
 
+<script>
+  document.getElementById('taximetarCheckbox').addEventListener('change', function() {
+    var mobTaximetarDiv = document.getElementById('mobTaximetarDiv');
+    var mobTaximetarInput = document.getElementById('mobTaximetarInput');
+    if (this.checked) {
+      mobTaximetarDiv.style.display = 'block';
+      mobTaximetarInput.setAttribute('required', 'required');
+    } else {
+      mobTaximetarDiv.style.display = 'none';
+      mobTaximetarInput.removeAttribute('required');
+    }
+  });
+
+  window.onload = function() {
+    var checkbox = document.getElementById('taximetarCheckbox');
+    var mobTaximetarDiv = document.getElementById('mobTaximetarDiv');
+    var mobTaximetarInput = document.getElementById('mobTaximetarInput');
+    if (checkbox.checked) {
+      mobTaximetarDiv.style.display = 'block';
+      mobTaximetarInput.setAttribute('required', 'required');
+    } else {
+      mobTaximetarDiv.style.display = 'none';
+      mobTaximetarInput.removeAttribute('required');
+    }
+  };
+</script>
 </body>

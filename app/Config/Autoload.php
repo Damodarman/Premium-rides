@@ -45,6 +45,8 @@ class Autoload extends AutoloadConfig
         'Config'      => APPPATH . 'Config',
 		'Encoder'     => APPPATH . 'ThirdParty/BaconQrCode/Encoder/Encoder',
 		'Dompdf'     => APPPATH . '../vendor/dompdf/dompdf',
+		'App\Services' => APPPATH . 'Services',
+		'App\SepaGenerator' => APPPATH . 'SepaGenerator',
     ];
 
     /**
@@ -85,6 +87,11 @@ class Autoload extends AutoloadConfig
      *
      * @var array<int, string>
      */
+	public $composerAutoload = true;
+
+	
+	
+	
     public $files = [];
 	 public $helper = ['db', 'url','library'];
 }

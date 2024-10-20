@@ -3,6 +3,7 @@
         "dompdf/dompdf": "^2.0",
         "twilio/sdk": "^7.3",
         "phpoffice/phpspreadsheet": "^1.28",
-        "ultramsg/whatsapp-php-sdk": "^2.0"
+        "ultramsg/whatsapp-php-sdk": "*",
+        "globalcitizen/php-iban": "^4.2"
     }
 }

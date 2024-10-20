@@ -3,4 +3,7 @@
 <file name="development.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170529940000000" Dst="1" />
 <file name="production.php" server="access941215561.webspace-data.io//" local="133173156765735298" remote="133173156770000000" Dst="1" />
 <file name="testing.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170529940000000" Dst="1" />
+<file name="development.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708695230000000" Dst="2" />
+<file name="production.php" server="access941215561.webspace-data.io" local="133173156765735298" remote="133708695240000000" Dst="2" />
+<file name="testing.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708695240000000" Dst="2" />
 </dwsync>

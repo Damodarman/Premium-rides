@@ -20,7 +20,7 @@
 						<?php $redniBr += 1; ?>
 					
 					<tr>
-						<td><a href="<?php echo base_url('/index.php/placanjeNajam/'). '/' .$rep['id']?>"><?php echo $redniBr ?></a></td>
+						<td><a href="<?php echo site_url('placanjeNajam/'). '/' .$rep['id']?>"><?php echo $redniBr ?></a></td>
 						<td><?php echo $rep['vozac'] ?></td>
 						<td><?php echo $rep['proizvodac'].' '.$rep['model'] ?></td>
 						<td><?php echo $rep['reg'] ?></td>

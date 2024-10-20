@@ -4,6 +4,9 @@ use CodeIgniter\Controller;
 use App\Models\FlotaModel;
 use App\Models\TvrtkaModel;
 use App\Models\UltramsgLibConfigModel;
+
+use App\Libraries\MsgTemplateLib;
+
   
 class FlotaController extends Controller
 {
@@ -24,11 +27,18 @@ class FlotaController extends Controller
 		$aktivnaTvrtka = $tvrtkaModel->where('id', $postavkeFlote['tvrtka_id'])->get()->getRowArray();
 		$UltramsgLibConf = $ultramsgLibConfigModel->where('fleet_id', $postavkeFlote['id'])->get()->getRowArray();
 		
+		$allMsgTmpl = $this->getMsgTmplAll();
+		$dobrodoslica = $this->getMsgTmpl('Dobrodošlica');
+		$dug1 = $this->getMsgTmpl('dug1');
+		
 		
 		$data['UltramsgLibConf'] = $UltramsgLibConf;
 		$data['flota'] = $postavkeFlote;
 		$data['role'] = $role;
 		$data['tvrtke'] = $tvrtke;
+		$data['allMsgTmpl'] = $allMsgTmpl;
+		$data['dobrodoslica'] = $dobrodoslica;
+		$data['dug1'] = $dug1;
 		$data['aktivnaTvrtka'] = $aktivnaTvrtka;
 		$data['fleet'] = $fleet;
 		$data['page'] = 'Postavke Flote';
@@ -75,7 +85,7 @@ class FlotaController extends Controller
             // Check if there's an 'id' value, and determine whether to insert or update
                 $UltramsgLibConfModel->save($data);
 
-            return redirect()->to(base_url('/index.php/admin/flota'));
+            return redirect()->to(site_url('admin/flota'));
         } else {
             // Form validation failed, show errors
 		$data['input'] = [
@@ -98,6 +108,39 @@ class FlotaController extends Controller
 			. view('footer');
         }
 		
+	}
+	
+	public function getMsgTmplAll(){
+		$MsgTmplLib = new MsgTemplateLib();
+		$allMsg = $MsgTmplLib->getAll();
+		return $allMsg;
+	}
+	
+	public function getMsgTmpl($data){
+		$MsgTmplLib = new MsgTemplateLib();
+		$allMsg = $MsgTmplLib->getMsgTmpl($data);
+		return $allMsg;
+	}
+	
+	public function saveMsgTmpl(){
+        $session = session();
+		$MsgTmplLib = new MsgTemplateLib();
+		$data = [
+			'id'  => $this->request->getVar('id'),
+			'name'  => $this->request->getVar('name'),
+			'content'  => $this->request->getVar('content'),
+		];
+		
+		$saveMsg = $MsgTmplLib->saveMsgTmpl($data);
+		if($saveMsg != 0){
+			$session->setFlashdata('msgflota', ' Uspješno ažuriran template poruke.');
+			session()->setFlashdata('alert-class', 'alert-success');
+			return redirect()->to(site_url('admin/flota'));
+		}else{
+			$session->setFlashdata('msgflota', ' Došlo je do pogreške, nismo ažurirali template poruke.');
+			session()->setFlashdata('alert-class', 'alert-danger');
+			return redirect()->to(site_url('admin/flota'));
+		}
 	}
 	
 	public function postavkeFloteUpdate(){
@@ -127,6 +170,8 @@ class FlotaController extends Controller
 			'provizija_postotak'  => $this->request->getVar('provizija_postotak'),
 			'taximetar'  => $this->request->getVar('taximetar'),
 			'taximetar_tjedno'  => $this->request->getVar('taximetar_tjedno'),
+			'koristiti_taximetar_whatsapp'  => $this->request->getVar('koristiti_taximetar_whatsapp'),
+			'taximetar_whatsapp_broj'  => $this->request->getVar('taximetar_whatsapp_broj'),
 			'koristi_activity'  => $this->request->getVar('koristi_activity'),
 			'koristi_min_proviziju'  => $this->request->getVar('koristi_min_proviziju'),
 			'koristi_min_proviziju_sezona'  => $this->request->getVar('koristi_min_proviziju_sezona'),
@@ -140,11 +185,11 @@ class FlotaController extends Controller
 		if($flotaModel->update($flotaId, $data)){
 			$session->setFlashdata('msgflota', ' Uspješno ažurirane postavke flote.');
 			session()->setFlashdata('alert-class', 'alert-success');
-			return redirect()->to('/index.php/admin/flota');
+			return redirect()->to('admin/flota');
 		} else{
 			$session->setFlashdata('msgflota', ' Došlo je do pogreške, nismo ažurirali postavke flote.');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/admin/flota');
+			return redirect()->to('admin/flota');
 		}
 	}
 }

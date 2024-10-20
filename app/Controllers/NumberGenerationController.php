@@ -74,12 +74,12 @@ public function saveRacuna() {
 		session()->remove('racuni');
 		$session->setFlashdata('msgRacuni', ' Računi su uspješno uneseni.');
 		session()->setFlashdata('alert-class', 'alert-success');
-		return redirect()->to('/index.php/ulazniRacuni/');
+		return redirect()->to('ulazniRacuni/');
 	}else{
 		session()->remove('racuni');
 		$session->setFlashdata('msgRacuni', ' Računi nisu uneseni.');
 		session()->setFlashdata('alert-class', 'alert-danger');
-		return redirect()->to('/index.php/ulazniRacuni/');
+		return redirect()->to('ulazniRacuni/');
 	}
 	
 	echo '<pre>';

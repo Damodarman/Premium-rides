@@ -5,7 +5,7 @@
 		</div>
 	<?php } ?>
 
-	<form class="row g-3" action="<?php echo base_url('index.php/KnjigovodstvoController/addTrgovcaSave');?>" method="post">
+	<form class="row g-3" action="<?php echo site_url('KnjigovodstvoController/addTrgovcaSave');?>" method="post">
 	  <div class="mb-3">
 		<label for="nazivTrgovca" class="form-label">Naziv Trgovca</label>
 		<input type="text" class="form-control" name="nazivTrgovca">

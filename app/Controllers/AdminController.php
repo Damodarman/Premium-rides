@@ -22,12 +22,16 @@ use App\Models\PrijaveModel;
 use App\Models\NapomeneModel;
 use App\Models\UserModel;
 use App\Models\ActivityUberModel;
+use App\Models\TaximetarLogsModel;
 use App\Models\BoltDriverActivityModel;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use Twilio\Rest\Client;
 use App\Libraries\UltramsgLib;
 use Dompdf\Dompdf;
+
+use App\Services\IbanValidationService;
+
 
 class AdminController extends BaseController
 {
@@ -45,12 +49,12 @@ class AdminController extends BaseController
         if($this->twilio->sendSms($to, $message)){
 			$session->setFlashdata('msgPoruka', ' Uspješno poslana poruka.');
 			session()->setFlashdata('alert-class', 'alert-success');
-			return redirect()->to('/index.php/admin/');
+			return redirect()->to('admin/');
 		}
 		else{
 			$session->setFlashdata('msgPoruka', ' Nije poslana poruka.');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/admin/');
+			return redirect()->to('admin/');
 		}
 		
     }
@@ -118,6 +122,14 @@ class AdminController extends BaseController
 		$vozaciNeaktivni = $vozaciModel->where('fleet', $fleet)->where('aktivan', '0')->countAllResults();
 		$vozaciPrijava = $vozaciModel->where('fleet', $fleet)->where('aktivan', '1')->where('prijava', '1')->countAllResults();
 		$week = $obracunFirmaModel->selectMax('week')->where('fleet', $fleet)->get()->getRowArray();
+		$noIban = $vozaciModel->where('fleet', $fleet)
+                      ->groupStart() // Start a condition group
+                      ->where('IBAN', null)
+                      ->where('zasticeniIBAN', null)
+                      ->where('strani_IBAN', null)
+                      ->groupEnd() // End the condition group
+                      ->get()
+						->getResultArray();
 		//$naplaceniDugovi = $dugoviNaplataModel->where('fleet', $fleet)->get()->getResultArray();
 		$weekbefore = (int)$week['week'];
 		if($weekbefore != 202401){
@@ -140,6 +152,7 @@ class AdminController extends BaseController
 		$data['weeklyData'] = $weeklyData;
 		$data['tvrtka'] = $tvrtka;
 		$data['vozaci'] = $vozaciAktivni;
+		$data['noIban'] = $noIban;
 		$data['vozaciPrijava'] = $vozaciPrijava;
 		$data['vozaciNeAktivni'] = $vozaciNeaktivni;
 		//$data['naplaceniDugovi'] = $naplaceniDugovi;
@@ -417,7 +430,7 @@ echo $query;
 			}else{
 				session()->setFlashdata('dugPlacen', 'Došlo je do pogreške pokušajte ponovo');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/dugovi');
+				return redirect()->to('dugovi');
 				
 			}
 			
@@ -456,7 +469,7 @@ echo $query;
 			}else{
 				session()->setFlashdata('dugPlacen', 'Došlo je do pogreške pokušajte ponovo');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/dugovi');
+				return redirect()->to('dugovi');
 				
 			}
 			
@@ -554,11 +567,11 @@ echo $query;
 		if($dugoviModel->update($id, $data)){
             session()->setFlashdata('dugPlacen', 'Dug je uspješno editiran.');
             session()->setFlashdata('alert-class', 'alert-success');
-			return redirect()->to('/index.php/dugovi');
+			return redirect()->to('dugovi');
 		}else{
             session()->setFlashdata('dugPlacen', 'Promjena nije spremljena.');
             session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/dug/'). '/' .$dug['id'];
+			return redirect()->to('dug/'). '/' .$dug['id'];
 		}
 		
 	}
@@ -592,17 +605,17 @@ echo $query;
 			if($dugoviNaplataModel->save($data)){
 				$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' € putem Aircash-a');
 				session()->setFlashdata('alert-class', 'alert-success');
-				return redirect()->to('/index.php/dugovi');
+				return redirect()->to('dugovi');
 			}else{
 				$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' € putem Aircash-a i obrisan mu je dug ali nije spremljena naplata');
 				session()->setFlashdata('alert-class', 'alert-warrning');
-				return redirect()->to('/index.php/dugovi');
+				return redirect()->to('dugovi');
 			}
 		}
 		else{
 			$session->setFlashdata('dugPlacen', 'Nismo uspjeli označiti dug '.$dug['vozac'].' kao plaćen');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/dugovi');
+			return redirect()->to('dugovi');
 		}
 	}
 	
@@ -634,19 +647,19 @@ echo $query;
 				$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' € u Poslovnici');
 				session()->setFlashdata('alert-class', 'alert-success');
 				$this->potvrdaOPlacanju($data);
-				//return redirect()->to('/index.php/dugovi');
+				//return redirect()->to('dugovi');
 			}else{
 				$session->setFlashdata('dugPlacen', ' ' .$dug['vozac'].' je platio svoj dug u iznosu od ' .$dug['iznos'] .' € u Poslovnici i obrisan mu je dug ali nije spremljena naplata');
 				session()->setFlashdata('alert-class', 'alert-warrning');
 				$this->potvrdaOPlacanju($data);
 				
-				return redirect()->to('/index.php/dugovi');
+				return redirect()->to('dugovi');
 			}
 		}
 		else{
 			$session->setFlashdata('dugPlacen', 'Nismo uspjeli označiti dug '.$dug['vozac'].' kao plaćen');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/dugovi');
+			return redirect()->to('dugovi');
 		}
 	}	
 	
@@ -715,11 +728,11 @@ public function napomenaSave()
         if ($napomeneModel->save($saveData)) {
             $session->setFlashdata('msgNapomena', 'Napomena je uspješno dodana');
             session()->setFlashdata('alert-class', 'alert-success');
-            return redirect()->to("/index.php/drivers/$driver_id");
+            return redirect()->to("drivers/$driver_id");
         } else {
             $session->setFlashdata('msgNapomena', 'Došlo je do pogreške, napomena nije dodana');
             session()->setFlashdata('alert-class', 'alert-danger');
-            return redirect()->to("/index.php/drivers/$driver_id");
+            return redirect()->to("drivers/$driver_id");
         }
     } else {
         $session->setFlashdata('msgNapomena', 'Došlo je do pogreške, nije bilo napomene');
@@ -736,6 +749,30 @@ public function napomenaSave()
 		$fleet = $session->get('fleet');
 		$data['page'] = 'Report Import';
 		$data['fleet'] = $fleet;
+		
+		$boltActivityModel = new BoltDriverActivityModel();
+		$uberActivityModel = new ActivityUberModel();
+
+		// Fetch data from the database
+		$uberActivity = $uberActivityModel->select('datum_unosa')
+										  ->where('fleet', $fleet)
+										  ->get()->getResultArray();
+
+		$boltActivity = $boltActivityModel->select('start_date')
+										  ->where('fleet', $fleet)
+										  ->get()->getResultArray();
+
+		$uberDates = array_column($uberActivity, 'datum_unosa');
+
+		// Fetch dates from $boltActivity
+		$boltDates = array_column($boltActivity, 'start_date');
+		$uberDates = array_unique($uberDates);
+
+		// Fetch dates from $boltActivity
+		$boltDates = array_unique($boltDates);
+		$data['boltDates'] = $boltDates;
+		$data['uberDates'] = $uberDates;
+		
         return view('adminDashboard/header', $data)
 			. view('adminDashboard/navBar')
 		. view('adminDashboard/importUber')
@@ -852,11 +889,7 @@ public function napomenaSave()
 		$data['uberReport'] = $uberReport;
 		$data['header_row'] = $header_row;
  		$data['fleet'] = $fleet;
-       return view('adminDashboard/header', $data)
- 			. view('adminDashboard/navBar')
-       . view('adminDashboard/importUber',$data)
-		   . view('footer');
-		
+		return redirect()->to("uberImport");  		
 		
 	}
 	
@@ -1100,10 +1133,7 @@ public function napomenaSave()
 		$data['fleet'] = $fleet;
 		$data['header_row'] = $header_row;
  			$data['page'] = 'Report Import';
-         return view('adminDashboard/header', $data)
- 			. view('adminDashboard/navBar')
-      . view('adminDashboard/importUber',$data)
-			 . view('footer');
+         return redirect()->to("uberImport");  
 		
 		
 	}
@@ -1248,12 +1278,22 @@ public function driverActivity()
 		$driverData = new DriverModel();
 		$UltramsgLib = new UltramsgLib();
 		$flotaModel = new FlotaModel();
+		$taximetarLogsModel = new TaximetarLogsModel();
 		$postavkeFlote = $flotaModel->where('naziv', $fleet)->get()->getRowArray();
 		$data = $session->get();
 		$driverObracunModel = new ObracunModel();
 		$driverObracun = $driverObracunModel->where('vozac_id', $id)->get()->getResultArray();
-		$driver = $driverData->where('id', $id)->get()->getRowArray();
+		$taximetarAktivan = $taximetarLogsModel->where('vozac_id', $id)->get()->getRowArray();
 		$koristi_activity = $postavkeFlote['koristi_activity'];
+		
+//$existingLog = $taximetarLogsModel->where('vozac_id', $id)->get()->getRowArray();
+//
+//// Determine the value to set for the taximetar field
+//$taximetarValue = $existingLog ? 1 : 0;
+//
+//// Update the taximetar field in the driverData table
+//$driverData->update($id, ['taximetar' => $taximetarValue]);
+		$driver = $driverData->where('id', $id)->get()->getRowArray();
 		
 		if(!empty($driver['whatsApp'])){
 			$mobitel = $driver['whatsApp'];
@@ -1261,10 +1301,25 @@ public function driverActivity()
 			$mobitel = $driver['mobitel'];
 		}
 		if($postavkeFlote['imaWhatsApp'] != 1){
+				$whatsAppTaximetar = false;
+				$whatsAppTaximetarBroj = false;
+			$whatsApp = false;
 			$valjanost = 'nemamo WhatsApp API';
 		}else{
+			$whatsApp = true;
 			$valjanost = $UltramsgLib->checkContact($mobitel);
 			$valjanost = $valjanost['status'];
+			if($postavkeFlote['koristiti_taximetar_whatsapp']!= 0){
+				$whatsAppTaximetar = true;
+				if(isset($postavkeFlote['taximetar_whatsapp_broj'])){
+					$whatsAppTaximetarBroj = true;
+				}else{
+					$whatsAppTaximetarBroj = false;
+				}
+			}else{
+				$whatsAppTaximetar = false;
+				$whatsAppTaximetarBroj = false;
+			}
 		}
 		$boltUniqueId = $driver['bolt_unique_id'];
 		$uberUniqueId = $driver['uber_unique_id'];
@@ -1293,7 +1348,20 @@ public function driverActivity()
 		}else{
 			$aneks = FALSE;
 		}
+		
+		$ibValid = array();
+		$ibanValid = $this->validateIban($driver['IBAN']);
+		$zIbanValid = $this->validateIban($driver['zasticeniIBAN']);
+		$sIbanValid = $this->validateIban($driver['strani_IBAN']);
+		$ibValid = array(
+			'ibanValid' => $ibanValid,
+			'zIbanValid' => $zIbanValid,
+			'sIbanValid' => $sIbanValid,
+		);
 
+		$data['whatsAppTaximetar'] = $whatsAppTaximetar;
+		$data['whatsAppTaximetarBroj'] = $whatsAppTaximetarBroj;
+		$data['whatsApp'] = $whatsApp;
 		$data['aneks'] = $aneks;
 		$data['prijave'] = $prijave;
 		$data['koristi_activity'] = $koristi_activity;
@@ -1306,6 +1374,7 @@ public function driverActivity()
 		$data['driver'] = $driver;
 		$data['fleet'] = $driver['fleet'];
 		$data['page'] = $driver['vozac'];
+		$data['ibValid'] = $ibValid;
 		
 
         echo view('adminDashboard/header', $data)
@@ -1315,6 +1384,18 @@ public function driverActivity()
 		
 	}
 	
+	
+	public function validateIban($iban)
+	{
+		$ibanService = new IbanValidationService();
+		$isValid = $ibanService->validate($iban);
+
+		if ($isValid) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 	
 	public function radniOdnos($id = null){
         $session = session();
@@ -2026,6 +2107,14 @@ public function driverActivity()
 			$pocetakRada = $dan.'.'.$mjesec.'.'.$godina.'.';
 		}
 		$voziloChangeDate = $vozilo['change_date'];
+		if($voziloChangeDate == '0000-00-00'){
+			$noviDatum = $pocetakRada;
+		}else{
+			$godina = substr($voziloChangeDate,0,4) ;
+			$mjesec = substr($voziloChangeDate,4,2) ;
+			$dan = substr($voziloChangeDate,6,2) ;
+			$noviDatum = $dan.'.'.$mjesec.'.'.$godina.'.';
+		}
 		$voziloChangeDate = str_replace('-','', $voziloChangeDate);
 		if($voziloChangeDate > $pocetakRada){
 			$godina = substr($voziloChangeDate,0,4) ;
@@ -2037,6 +2126,9 @@ public function driverActivity()
 			$pocetakNajma = $pocetakRada;
 			
 		}
+		
+		// PRIVREMENI BUGFIX, IDE SAMO DATUM DODAVANJA VOZILA
+		$pocetakNajma = $noviDatum;
 		
 		$ukljuceniKm = $vozilo['cijena_tjedno'] / $vozilo['cijena_po_km'];
 		$ukljuceniKM = round($ukljuceniKm, 0);
@@ -2084,6 +2176,15 @@ public function driverActivity()
 			$pocetakRada = $dan.'.'.$mjesec.'.'.$godina.'.';
 		}
 		$voziloChangeDate = $vozilo['change_date'];
+		if($voziloChangeDate == '0000-00-00'){
+			$noviDatum = $pocetakRada;
+		}else{
+		$voziloChangeDate = str_replace('-','', $voziloChangeDate);
+			$godina = substr($voziloChangeDate,0,4) ;
+			$mjesec = substr($voziloChangeDate,4,2) ;
+			$dan = substr($voziloChangeDate,6,2) ;
+			$noviDatum = $dan.'.'.$mjesec.'.'.$godina.'.';
+		}
 		$voziloChangeDate = str_replace('-','', $voziloChangeDate);
 		if($voziloChangeDate > $pocetakRada){
 			$godina = substr($voziloChangeDate,0,4) ;
@@ -2095,6 +2196,8 @@ public function driverActivity()
 			$pocetakNajma = $pocetakRada;
 			
 		}
+		// PRIVREMENI BUGFIX, IDE SAMO DATUM DODAVANJA VOZILA
+		$pocetakNajma = $noviDatum;
 		
 		$ukljuceniKm = $vozilo['cijena_tjedno'] / $vozilo['cijena_po_km'];
 		$ukljuceniKM = round($ukljuceniKm, 0);
@@ -2181,6 +2284,7 @@ c
 		$whatsApp = str_replace(" ", "", $whatsApp);
 		$id = $this->request->getVar('id');
 		$driverModel = new DriverModel();
+		$currentDriverData = $driverModel->where('id', $id)->get()->getRowArray();
 		$zasticeniIBAN = $this->request->getVar('zasticeniIBAN');
 		$IBAN = $this->request->getVar('IBAN');
 		$IBAN = str_replace(" ", "", $IBAN);
@@ -2204,6 +2308,7 @@ c
 			'bolt'					=> $boltCheck, 
 			'taximetar'				=> $taximetarCheck, 
 			'myPos'					=> $myPosCheck, 
+			'mobTaximetar'			=> $this->request->getVar('mobTaximetar'), 
 			'blagMin'				=> $this->request->getVar('blagMin'), 
 			'blagMax'				=> $this->request->getVar('blagMax'), 
 			'referal_reward'		=> $this->request->getVar('referal_reward'), 
@@ -2218,7 +2323,8 @@ c
 			'taximetar_unique_id'	=> $this->request->getVar('taximetar_unique_id'),
 			'nacin_rada'			=> $this->request->getVar('nacin_rada'),
 			'vrsta_nagrade'			=> $this->request->getVar('vrsta_nagrade'),
-			'isplata'				=> $this->request->getVar('isplata'),
+			'isplata_place'			=> $this->request->getVar('isplata_place'),
+			'tjedna_isplata'		=> $this->request->getVar('tjedna_isplata'),
 			'whatsApp'				=> $whatsApp,
 			'provizijaNaljepnice'	=> $this->request->getVar('provizijaNaljepnice'),
 			'IBAN'					=> $IBAN,
@@ -2228,8 +2334,12 @@ c
 			'strani_IBAN'			=> $strani_IBAN,
 			];
 		$driverModel->update($id, $data);
-				
-		return redirect()->to('/index.php/drivers/'. $id);
+		 if ($currentDriverData['taximetar'] == 1 && $taximetarCheck == 0) {
+				// Taximetar checkbox was unchecked, trigger deactivation
+				return redirect()->to('/taximetar/deaktiviraj/' . $id);
+			}else{
+				return redirect()->to('/drivers/'. $id);
+		 }
 		
 	}
 	
@@ -2273,20 +2383,20 @@ c
 			];
 		$prijava = $this->request->getVar('prijava');
 		$voz1 = $driverModel->where('id', $id)->get()->getRowArray();
-		$currentPrijavaData = array(
-			'ime' => $voz1['ime'],
-			'prezime' => $voz1['prezime'],
-			'dob' => $voz1['dob'],
-			'OIB' => $voz1['oib'],
-			'broj_sati' => $voz1['broj_sati'],
-			'pocetak_prijave' => $voz1['pocetak_prijave'],
-			'kraj_prijave'			=> $voz1['kraj_prijave'],
-			'vrsta_zaposlenja'		=> $voz1['vrsta_zaposlenja'],
-			'IBAN' => $voz1['IBAN'],
-			'zasticeniIBAN' => $voz1['zasticeniIBAN'],
-			'strani_IBAN' => $voz1['strani_IBAN'],
-			'radno_mjesto' => $voz1['radno_mjesto'],		
-		);
+			$currentPrijavaData = array(
+				'ime' => $voz1['ime'],
+				'prezime' => $voz1['prezime'],
+				'dob' => $voz1['dob'],
+				'OIB' => $voz1['oib'],
+				'broj_sati' => $voz1['broj_sati'],
+				'pocetak_prijave' => $voz1['pocetak_prijave'],
+				'kraj_prijave'			=> $voz1['kraj_prijave'],
+				'vrsta_zaposlenja'		=> $voz1['vrsta_zaposlenja'],
+				'IBAN' => $voz1['IBAN'],
+				'zasticeniIBAN' => $voz1['zasticeniIBAN'],
+				'strani_IBAN' => $voz1['strani_IBAN'],
+				'radno_mjesto' => $voz1['radno_mjesto'],		
+			);
 		
 		$newPrijavaData = array(
 			'ime'					=> $this->request->getVar('ime'), 
@@ -2304,7 +2414,6 @@ c
 			'radno_mjesto'			=> $this->request->getVar('radno_mjesto'),
 		
 		);
-		
 		
 		$driverModel->update($id, $data);
 		
@@ -2350,7 +2459,10 @@ c
 				if(empty($knjigovoda)){
 					$session->setFlashdata('msgKnjigovoda', ' U bazi ne postoji knjigovođa. Obavijestiti ručno.');
 					session()->setFlashdata('alert-class', 'alert-danger');
-					return redirect()->to('/index.php/drivers/'.$id);
+							if($prijava != 1){
+									return redirect()->to('kreirajRaskid/'.$id);
+							}
+							return redirect()->to('drivers/'.$id);
 				}
 				
 				
@@ -2365,16 +2477,20 @@ c
 							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novu prijavu.');
 							session()->setFlashdata('alert-class', 'alert-success');
 							if($prijava != 1){
-								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+									$data['redirectUrl'] = '/index.php/taximetar/deaktiviraj/' . $id;
+									$data['newTabUrl'] = '/index.php/kreirajRaskid/' . $id;
+									return view('redirect_and_deactivate', $data);
 							}
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}else{
 							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
 							session()->setFlashdata('alert-class', 'alert-danger');
 							if($prijava != 1){
-								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+									$data['redirectUrl'] = '/index.php/taximetar/deaktiviraj/' . $id;
+									$data['newTabUrl'] = '/index.php/kreirajRaskid/' . $id;
+									return view('redirect_and_deactivate', $data);
 							}
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}
 					}
 				}elseif($brojNeobradenih == 5){
@@ -2387,16 +2503,16 @@ c
 							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novih 5 prijava.');
 							session()->setFlashdata('alert-class', 'alert-success');
 							if($prijava != 1){
-								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+								return redirect()->to('kreirajRaskid/'. $id);
 							}
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}else{
 							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
 							session()->setFlashdata('alert-class', 'alert-danger');
 							if($prijava != 1){
-								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+								return redirect()->to('kreirajRaskid/'. $id);
 							}
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}
 					}
 				}
@@ -2409,24 +2525,24 @@ c
 							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novih 5 prijava.');
 							session()->setFlashdata('alert-class', 'alert-success');
 							if($prijava != 1){
-								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+								return redirect()->to('kreirajRaskid/'. $id);
 							}
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}else{
 							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
 							session()->setFlashdata('alert-class', 'alert-danger');
 							if($prijava != 1){
-								return redirect()->to('/index.php/kreirajRaskid/'. $id);
+								return redirect()->to('kreirajRaskid/'. $id);
 							}
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}
 					}
 				}
 			if($prijava != 1){
-				return redirect()->to('/index.php/kreirajRaskid/'. $id);
+				return redirect()->to('kreirajRaskid/'. $id);
 			}
 		}		
-		return redirect()->to('/index.php/drivers/'. $id);
+		return redirect()->to('drivers/'. $id);
 		
 	}
 	
@@ -2523,8 +2639,6 @@ c
 		$flota = $flotaModel->where('naziv', $fleet)->get()->getRowArray();
 		$tvrtka_id = $flota['tvrtka_id'];
 		$tvrtka = $tvrtkaModel->where('id', $tvrtka_id)->get()->getRowArray();
-
-		$driver = $driverModel->where('id', $id)->get()->getRowArray();
 		
 		$data['role'] = $role;
 		$data['fleet'] = $fleet;
@@ -2553,7 +2667,11 @@ c
 		$vozila1 = array();
 		foreach($vozila as $vozilo){
 			$vozac = $driverModel->where('id', $vozilo['vozac_id'])->get()->getRowArray();
+			if(!empty($vozac)){
 			$vozac = $vozac['vozac'];
+			}else{
+				$vozac = 'Nema Vozača';
+			}
 			$vozilo['vozac'] = $vozac;
 			$vozila1[] = $vozilo;
 		}
@@ -2600,11 +2718,11 @@ c
 			$vozilaModel->save($data);
 			$session->setFlashdata('msgVozilo', ' Uspješno dodano vozilo.');
 			session()->setFlashdata('alert-class', 'alert-success');
-            return redirect()->to('/index.php/drivers/'. $id);
+            return redirect()->to('drivers/'. $id);
 		}else{
 			$session->setFlashdata('msgVozilo', ' Vozilo nije dodano.');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/drivers/'. $id);		}
+			return redirect()->to('drivers/'. $id);		}
 	}
 	
 	public function addVoziloUpdate(){
@@ -2639,7 +2757,7 @@ c
 				];
 			
 			$vozilaModel->update($id, $data);;
-            return redirect()->to('/index.php/drivers/'. $vozac_id);
+            return redirect()->to('drivers/'. $vozac_id);
 		}
 	}
 	
@@ -2686,7 +2804,6 @@ c
             'oib' => 'required|max_length[11]|min_length[11]',
             'uberCheck' => 'max_length[255]|min_length[1]',
             'boltCheck' => 'max_length[255]|min_length[1]',
-            'taximetarCheck' => 'max_length[255]|min_length[1]',
             'myPosCheck' => 'max_length[255]|min_length[1]',
             'refered_by' => 'required|max_length[255]|min_length[3]',
             
@@ -2719,6 +2836,7 @@ c
 			'bolt'					=> $boltCheck, 
 			'taximetar'				=> $taximetarCheck, 
 			'myPos'					=> $myPosCheck, 
+			'mobTaximetar'			=> $this->request->getVar('mobTaximetar'), 
 			'refered_by'			=> $this->request->getVar('refered_by'), 
 			'referal_reward'		=> $this->request->getVar('referal_reward'), 
 			'blagMin'				=> $this->request->getVar('blagMin'), 
@@ -2742,7 +2860,8 @@ c
 			'aktivan'				=> $this->request->getVar('aktivan'),
 			'radno_mjesto'			=> $this->request->getVar('radno_mjesto'),
 			'nacin_rada'			=> $this->request->getVar('nacin_rada'),
-			'isplata'				=> $this->request->getVar('isplata'),
+			'tjedna_isplata'		=> $this->request->getVar('tjedna_isplata'),
+			'isplata_place'			=> $this->request->getVar('isplata_place'),
 			'sezona'				=> $this->request->getVar('sezona'),
 			'radniOdnos'			=> $this->request->getVar('radniOdnos'),
 			'provizijaNaljepnice'	=> $this->request->getVar('provizijaNaljepnice'),
@@ -2783,7 +2902,7 @@ c
 				if(empty($knjigovoda)){
 					$session->setFlashdata('msgKnjigovoda', ' U bazi ne postoji knjigovođa. Obavijestiti ručno.');
 					session()->setFlashdata('alert-class', 'alert-danger');
-					return redirect()->to('/index.php/drivers/'.$id);
+					return redirect()->to('drivers/'.$id);
 				}
 				
 				
@@ -2797,11 +2916,11 @@ c
 						if($this->sendEmailKnjigovoda($email, $msg)){
 							$session->setFlashdata('msgKnjigovoda', ' Poslan email knjigovođi za novu prijavu.');
 							session()->setFlashdata('alert-class', 'alert-success');
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}else{
 							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
 							session()->setFlashdata('alert-class', 'alert-danger');
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}
 					}
 				}elseif($brojNeobradenih == 5){
@@ -2816,7 +2935,7 @@ c
 						}else{
 							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
 							session()->setFlashdata('alert-class', 'alert-danger');
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}
 					}
 				}
@@ -2831,12 +2950,12 @@ c
 						}else{
 							$session->setFlashdata('msgKnjigovoda', ' Nije poslan email knjigovođi. Obavijestiti osobno.');
 							session()->setFlashdata('alert-class', 'alert-danger');
-							return redirect()->to('/index.php/drivers/'.$id);
+							return redirect()->to('drivers/'.$id);
 						}
 					}
 				}
 			
-				return redirect()->to('/index.php/drivers/'.$id);
+				return redirect()->to('drivers/'.$id);
 			}
 			else{
 			$data['page'] = 'Add new Driver';
@@ -2877,7 +2996,7 @@ c
 	private function sendEmailKnjigovoda($email, $msg){
 		$emailService = \Config\Services::email();
 		
-		$verificationLink = base_url("index.php/signin");
+		$verificationLink = site_url("signin");
 
 		$emailService->setTo($email);
 		$emailService->setSubject('Prijave za obraditi');
@@ -3476,7 +3595,7 @@ c
 			$raspon = $obracun['raspon'];
 			$data['to'] = $obracun['mobitel'];
 			$data['image'] = $obracun['slika_url'];
-			$data['caption'] = "Ovo je tvoj obračun za period $raspon . Ovo je automatski generirana i poslana poruka. Ukoliko smatraš da si dobio/la krive podatke slobodno nam se obrati ";
+			$data['caption'] = "Ovo je tvoj obračun za period $raspon . Ovo je automatski generirana i poslana poruka. Ukoliko smatraš da si dobio/la krive podatke slobodno nam se obrati. Reklamacije se primaju do Srijede!!";
 			$status = $UltramsgLib->sendImg($data);
 
 			$count +=1;
@@ -3525,7 +3644,7 @@ c
 
 //		print_r($status);
 //		die();
-		return redirect()->to(base_url("index.php/obracun/$week#$obracunID"));
+		return redirect()->to(site_url("obracun/$week#$obracunID"));
 		
 	}
 	

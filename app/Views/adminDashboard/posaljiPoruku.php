@@ -49,7 +49,7 @@
 			</div>
 		<?php } ?>
 
-		<form class="row g-3" action="<?php echo base_url('index.php/AdminController/sendmsg');?>" method="post">
+		<form class="row g-3" action="<?php echo site_url('AdminController/sendmsg');?>" method="post">
 		<label for="exampleDataList" class="form-label">Odaberi kome želiš poslati poruku: </label>
 		<input name="vozac" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
 		<datalist id="datalistOptions">

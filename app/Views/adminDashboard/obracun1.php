@@ -28,9 +28,16 @@
 		<?php 
 			if(isset($obracun)): ?>
 				<?php 
+				$allPerHour = 0 ;
+				$allPerOHour = 0 ;
+				$count = 0;
+			
+			
 			$obracunFirmaID = $obracunFirma['id'];
 			$zipName = $obracunFirma['week'] .'-obračun-' .$fleet;
 			$reportIDs = array();
+			$taximetarnum = 0;
+			$taximetarsum = 0;
 			foreach ($obracun as $driver):?>
 			<?php 
 			$driver_slug_id = str_replace(' ','_', $driver['vozac']); 
@@ -49,7 +56,7 @@
 			$reportIDs[] = $driver_slug_id;
 			?>
 			<div class="col-2 d-flex align-items-center">
-				<form action="<?php echo base_url('index.php/AdminController/poslatiObracun');?>" method="post" >
+				<form action="<?php echo site_url('AdminController/poslatiObracun');?>" method="post" >
 					<input type="hidden" name="id" value="<?php echo $driver['id'] ?>">
 					<button type="submit" class="btn btn-primary">Pošalji obračun vozaču</button>
 				</form>
@@ -57,8 +64,8 @@
 			<div class="col col-xxl-8 col-xl-8 col-lg-12 col-m-12 col-sm-12">
 				<div id="<?php echo $driver['id'] ?>">
 				<div id="<?php echo $driver_slug_id ?>" data-element-id="<?php echo $driver['id'] ?>" class="card border-danger text-white bg-secondary mt-3">
-					<div class="card-header text-center"><h4 class="fw-bold"><a href="<?php echo base_url('/index.php/drivers/'). '/' .$driver['vozac_id']?>"><?php echo $driver['vozac']; ?></a></h4>
-					<h6 class=" border-dark"><a href="<?php echo base_url('/index.php/editirajObracun/'). '/' .$driver['id']?>"><?php echo $driver['raspon']; ?></a></h6>
+					<div class="card-header text-center"><h4 class="fw-bold"><a href="<?php echo site_url('drivers/'). '/' .$driver['vozac_id']?>"><?php echo $driver['vozac']; ?></a></h4>
+					<h6 class=" border-dark"><a href="<?php echo site_url('editirajObracun/'). '/' .$driver['id']?>"><?php echo $driver['raspon']; ?></a></h6>
 					</div>
 					<div class="card-body">
 						<?php if($obracunFirma['activity'] != 0): ?>
@@ -175,6 +182,11 @@
 									<li class="list-group-item fs-6 bg-danger">Računovodstveni troškovi: <?php echo $driver['provizija']; ?> €</li>
 									<?php if($driver['taximetar'] !=0): ?>
 									<li class="list-group-item fs-6 bg-danger">Taximetar aplikacija: <?php echo $driver['taximetar']; ?> €</li>
+									<?php
+									$taximetarnum += 1;
+									$taximetarsum += $driver['taximetar'];
+									
+									?>
 									<?php endif ?>
 									<?php if($driver['dug'] < 0): ?>
 									<li class="list-group-item fs-6 bg-danger">Dug: <?php echo $driver['dug']; ?> €</li>
@@ -283,12 +295,15 @@
 	
 				<?php endif ?>
 
-				<form action="<?php echo base_url(); ?>/index.php/SignupController/store" method="post">
-					
-				</form>
 			</div>
 						<div class="col-2"></div>
-		
+				<?php 
+				$allPerHour +=$driver['totalPerH'] ;
+				$allPerOHour +=$driver['totalPerOH'] ;
+				$count += 1
+			
+			
+			?>
 				<?php endforeach ?>
 			
 			
@@ -365,15 +380,23 @@
 					</div>			   
 				</div>
 			</div>
-		</div>
+			<div class="col-12">
+					<a href=<? echo site_url('tjedneIsplateKreiraj/' .$week) ?> ><h4>Kreiraj datoteku za isplatu </h4></a>
+			  </div>
+
+	  </div>
 					<?php endif?>
 		<div class="row">
 			<div class="col-6">
 				<h4>Prosjek po vozaču </h4>
 				<ul class="list-group list-group-flush border-danger">
-					<li class="list-group-item fs-6">Broj Vozača : <?php echo $stats['brojVozaca']; ?></li>
-					<li class="list-group-item fs-6">Neto promet : <?php echo $stats['netoPoVozacu']; ?> €</li>
-					<li class="list-group-item fs-6">Provizija za naplatiti: <?php echo $stats['provizijaPoVozacu']; ?> €</li>
+					<li class="list-group-item fs-6">Broj Vozača kojima je naplačen taximetar : <?php echo $taximetarnum; ?></li>
+					<li class="list-group-item fs-6">Ukupno naplačen taximetar : <?php echo $taximetarsum; ?></li>
+					<li class="list-group-item fs-6">Broj Vozača : <?php echo round($stats['brojVozaca'], 2); ?></li>
+					<li class="list-group-item fs-6">Neto promet : <?php echo round($stats['netoPoVozacu'], 2); ?> €</li>
+					<li class="list-group-item fs-6">Provizija za naplatiti: <?php echo round($stats['provizijaPoVozacu'], 2); ?> €</li>
+					<li class="list-group-item fs-6">Satnica aktivna: <?php echo round($allPerHour / $count, 2) ?> €</li>
+					<li class="list-group-item fs-6">Satnica online: <?php echo round($allPerOHour / $count, 2) ?> €</li>
 				</ul>
 			</div>
 			<div class="col-6">

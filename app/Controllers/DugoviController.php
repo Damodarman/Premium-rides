@@ -6,6 +6,13 @@ use CodeIgniter\Controller;
 use App\Models\DugoviNaplataModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
+use App\Models\DugoviModel;
+use App\Models\DriverModel;
+
+use App\Libraries\UltramsgLib;
+
+
+
 class DugoviController extends Controller
 {
 	
@@ -16,6 +23,7 @@ public function predano() {
         $fleet = $session->get('fleet');
         $role = $session->get('role');
         $dugoviNaplataModel = new DugoviNaplataModel();
+		$UltramsgLib = new UltramsgLib();
 
         // Get the ID from POST data
         $post = $this->request->getPost();
@@ -96,8 +104,57 @@ public function primljeno() {
         ]);
     }
 }	
-public function getFilteredData()
-{
+	
+	public function dugoviOpomena(){
+		
+		$dugoviModel = new DugoviModel();
+		$driverModel = new DriverModel();
+ 		$UltramsgLib = new UltramsgLib();
+       $session = session();
+		$data = $session->get();
+		$fleet = $session->get('fleet');
+		$data['page'] = 'Dugovi opomena';
+		$data['fleet'] = $fleet;
+		$week = $dugoviModel->where('fleet', $fleet)->get()->getLastRow();
+		$week = $week->week;
+		$dugovi = $dugoviModel->where('fleet', $fleet)->where('week', $week)->where('placeno', FALSE)->get()->getResultArray();
+ 		
+		
+		// Get the JSON data and decode it into a PHP array
+		$jsonData = $this->request->getPost('jsonData');
+		$drivers = json_decode($jsonData, true); // Convert JSON to PHP array
+
+		// Get the reminder message
+		$messageTemplate = $this->request->getPost('message');
+		
+		// Loop through the array and handle each driver
+		$resultOpomena = array();
+		foreach ($drivers as $driver) {
+			$mobitel = '';
+			$vozacData = $driverModel->where('id', $driver['vozac_id'])->get()->getRowArray();
+			if(!empty($vozacData['whatsApp'])){
+				$mobitel = $vozacData['whatsApp'];
+			}else{
+				$mobitel = $vozacData['mobitel'];
+			}
+			$vozac = $driver['vozac'];
+			$iznos = $driver['iznos'];
+			$finalMessage = str_replace(['{{Vozac}}', '{{Dug}}'], [$vozac, $iznos], $messageTemplate);			// Process the reminder for each driver, e.g., send an email or notification			
+			$poruka['to'] = $mobitel;
+			$poruka['msg'] = $finalMessage;
+			
+			$poruka = $UltramsgLib->sendMsg($poruka);
+			$resultOpomena[] = $poruka;
+
+		}
+			return($resultOpomena);
+	}
+	
+	
+	
+	
+	
+public function getFilteredData(){
     $session = session();
     $fleet = $session->get('fleet');
     $dugoviNaplataModel = new DugoviNaplataModel();

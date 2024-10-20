@@ -11,13 +11,13 @@
 				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				  <div class="navbar-nav">
 					  <?php if($role == 'admin'): ?>
-					<a class="nav-link" href="<?php echo base_url('/index.php/addprodajnomjesto')?>">Dodaj prodajno mjesto trgovca</a>
-					<a class="nav-link" href="<?php echo base_url('/index.php/generator')?>">Generator</a>
-					<a class="nav-link" href="<?php echo base_url('/index.php/ulazniRacuni')?>">Ulazni Računi</a>
+					<a class="nav-link" href="<?php echo site_url('addprodajnomjesto')?>">Dodaj prodajno mjesto trgovca</a>
+					<a class="nav-link" href="<?php echo site_url('generator')?>">Generator</a>
+					<a class="nav-link" href="<?php echo site_url('ulazniRacuni')?>">Ulazni Računi</a>
 					  <?php endif ?>
-					<a class="nav-link" href="<?php echo base_url('/index.php/addTrgovca')?>">Dodaj Trgovca</a>
-					<a class="nav-link" href="<?php echo base_url('/index.php/unosRacuna')?>">Unos Računa</a>
-					<a class="nav-link" href="<?php echo base_url('index.php/profile')?>"><?php echo $fleet;?></a>
+					<a class="nav-link" href="<?php echo site_url('addTrgovca')?>">Dodaj Trgovca</a>
+					<a class="nav-link" href="<?php echo site_url('unosRacuna')?>">Unos Računa</a>
+					<a class="nav-link" href="<?php echo site_url('profile')?>"><?php echo $fleet;?></a>
 				  </div>
 				</div>
 			  </div>

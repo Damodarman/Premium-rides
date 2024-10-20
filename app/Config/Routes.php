@@ -41,11 +41,83 @@ $routes->get('logs', 'LogViewerController::index');
 $routes->add('/admin/driver-activity', 'AdminController::driverActivity', ['methods' => ['GET', 'POST']]);
 
 
+
+// API AJAX ROUTES START
+$routes->get('api/vehicle-counts', 'ApiController::getVehicleCounts');
+$routes->get('api/drivers-counts', 'ApiController::getDriversCounts'); 
+$routes->get('api/getPlatformRatio', 'ApiController::getPlatformRatio'); 
+$routes->post('api/getPlatformRatio', 'ApiController::getPlatformRatio'); 
+
+
+// API AJAX ROUTES END
+
+// NEW ROUTES START, AFTER FINISHING TRANSFER TO NEW ROUTES DELETE THE OLD ONES
+//Vehicle Managment
+$routes->get('/dashboard', 'DashboardController::index',['filter' => 'authGuard']);
+$routes->get('vehicles/page/(:num)', 'VehicleController::index/$1',['filter' => 'authGuard']);
+$routes->get('/vehicles', 'VehicleController::index',['filter' => 'authGuard']);
+$routes->get('/vehicles/step1', 'VehicleController::step1',['filter' => 'authGuard']);
+$routes->get('/vehicles/edit/(:num)', 'VehicleController::edit/$1',['filter' => 'authGuard']);
+$routes->post('/vehicles/storeStep1', 'VehicleController::storeStep1',['filter' => 'authGuard']);
+$routes->post('/vehicles/store', 'VehicleController::store',['filter' => 'authGuard']);
+$routes->get('/vehicles/edit/(:num)', 'VehicleController::edit/$1',['filter' => 'authGuard']);
+$routes->post('/vehicles/update/(:num)', 'VehicleController::update/$1',['filter' => 'authGuard']);
+$routes->get('/vehicles/delete/(:num)', 'VehicleController::delete/$1',['filter' => 'authGuard']);
+
+
+// REPORTS IMPORT CONTROLLER
+
+$routes->post('/tempUberReportImport', 'ImportController::tempUberReportImport',['filter' => 'authGuard']);
+$routes->get('/uberImport', 'AdminController::uberImport',['filter' => 'authGuard']);
+$routes->get('reports/uploadreports', 'ImportController::index',['filter' => 'authGuard']);
+$routes->get('/reports/bolt', 'ImportController::getBoltReports',['filter' => 'authGuard']);
+$routes->get('/reports/uber', 'ImportController::getUberReports',['filter' => 'authGuard']);
+$routes->get('/reports/taximetar', 'ImportController::getTaximetarReports',['filter' => 'authGuard']);
+$routes->get('/reports/myPos', 'ImportController::getMyPosReports',['filter' => 'authGuard']);
+$routes->post('/uberReport/deleteUberReport', 'ImportController::deleteUberReport',['filter' => 'authGuard']);
+$routes->post('/boltReport/deleteBoltReport', 'ImportController::deleteBoltReport',['filter' => 'authGuard']);
+$routes->post('/taximetarReport/deleteTaximetarReport', 'ImportController::deleteTaximetarReport',['filter' => 'authGuard']);
+$routes->post('/myPosReport/deleteMyPosReport', 'ImportController::deleteMyPosReport',['filter' => 'authGuard']);
+
+// DRIVERS MANAGMENT
+$routes->get('/driver/index', 'DriversController::index',['filter' => 'authGuard']);
+$routes->post('/driver/processId', 'DriversController::processId',['filter' => 'authGuard']);
+$routes->get('/driver/active', 'DriversController::active',['filter' => 'authGuard']);
+$routes->get('/driver/create', 'DriversController::create',['filter' => 'authGuard']);
+
+// NEW ROUTES END
+
+
+
+
+    $routes->get('/vehicles/step2/(:num)', 'VehicleController::step2/$1',['filter' => 'authGuard']); // Vehicle ID is passed to this route
+    $routes->post('/vehicles/storeStep2/(:num)', 'VehicleController::storeStep2/$1',['filter' => 'authGuard']); // Vehicle ID is passed to storeStep2
+
+    // Step 3: Owner Details
+    $routes->get('/vehicles/step3/(:num)', 'VehicleController::step3/$1',['filter' => 'authGuard']);
+    $routes->post('/vehicles/storeStep3/(:num)', 'VehicleController::storeStep3/$1',['filter' => 'authGuard']);
+
+    // Step 4: Vehicle Status
+    $routes->get('/vehicles/step4/(:num)', 'VehicleController::step4/$1',['filter' => 'authGuard']);
+    $routes->post('/vehicles/storeStep4/(:num)', 'VehicleController::storeStep4/$1',['filter' => 'authGuard']);
+
+    // Step 5: Equipment & Safety
+    $routes->get('/vehicles/step5/(:num)', 'VehicleController::step5/$1',['filter' => 'authGuard']);
+    $routes->post('/vehicles/storeStep5/(:num)', 'VehicleController::storeStep5/$1',['filter' => 'authGuard']);
+
+$routes->get('tjedneIsplateKreiraj/(:num)', 'TjedneIsplateController::tjedneIsplate/$1',['filter' => 'authGuard']);
+$routes->post('generirajRevolutCSV', 'TjedneIsplateController::generirajRevolutCSV');
+$routes->post('generirajHRSepa', 'TjedneIsplateController::generirajHRSepa');
+
+
+$routes->post('ObracunController/getPlaceData', 'ObracunController::getPlaceData',['filter' => 'authGuard']);
+$routes->get('place', 'ObracunController::place',['filter' => 'authGuard']);
 $routes->get('companies', 'FleetDataController::getCompanies');
 $routes->get('fleet-data', 'FleetDataController::getFleetDataStateLogs');
 $routes->get('/', 'Home::index');
 $routes->get('/home', 'Home::index');
 $routes->get('/admin', 'AdminController::index',['filter' => 'authGuard']);
+$routes->match(['get', 'post'], '/sendReminder', 'DugoviController::dugoviOpomena',['filter' => 'authGuard']);
 $routes->get('/signup', 'SignupController::index');
 $routes->match(['get', 'post'], '/obradenoDa', 'KnjigovodaController::obradenoDa');
 $routes->match(['get', 'post'], 'SignupController/store', 'SignupController::store');
@@ -57,7 +129,6 @@ $routes->match(['get', 'post'], 'SigninController/loginAuth', 'SigninController:
 $routes->get('/signin', 'SigninController::index');
 $routes->get('/logout', 'ProfileController::logout');
 $routes->get('/profile', 'ProfileController::index',['filter' => 'authGuard']);
-$routes->get('/uberImport', 'AdminController::uberImport',['filter' => 'authGuard']);
 $routes->get('/addDriver', 'AdminController::addDriver',['filter' => 'authGuard']);
 $routes->get('/generator', 'NumberGenerationController::generator',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/raskidUgovora', 'AdminController::raskidUgovora', ['filter' => 'authGuard']);
@@ -65,6 +136,7 @@ $routes->match(['get', 'post'], 'AdminController/addDriverSave', 'AdminControlle
 $routes->match(['get', 'post'], 'AdminController/napomenaSave', 'AdminController::napomenaSave', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/sendmsg', 'AdminController::sendmsg', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'FlotaController/UltramsgLibPostavke', 'FlotaController::UltramsgLibPostavke', ['filter' => 'authGuard']);
+$routes->match(['get', 'post'], 'FlotaController/saveMsgTmpl', 'FlotaController::saveMsgTmpl', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/driverUpdate', 'AdminController::driverUpdate', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/driverPrijavaUpdate', 'AdminController::driverPrijavaUpdate', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'ObracunController/obracunSave', 'ObracunController::obracunSave', ['filter' => 'authGuard']);
@@ -87,11 +159,15 @@ $routes->match(['get', 'post'], 'AdminController/myPosReportImport', 'AdminContr
 $routes->match(['get', 'post'], 'NumberGenerationController/generate', 'NumberGenerationController::generate',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'KnjigovodstvoController/addTrgovcaSave', 'KnjigovodstvoController::addTrgovcaSave',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'KnjigovodstvoController/addPrMjTrSave', 'KnjigovodstvoController::addPrMjTrSave',['filter' => 'authGuard']);
+$routes->match(['get', 'post'], 'naProviziju', 'NaProvizijuController::index',['filter' => 'authGuard']);
 $routes->get('/addTrgovca', 'KnjigovodstvoController::addTrgovca',['filter' => 'authGuard']);
+$routes->get('/naPlacu', 'NaPlacuController::index',['filter' => 'authGuard']);
+$routes->get('/naProviziju', 'NaProvizijuController::index',['filter' => 'authGuard']);
 $routes->get('/upute', 'UputeController::index');
 $routes->get('/obracun', 'ObracunController::index',['filter' => 'authGuard']);
 $routes->get('/vozila', 'AdminController::vozila',['filter' => 'authGuard']);
 $routes->get('/knjigovodstvo', 'KnjigovodstvoController::index',['filter' => 'authGuard']);
+$routes->get('/aktivniDanas', 'KnjigovodaController::activDrivers',['filter' => 'authGuard']);
 $routes->get('/addprodajnomjesto', 'KnjigovodstvoController::addprodajnomjesto',['filter' => 'authGuard']);
 $routes->get('/ugovoroRadu', 'AdminController::ugovoroRadu',['filter' => 'authGuard']);
 $routes->get('/ugovoroRadu/(:any)', 'AdminController::ugovoroRaduPdf/$1',['filter' => 'authGuard']);
@@ -129,9 +205,13 @@ $routes->get('/knjigovoda', 'KnjigovodaController::index',['filter' => 'authGuar
 $routes->get('/admin/tvrtka', 'TvrtkaController::index',['filter' => 'authGuard']);
 $routes->get('/obracunaj/(:any)', 'ObracunController::obracunaj/$1',['filter' => 'authGuard']);
 $routes->get('/editirajObracun/(:any)', 'ObracunController::editVozacObracun/$1',['filter' => 'authGuard']);
+$routes->get('/provjeriuniqueID/(:any)', 'ObracunController::checkId/$1');
 $routes->get('/obracunVozac/(:any)', 'ObracunController::obracunVozac/$1');
 $routes->get('/obrDel/(:any)', 'ObracunController::obracunDelete/$1',['filter' => 'authGuard']);
 $routes->get('/drivers/(:any)', 'AdminController::driver/$1',['filter' => 'authGuard']);
+$routes->get('/posaljiTaximetar/(:any)', 'TaximetarLogsController::posalji/$1',['filter' => 'authGuard']);
+$routes->get('/taximetar/deaktiviraj/(:num)', 'TaximetarLogsController::deaktiviraj/$1');
+$routes->get('/populateTaxiLogs', 'TaximetarLogsController::populateTaxiLogs',['filter' => 'authGuard']);
 $routes->get('/ulazniRacuni', 'UlazniRacuniController::index',['filter' => 'authGuard']);
 $routes->get('/unosRacuna', 'UlazniRacuniController::unosRacuna',['filter' => 'authGuard']);
 $routes->get('/createPdf', 'PdfController::index');
@@ -139,6 +219,7 @@ $routes->add('fetchDriverData', 'AdminController::fetchDriverData', ['methods' =
 $routes->add('dugovi/getFilteredData', 'DugoviController::getFilteredData', ['methods' => ['GET', 'POST']]);
 $routes->add('dugovi/predano', 'DugoviController::predano', ['methods' => ['GET', 'POST']]);
 $routes->add('dugovi/primljeno', 'DugoviController::primljeno', ['methods' => ['GET', 'POST']]);
+$routes->match(['get', 'post'], 'obracunaj', 'ObracunController::obracunaj',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'UlazniRacuniController/saveRacuna', 'UlazniRacuniController::saveRacuna');
 $routes->match(['get', 'post'], 'PdfController/htmlToPDF', 'PdfController::htmlToPDF');
 $routes->match(['get', 'post'], 'getRacuni', 'UlazniRacuniController::getRacuni');

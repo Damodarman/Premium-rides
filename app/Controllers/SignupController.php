@@ -38,7 +38,7 @@ class SignupController extends Controller
 			if(empty($user)){
 				$session->setFlashdata('msgPoruka', ' The request is not valid and you have been redirected to sign in.');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/signin');
+				return redirect()->to('signin');
 			}else{
 				$id = $user['id'];
 				$data = [
@@ -48,17 +48,17 @@ class SignupController extends Controller
 				if($userModel->update($id, $data)){
 					$session->setFlashdata('msgPoruka', ' The password has been changed successfuly and you can sign in now.');
 					session()->setFlashdata('alert-class', 'alert-success');
-					return redirect()->to('/index.php/signin');
+					return redirect()->to('signin');
 				}else{
 					$session->setFlashdata('msgPoruka', ' The password has not been changed. Please try later');
 					session()->setFlashdata('alert-class', 'alert-danger');
-					return redirect()->to('/index.php/signin');
+					return redirect()->to('signin');
 				}
 			}
 		}else{
 			$session->setFlashdata('msgPoruka', ' The passwords do not match. Please try again');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/signin');
+			return redirect()->to('signin');
 		}
 		
 		
@@ -81,7 +81,7 @@ class SignupController extends Controller
 		 if (!empty($emptyField)) {
 				$session->setFlashdata('msgPoruka', ' Registration failed, BOTS are not allowed.');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/signup');
+				return redirect()->to('signup');
 		 }
 		
         if($this->validate($rules)){
@@ -101,11 +101,11 @@ class SignupController extends Controller
 				
 				$session->setFlashdata('msgPoruka', ' Dear ' .$name .', registration was successful. Please check your ' .$email .' inbox for verification email');
 				session()->setFlashdata('alert-class', 'alert-success');
-				return redirect()->to('/index.php/signin');
+				return redirect()->to('signin');
 			}else{
 				$session->setFlashdata('msgPoruka', ' Registration failed, please try again.');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/signup');
+				return redirect()->to('signup');
 			}
 			
         }else{
@@ -119,7 +119,7 @@ class SignupController extends Controller
 	function sendVerificationEmail($email, $token) {
 		$emailService = \Config\Services::email();
 
-		$verificationLink = base_url("index.php/emailVerification/$token");
+		$verificationLink = site_url("emailVerification/$token");
 
 		$emailService->setTo($email);
 		$emailService->setSubject('Please Verify Your Email');
@@ -131,13 +131,13 @@ class SignupController extends Controller
 	function sendPasswordResetLink($email, $token) {
 		$emailService = \Config\Services::email();
 
-		$verificationLink = base_url("index.php/resetPassword/$token/$email");
+		$verificationLink = site_url("resetPassword/$token/$email");
 
 		$emailService->setTo($email);
 		$emailService->setSubject('Reset your Password');
 		$emailService->setMessage("Click the following link to reset your Password: <a href=\"$verificationLink\">$verificationLink</a>");
-
-		return $emailService->send();
+		$result =  $emailService->send();
+		return $result;
 	}	
 	
 	public function resetPassword($token, $email){
@@ -147,7 +147,7 @@ class SignupController extends Controller
 		if(empty($user)){
 			$session->setFlashdata('msgPoruka', ' The token is not valid and you have been redirected to sign in.');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/signin');
+			return redirect()->to('signin');
 		}else{
 			$data=[
 				'id' => $user['id'],
@@ -170,7 +170,7 @@ class SignupController extends Controller
 		if(empty($user)){
 				$session->setFlashdata('msgPoruka', ' The token is incorrect or the email has already been verified. Please try signing in again.');
 				session()->setFlashdata('alert-class', 'alert-warning');
-				return redirect()->to('/index.php/signin');
+				return redirect()->to('signin');
 		}else{
 			$createdAt = $user['created_at'];
 			$expired = $this->tokenAge($createdAt);
@@ -178,7 +178,7 @@ class SignupController extends Controller
 			if($expired){
 				$session->setFlashdata('msgPoruka', ' The token is expired.');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/signup');
+				return redirect()->to('signup');
 			}else{
 				$id = $user['id'];
 				$data =[
@@ -188,11 +188,11 @@ class SignupController extends Controller
 				if($userModel->update($id, $data)){
 					$session->setFlashdata('msgPoruka', ' The email is verifyed. You can sign in now ');
 					session()->setFlashdata('alert-class', 'alert-success');
-					return redirect()->to('/index.php/signin');
+					return redirect()->to('signin');
 				}else{
 					$session->setFlashdata('msgPoruka', ' Unknown error occured.');
 					session()->setFlashdata('alert-class', 'alert-danger');
-					return redirect()->to('/index.php/signup');
+					return redirect()->to('signup');
 				}
 			}
 			
@@ -243,7 +243,7 @@ class SignupController extends Controller
 			if(empty($user)){
 				$session->setFlashdata('msgPoruka', ' The email is incorect, try again ');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/passwordRecovery');
+				return redirect()->to('passwordRecovery');
 			}else{
 				$userId = $user['id'];
 				$token = $this->generateToken();
@@ -255,12 +255,12 @@ class SignupController extends Controller
 						$this->sendPasswordResetLink($email, $token);
 						$session->setFlashdata('msgPoruka', 'Please check your ' .$email .' inbox for password reset email');
 						session()->setFlashdata('alert-class', 'alert-success');
-						return redirect()->to('/index.php/signin');
+						return redirect()->to('signin');
 					
 				}else{
 					$session->setFlashdata('msgPoruka', ' Something gone wrong, please try again ');
 					session()->setFlashdata('alert-class', 'alert-danger');
-					return redirect()->to('/index.php/passwordRecovery');
+					return redirect()->to('passwordRecovery');
 				}
 
 			}
@@ -299,7 +299,7 @@ class SignupController extends Controller
 			if($checkNumber['status'] != 'valid'){
 				$session->setFlashdata('msgPoruka', "$phone nije valjani WhatsApp broj.");
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/signup');
+				return redirect()->to('signup');
 			}
 			$DriverModel = new DriverModel();
 			$vozac = $DriverModel->where('mobitel', $phone)->get()->getRowArray();

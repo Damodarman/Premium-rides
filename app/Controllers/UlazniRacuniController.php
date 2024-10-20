@@ -76,17 +76,17 @@ class UlazniRacuniController extends Controller{
 		if($count != 0){
 				$session->setFlashdata('msgRacuni', ' Račun broj ' .$dodatni_opis_napomena_dokumenta .' već postoji u bazi podataka.');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/unosRacuna/');	
+				return redirect()->to('unosRacuna/');	
 		}else{
 			
 			if($racuniModel->save($racun)){
 				$session->setFlashdata('msgRacuni', ' Uspješno unesen račun.');
 				session()->setFlashdata('alert-class', 'alert-success');
-				return redirect()->to('/index.php/unosRacuna/');	
+				return redirect()->to('unosRacuna/');	
 			}else{
 				$session->setFlashdata('msgRacuni', ' Došlo je do problema sa unosom, pokušajte ponovo ili kontaktirajte administratora.');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/unosRacuna/');	
+				return redirect()->to('unosRacuna/');	
 			}
 		}
 				

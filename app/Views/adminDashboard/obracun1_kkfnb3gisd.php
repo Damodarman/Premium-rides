@@ -48,7 +48,7 @@
 			$reportIDs[] = $driver_slug_id;
 			?>
 			<div class="col-2 d-flex align-items-center">
-				<form action="<?php echo base_url('index.php/AdminController/poslatiObracun');?>" method="post" >
+				<form action="<?php echo site_url('AdminController/poslatiObracun');?>" method="post" >
 					<input type="hidden" name="id" value="<?php echo $driver['id'] ?>">
 					<button type="submit" class="btn btn-primary">Pošalji obračun vozaču</button>
 				</form>
@@ -56,8 +56,8 @@
 			<div class="col col-xxl-8 col-xl-8 col-lg-12 col-m-12 col-sm-12">
 				<div id="<?php echo $driver['id'] ?>">
 				<div id="<?php echo $driver_slug_id ?>" data-element-id="<?php echo $driver['id'] ?>" class="card border-danger text-white bg-secondary mt-3">
-					<div class="card-header text-center"><h4 class="fw-bold"><a href="<?php echo base_url('/index.php/drivers/'). '/' .$driver['vozac_id']?>"><?php echo $driver['vozac']; ?></a></h4>
-					<h6 class=" border-dark"><a href="<?php echo base_url('/index.php/editirajObracun/'). '/' .$driver['id']?>"><?php echo $driver['raspon']; ?></a></h6>
+					<div class="card-header text-center"><h4 class="fw-bold"><a href="<?php echo site_url('drivers/'). '/' .$driver['vozac_id']?>"><?php echo $driver['vozac']; ?></a></h4>
+					<h6 class=" border-dark"><a href="<?php echo site_url('editirajObracun/'). '/' .$driver['id']?>"><?php echo $driver['raspon']; ?></a></h6>
 					</div>
 					<div class="card-body">
 						<div class="row text-center">

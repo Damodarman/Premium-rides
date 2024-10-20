@@ -14,6 +14,8 @@ class TvrtkaModel extends Model{
         'država',
         'OIB',
         'direktor',
+        'IBAN',
+        'BIC',
         'pocetak_tvrtke',
 		'fleet'
     ];

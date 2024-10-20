@@ -7,4 +7,11 @@
 <file name="Honeypot.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530570000000" Dst="1" />
 <file name="InvalidChars.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530570000000" Dst="1" />
 <file name="SecureHeaders.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530570000000" Dst="1" />
+<file name="CSRF.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704750000000" Dst="2" />
+<file name="DebugToolbar.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704750000000" Dst="2" />
+<file name="FilterInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704770000000" Dst="2" />
+<file name="Filters.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704770000000" Dst="2" />
+<file name="Honeypot.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704780000000" Dst="2" />
+<file name="InvalidChars.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704780000000" Dst="2" />
+<file name="SecureHeaders.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704780000000" Dst="2" />
 </dwsync>

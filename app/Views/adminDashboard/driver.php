@@ -32,7 +32,7 @@
 					}
 				?>
 
-				<a href="<?php echo base_url('/index.php/drivers/'). '/' . $dr['id'] ?>"
+				<a href="<?php echo site_url('drivers/'). '/' . $dr['id'] ?>"
 				   class="<?php echo $linkClass; ?>"><?php echo $dr['vozac'] ?></a>
 
 				<?php endforeach ?>
@@ -54,6 +54,11 @@
 											<?=session()->getFlashdata('msgKnjigovoda') ?>
 										</div>
 									<?php } ?>
+												<?php if (session()->has('msgtaximetarlog')){ ?>
+										<div class="alert <?=session()->getFlashdata('alert-class') ?>">
+											<?=session()->getFlashdata('msgtaximetarlog') ?>
+										</div>
+									<?php } ?>
 
 			<h2><?php echo $driver['vozac'] ?></h2>
 			<div class="accordion accordion-flush" id="accordionFlushExample">
@@ -66,9 +71,9 @@
 			</h2>
 			<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
 			<div class="accordion-body">
+			<?php $VOZACID = $driver['id']; ?>
 
-
-			<form id="form1" class="row g-3 needs-validation" action="<?php echo base_url('index.php/AdminController/driverUpdate');?>" method="post" novalidate>
+			<form id="form1" class="row g-3 needs-validation" action="<?php echo site_url('AdminController/driverUpdate');?>" method="post" novalidate>
 			  <input type="hidden" class="form-control" name="id"  value ="<?php echo $driver['id']  ?>">
 			  <input type="hidden" class="form-control" name="vozac"  value ="<?php echo $driver['vozac']  ?>">
 			<div class="col-md-2">
@@ -158,15 +163,69 @@
 				  <label class="form-check-label" for="inlineCheckbox2">Bolt</label>
 				</div>
 				<div class="form-check form-check-inline">
-				  <input class="form-check-input" name="taximetarCheck" type="hidden" id="inlineCheckbox3" value="0">
-				  <input class="form-check-input" name="taximetarCheck" type="checkbox" id="inlineCheckbox3" value ="1" <?php if($driver['taximetar'] != 0){ echo 'checked';}  ?> >
-				  <label class="form-check-label" for="inlineCheckbox3">Taximetar</label>
+				  <input class="form-check-input" name="taximetarCheck" type="checkbox" id="taximetarCheckbox" value ="1" <?php if($driver['taximetar'] != 0){ echo 'checked';}  ?> >
+				  <label class="form-check-label" for="taximetarCheckbox">Taximetar</label>
 				</div>
 				<div class="form-check form-check-inline">
 				  <input class="form-check-input" name="myPosCheck" type="hidden" id="inlineCheckbox4" value="0">
 				  <input class="form-check-input" name="myPosCheck" type="checkbox" id="inlineCheckbox4" value ="1" <?php if($driver['myPos'] != 0){ echo 'checked';}  ?>>
 				  <label class="form-check-label" for="inlineCheckbox4">MyPos</label>
 				</div>
+				  <div class="col-md-6" id="mobTaximetarDiv" style="display: none;">
+					<label for="mobTaximetar" class="form-label">Model mobitela za taximetar</label>
+					<input type="text" class="form-control" name="mobTaximetar"  id="mobTaximetarInput" value ="<?php echo $driver['mobTaximetar']  ?>">
+<?php 
+	
+	if(!empty($driver['mobTaximetar'])){
+		$mobOK = true;
+	}else{
+		$mobOK = false;
+	}
+	
+	
+	if($whatsApp){
+		// Ako flota koristi whatsApp
+		if($whatsAppTaximetar){
+			// Ako flota koristi whatsApp za TAXIMETAR
+			if($whatsAppTaximetarBroj){
+				// Ako flota koristi whatsApp za TAXIMETAR i ima upisan broj
+			if (isset($vozilo['reg'])): ?>
+				<!-- Put your HTML code here -->
+				<?php if($mobOK): ?>
+					<div class="alert alert-success">
+						Svi podaci su dostupni i spremni za slanje.<a class="ms-3 btn btn-success" href="<?php echo site_url('posaljiTaximetar/'.$driver['id'])?>">Pošalji</a>
+					</div>
+				<?php else: ?>
+					<div class="alert alert-warning">
+						Nemamo upisan model mobitela.
+					</div>
+				<?php endif; ?>
+			<?php else: ?>
+				<!-- This will be shown if 'reg' is not set -->
+				<div class="alert alert-warning">
+					Nemamo upisanu registracijsku oznaku vozila.
+				</div>
+			<?php endif; 
+				
+			}else{
+				// Ako flota koristi whatsApp za TAXIMETAR i NEMA upisan broj
+				echo '<div class="alert alert-warning"> Nije upisan WhatsApp broj za Taximetar. </div>';
+			}
+		}else{
+			// Ako flota NE koristi whatsApp za TAXIMETAR
+				echo '<div class="alert alert-warning"> Flota ne koristi WhatsApp putem aplikacije za komunikaciju sa Taximetrom. </div>';
+		}
+	}else{
+		// Ako flota NE koristi whatsApp
+				echo '<div class="alert alert-warning"> Flota ne koristi WhatsApp putem aplikacije. </div>';
+	}
+					  ?>
+												<?php if (session()->has('msgtaximetarlog')){ ?>
+										<div class="alert <?=session()->getFlashdata('alert-class') ?>">
+											<?=session()->getFlashdata('msgtaximetarlog') ?>
+										</div>
+									<?php } ?>
+				  </div>		
 			</div>
 						<hr class="hr" />
 			  <div class="col-md-3">
@@ -297,30 +356,86 @@
 				  <option value="0">0 €</option>
 				</select>
 			</div>
-						<hr class="hr" />
+<hr class="hr" />
 
-		<div class="col-md-2">
-			<label for="isplata" class="form-label">Isplata na </label>
-			<select class="form-select" name="isplata" aria-label="Default select example">
-				<option value ="<?php echo $driver['isplata']  ?>" selected ><?php if($driver['isplata'] != 'Revolut'){ echo 'HR IBAN';} else{ echo 'Revolut';} ?></option>
-						<?php if($driver['isplata'] != 'Revolut'){echo '<option value="Revolut">Revolut</option>';} 
-							  if($driver['isplata'] != 'hrIBAN'){echo '<option value="hrIBAN">HR IBAN</option>';}
-						?>
-			</select>
-		</div>
-			  <div class="col-md-3">
-				<label for="IBAN" class="form-label">IBAN računa </label>
-				<input type="text" class="form-control" name="IBAN"  placeholder="HR..." value ="<?php echo $driver['IBAN']  ?>">
-			  </div>
-			  <div class="col-md-3">
-				<label for="zasticeniIBAN" class="form-label">IBAN zaštičenog računa </label>
-				<input type="text" class="form-control" name="zasticeniIBAN"  placeholder="HR..." value ="<?php echo $driver['zasticeniIBAN']  ?>">
-			  </div>
-			  <div class="col-md-3">
-				<label for="strani_IBAN" class="form-label">IBAN stranog računa </label>
-				<input type="text" class="form-control" name="strani_IBAN"  placeholder="LT..." value ="<?php echo $driver['strani_IBAN']  ?>">
-			  </div>
-										<hr class="hr" />
+<div class="col-md-6">
+    <!-- Change the label to "Tjedna isplata na:" -->
+    <label for="tjedna_isplata" class="form-label">Tjedna isplata na: </label>
+    <select class="form-select" name="tjedna_isplata" aria-label="Select weekly payment IBAN">
+        <option value="<?php echo $driver['tjedna_isplata']; ?>" selected>
+            <?php 
+                // Echo the correct IBAN type based on the selected value
+                if($driver['tjedna_isplata'] == 'Revolut') {
+                    echo 'Revolut'; 
+                } elseif($driver['tjedna_isplata'] == 'hrIBAN') {
+                    echo 'HR IBAN';
+                } elseif($driver['tjedna_isplata'] == 'zasticeniIBAN') {
+                    echo 'Zaštičeni IBAN';
+                }
+            ?>
+        </option>
+        <!-- Offer all 3 IBAN options -->
+        <?php if($driver['tjedna_isplata'] != 'Revolut') { echo '<option value="Revolut">Revolut</option>'; } ?>
+        <?php if($driver['tjedna_isplata'] != 'hrIBAN') { echo '<option value="hrIBAN">HR IBAN</option>'; } ?>
+        <?php if($driver['tjedna_isplata'] != 'zasticeniIBAN') { echo '<option value="zasticeniIBAN">Zaštičeni IBAN</option>'; } ?>
+    </select>
+</div>
+
+<div class="col-md-6">
+    <!-- Add new select input for "Isplata plaće na:" -->
+    <label for="isplata_place" class="form-label">Isplata plaće na: </label>
+    <select class="form-select" name="isplata_place" aria-label="Select salary payment IBAN">
+        <option value="<?php echo $driver['isplata_place']; ?>" selected>
+            <?php 
+                // Echo the correct IBAN type based on the selected value
+                if($driver['isplata_place'] == 'Revolut') {
+                    echo 'Revolut'; 
+                } elseif($driver['isplata_place'] == 'hrIBAN') {
+                    echo 'HR IBAN';
+                } elseif($driver['isplata_place'] == 'zasticeniIBAN') {
+                    echo 'Zaštičeni IBAN';
+                }
+            ?>
+        </option>
+        <!-- Offer all 3 IBAN options -->
+        <?php if($driver['isplata_place'] != 'Revolut') { echo '<option value="Revolut">Revolut</option>'; } ?>
+        <?php if($driver['isplata_place'] != 'hrIBAN') { echo '<option value="hrIBAN">HR IBAN</option>'; } ?>
+        <?php if($driver['isplata_place'] != 'zasticeniIBAN') { echo '<option value="zasticeniIBAN">Zaštičeni IBAN</option>'; } ?>
+    </select>
+</div>
+
+<div class="col-md-4">
+    <label for="IBAN" class="form-label">IBAN računa </label>
+    <input type="text" class="form-control" name="IBAN" placeholder="HR..." value="<?php echo $driver['IBAN']; ?>">
+    <?php if($ibValid['ibanValid'] === true): ?>
+        <div id="IBANHelp" class="form-text text-success border border-success">IBAN je ispravan</div>
+    <?php else: ?>
+        <div id="IBANHelp" class="form-text text-danger border border-danger">IBAN je neispravan</div>
+    <?php endif; ?>
+</div>
+
+<div class="col-md-4">
+    <label for="zasticeniIBAN" class="form-label">IBAN zaštičenog računa </label>
+    <input type="text" class="form-control" name="zasticeniIBAN" placeholder="HR..." value="<?php echo $driver['zasticeniIBAN']; ?>">
+    <?php if($ibValid['zIbanValid'] === true): ?>
+        <div id="zasticeniIBANHelp" class="form-text text-success border border-success">IBAN je ispravan</div>
+    <?php else: ?>
+        <div id="zasticeniIBANHelp" class="form-text text-danger border border-danger">IBAN je neispravan</div>
+    <?php endif; ?>
+</div>
+
+<div class="col-md-4">
+    <label for="strani_IBAN" class="form-label">IBAN stranog računa </label>
+    <input type="text" class="form-control" name="strani_IBAN" placeholder="LT..." value="<?php echo $driver['strani_IBAN']; ?>">
+    <?php if($ibValid['sIbanValid'] === true): ?>
+        <div id="strani_IBANHelp" class="form-text text-success border border-success">IBAN je ispravan</div>
+    <?php else: ?>
+        <div id="strani_IBANHelp" class="form-text text-danger border border-danger">IBAN je neispravan</div>
+    <?php endif; ?>
+</div>
+
+<hr class="hr" />
+
 			  <div class="col-md-4">
 				<label for="blagMin" class="form-label">Blagajnički minimum </label>
 				<input type="text" class="form-control" name="blagMin"  value ="<?php echo $driver['blagMin']  ?>" required>
@@ -344,7 +459,7 @@
 			<hr class="hr" />
 				
 				
-			<form id="form2" class="row g-3 needs-validation" action="<?php echo base_url('index.php/AdminController/driverPrijavaUpdate');?>" method="post" novalidate>
+			<form id="form2" class="row g-3 needs-validation" action="<?php echo site_url('AdminController/driverPrijavaUpdate');?>" method="post" novalidate>
 				
 				<div class="col-md-4">
 					<label for="prijava" class="form-label">Prijava</label>
@@ -417,7 +532,7 @@
 				</select>
 			</div>
 			 <div class="col-12">
-				<button type="submit" class="btn btn-primary" <?php if($role!= 'knjigovoda'){}else{ echo 'disabled';} ?>>Spremi promjene vezano za prijavu</button>
+				<button type="submit" id="submitBtn" class="btn btn-primary" <?php if($role!= 'knjigovoda'){}else{ echo 'disabled';} ?>>Spremi promjene vezano za prijavu</button>
 			  </div>
 
 				</form>
@@ -456,8 +571,8 @@
 			<div class="col-2"></div>
 			<div class="col col-xxl-8 col-xl-8 col-lg-12 col-m-12 col-sm-12">
 				<div id="<?php echo $driver_slug_id ?>" class="card border-danger text-white bg-secondary mt-3">
-					<div class="card-header text-center"><h4 class="fw-bold"><a href="<?php echo base_url('/index.php/drivers/'). '/' .$driver['vozac_id']?>"><?php echo $driver['vozac']; ?></a></h4>
-					<h6 class=" border-dark"><a href="<?php echo base_url('/index.php/editirajObracun/'). '/' .$driver['id']?>"><?php echo $driver['raspon']; ?></a></h6>
+					<div class="card-header text-center"><h4 class="fw-bold"><a href="<?php echo site_url('drivers/'). '/' .$driver['vozac_id']?>"><?php echo $driver['vozac']; ?></a></h4>
+					<h6 class=" border-dark"><a href="<?php echo site_url('editirajObracun/'). '/' .$driver['id']?>"><?php echo $driver['raspon']; ?></a></h6>
 					</div>
 					<div class="card-body">
 						<?php if($koristi_activity != 0): ?>
@@ -683,23 +798,23 @@
 								
 								<div class="col"> 
 								
-									<a class="btn btn-outline-info" href="<?php echo base_url('/index.php/ugovoroRadu/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Ugovor o radu</a>
+									<a class="btn btn-outline-info" href="<?php echo site_url('ugovoroRadu/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Ugovor o radu</a>
 								</div>
 								<div class="col">
-									<a class="btn btn-outline-info" href="<?php echo base_url('/index.php/ugovoroNajmu/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Ugovor o najmu</a>
+									<a class="btn btn-outline-info" href="<?php echo site_url('ugovoroNajmu/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Ugovor o najmu</a>
 								</div>
 								<div class="col">
-									<a class="btn btn-outline-info" href="<?php echo base_url('/index.php/blagajnickiminmax/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Blagajnički min/max</a>
+									<a class="btn btn-outline-info" href="<?php echo site_url('blagajnickiminmax/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Blagajnički min/max</a>
 								</div>
 								<div class="col">
-									<a class="btn btn-outline-info" href="<?php echo base_url('/index.php/radniOdnos/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Odnos Uber</a>
+									<a class="btn btn-outline-info" href="<?php echo site_url('radniOdnos/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Odnos Uber</a>
 								</div>
 								<div class="col">
-									<a class="btn btn-outline-info" href="<?php echo base_url('/index.php/radniOdnosBolt/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Odnos Bolt</a>
+									<a class="btn btn-outline-info" href="<?php echo site_url('radniOdnosBolt/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Odnos Bolt</a>
 								</div>
 								<?php if($aneks == TRUE): ?>
 								<div class="col">
-									<a class="btn btn-outline-info" href="<?php echo base_url('/index.php/aneksUgovora/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Aneks Ugovora</a>
+									<a class="btn btn-outline-info" href="<?php echo site_url('aneksUgovora/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Aneks Ugovora</a>
 								</div>
 								<?php endif ?>
 								
@@ -723,9 +838,9 @@
 								
 								<div class="col-12"> 
 									<?php if(isset($vozilo)): ?>
-									<form class="row g-3" action="<?php echo base_url('index.php/AdminController/addVoziloUpdate');?>" method="post">
+									<form class="row g-3" action="<?php echo site_url('AdminController/addVoziloUpdate');?>" method="post">
 									<?php else: ?>
-									<form class="row g-3" action="<?php echo base_url('index.php/AdminController/addVoziloSave');?>" method="post">
+									<form class="row g-3" action="<?php echo site_url('AdminController/addVoziloSave');?>" method="post">
 									<?php endif ?>
 									<div class="col-6">
 											<label for="proizvodac" class="form-label">Proizvođač</label>
@@ -853,7 +968,7 @@
 									  <li class="list-group-item">Nema napomena</li>
 									<?php endif?>
 								</ul>
-								<form class="row g-3" action="<?= base_url('index.php/AdminController/napomenaSave');?>" method="post">
+								<form class="row g-3" action="<?= site_url('AdminController/napomenaSave');?>" method="post">
 									<div class="input-group">
 										<span class="input-group-text">Napiši napomenu</span>
 										<textarea class="form-control" aria-label="napomena" name="napomena"></textarea>
@@ -928,7 +1043,7 @@
 						<tr>
 							<!-- Display data for the latest row based on highest 'id' -->
 							<th scope="row"><?php echo $num; ?></th>
-							<td><a href="<?php echo base_url('/index.php/drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
+							<td><a href="<?php echo site_url('drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
 							<td><?php echo $radnik['prezime']; ?></td>
 							<td><?php echo $radnik['OIB']; ?></td>
 							<td><?php echo $radnik['dob']; ?></td>
@@ -949,7 +1064,7 @@
 						<tr>
 							<!-- Display data for the latest row based on highest 'id' -->
 							<th scope="row"><i class="bi bi-arrow-90deg-up ms-3"></i></th>
-							<td><a href="<?php echo base_url('/index.php/drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
+							<td><a href="<?php echo site_url('drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
 							<td><?php echo $radnik['prezime']; ?></td>
 							<td><?php echo $radnik['OIB']; ?></td>
 							<td><?php echo $radnik['dob']; ?></td>
@@ -975,7 +1090,7 @@
 					
 				<tr>
 							<th scope="row"><?php echo $num; ?></th>
-							<td><a href="<?php echo base_url('/index.php/drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
+							<td><a href="<?php echo site_url('drivers/'). '/' .$radnik['vozac_id']?>" style="text-decoration: none; color: inherit;"><?php echo $radnik['ime']; ?></a></td>
 							<td><?php echo $radnik['prezime']; ?></td>
 							<td><?php echo $radnik['OIB']; ?></td>
 							<td><?php echo $radnik['dob']; ?></td>
@@ -1046,12 +1161,12 @@
 <div class="d-flex justify-content-end fixed-bottom fixed-right">
     <!-- Create Previous and Next buttons based on the active item -->
     <?php if ($activeIndex > 0): ?>
-        <a href="<?php echo base_url('/index.php/drivers/') . '/' . $drivers[$activeIndex - 1]['id'] ?>"
+        <a href="<?php echo site_url('drivers/') . '/' . $drivers[$activeIndex - 1]['id'] ?>"
            class="btn btn-primary me-2 mb-5">Previous</a>
     <?php endif ?>
 
     <?php if ($activeIndex < count($drivers) - 1): ?>
-        <a href="<?php echo base_url('/index.php/drivers/') . '/' . $drivers[$activeIndex + 1]['id'] ?>"
+        <a href="<?php echo site_url('drivers/') . '/' . $drivers[$activeIndex + 1]['id'] ?>"
            class="btn btn-primary me-5 mb-5">Next</a>
     <?php endif ?>
 </div>	
@@ -1382,7 +1497,7 @@ $(document).ready(function() {
     var table = $('#activityTable').DataTable({
 		paging: false,
         ajax: {
-            url: '<?= base_url("index.php/admin/driver-activity") ?>',
+            url: '<?= site_url("admin/driver-activity") ?>',
             type: "POST",
             data: function (d) {
                 // Get the selected date range directly from the picker
@@ -1544,5 +1659,76 @@ function formatDecimalHours(decimalHours) {
 		
 		</script>		
 		
+<script>
+  document.getElementById('taximetarCheckbox').addEventListener('change', function() {
+    var mobTaximetarDiv = document.getElementById('mobTaximetarDiv');
+    var mobTaximetarInput = document.getElementById('mobTaximetarInput');
+    if (this.checked) {
+      mobTaximetarDiv.style.display = 'block';
+      mobTaximetarInput.setAttribute('required', 'required');
+    } else {
+      mobTaximetarDiv.style.display = 'none';
+      mobTaximetarInput.removeAttribute('required');
+    }
+  });
+
+  window.onload = function() {
+    var checkbox = document.getElementById('taximetarCheckbox');
+    var mobTaximetarDiv = document.getElementById('mobTaximetarDiv');
+    var mobTaximetarInput = document.getElementById('mobTaximetarInput');
+    if (checkbox.checked) {
+      mobTaximetarDiv.style.display = 'block';
+      mobTaximetarInput.setAttribute('required', 'required');
+    } else {
+      mobTaximetarDiv.style.display = 'none';
+      mobTaximetarInput.removeAttribute('required');
+    }
+  };
+</script>		
+		<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get references to the checkbox and the form
+    var taximetarCheckbox = document.getElementById('taximetarCheckbox');
+    var form1 = document.getElementById('form1');
+    
+    // Store the initial state of the checkbox
+    var initialTaximetarCheck = taximetarCheckbox.checked;
+
+    // Add an event listener to the checkbox
+    taximetarCheckbox.addEventListener('change', function() {
+        // If the checkbox was initially checked and is now unchecked
+        if (initialTaximetarCheck && !taximetarCheckbox.checked) {
+            // Show a confirmation dialog
+            var confirmation = confirm("Jeste li sigurni da želite deaktivirati vozačev taximetar? Deaktivacija će automatski biti poslana na taximetar.");
+
+            // If the user does not confirm, prevent the checkbox from being unchecked
+            if (!confirmation) {
+                taximetarCheckbox.checked = true;
+            }
+        }
+    });
+
+    // Add form submission event listener to check the state before submitting
+    form1.addEventListener('submit', function(event) {
+        // If the checkbox was initially checked and is now unchecked, do nothing here because the confirmation is already handled above.
+    });
+});		
+		</script>
+		
+<script>
+document.getElementById('form2').addEventListener('submit', function(event) {
+    var aktivanValue = document.getElementById('aktivanSelect').value;
+    
+    if (aktivanValue == '0') {
+        event.preventDefault(); // Prevent the default form submission
+        
+        // Open the deactivate function in a new tab
+        window.open('<?php echo site_url('taximetar/deaktiviraj/'.$VOZACID)?>', '_blank');
+        
+        // Submit the form in the same tab
+        this.submit();
+    }
+});
+</script>		
 </body>
 </html>

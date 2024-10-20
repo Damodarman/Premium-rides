@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/png" href="/favicon.ico"/>
 
     <!-- STYLES -->
-	<link  rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/vendor/bootstrap/css/bootstrap-grid.css');?>">
+	<link  rel="stylesheet" type="text/css" href="<?php echo site_url('/assets/vendor/bootstrap/css/bootstrap-grid.css');?>">
 	
 	<link href="/assets/vendor/bootstrap/css/bootstrap-grid.css" rel="stylesheet">
 	<link href="/assets/vendor/aos/aos.css" rel="stylesheet">

@@ -32,10 +32,10 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'db5010865126.hosting-data.io',
-        'username' => 'dbu3774182',
+        'hostname' => '127.0.0.1',
+        'username' => 'premium',
         'password' => 'DamoCb4i93G4',
-        'database' => 'dbs9189261',
+        'database' => 'premiumRides',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

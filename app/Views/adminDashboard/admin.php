@@ -11,24 +11,24 @@
 
   <!-- Favicons -->
 	
-  <link href="<?php echo base_url('/assets/img/favicon.png')?>" rel="icon">
-  <link href="<?php echo base_url('/assets/img/apple-touch-icon.png')?>" rel="apple-touch-icon">
+  <link href="<?php echo site_url('/assets/img/favicon.png')?>" rel="icon">
+  <link href="<?php echo site_url('/assets/img/apple-touch-icon.png')?>" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-	<link  rel="stylesheet" type="text/css" href="<?= base_url('/assets/css/style.css');?>">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/aos/aos.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/bootstrap-icons/bootstrap-icons.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/boxicons/css/boxicons.min.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/glightbox/css/glightbox.min.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/remixicon/remixicon.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/swiper/swiper-bundle.min.css')?>" rel="stylesheet">
+	<link  rel="stylesheet" type="text/css" href="<?= site_url('/assets/css/style.css');?>">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/aos/aos.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/bootstrap-icons/bootstrap-icons.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/boxicons/css/boxicons.min.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/glightbox/css/glightbox.min.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/remixicon/remixicon.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/swiper/swiper-bundle.min.css')?>" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="<?php echo base_url('/assets/css/style.css')?>" rel="stylesheet">
+  <link href="<?php echo site_url('/assets/css/style.css')?>" rel="stylesheet">
 
 </head>
 
@@ -38,7 +38,7 @@
 			<div class="col-12 text-white mt-3 border-bottom border-2 border-danger">
 				<h4> Dobro došao <?php echo $name;?>, ovo je pregled tvoje flote</h4>
 				<?php if($level == 1): ?>
-					<h4> <?php echo $name;?>,  <a class="nav-link" href="<?php echo base_url('/index.php/admin/posaljiPoruku')?>">ovdje pošalji whatsapp poruku</a></h4>
+					<h4> <?php echo $name;?>,  <a class="nav-link" href="<?php echo site_url('admin/posaljiPoruku')?>">ovdje pošalji whatsapp poruku</a></h4>
 	
 				<?php endif ?>
 
@@ -49,11 +49,11 @@
 						<h4>Info Flote, <?php echo $fleet; ?></h4>
 					</div>
 					<div class="col-6">
-						<h4><a class="nav-link" href="<?php echo base_url('/index.php/admin/flota')?>">Postavke flote</a></h4>
+						<h4><a class="nav-link" href="<?php echo site_url('admin/flota')?>">Postavke flote</a></h4>
 					</div>
 				</div>
 					<div class="container text-dark border-top border-2 border-danger mb-2">
-				<a href="<?php echo base_url('/index.php/drivers')?>">
+				<a href="<?php echo site_url('drivers')?>">
 						<div class="row pt-1">
 							<div class="col-6 pt-3 ">
 								<div class="bg-secondary border border-danger rounded d-flex align-items-center justify-content-between p-4 pt-1 pb-1">
@@ -177,7 +177,7 @@
 						</div>
 		
 <!--
-						<form class="row g-3" action="<?php echo base_url('index.php/AdminController/sendSms');?>" method="post">
+						<form class="row g-3" action="<?php echo site_url('AdminController/sendSms');?>" method="post">
 							<div class="col-md-6">
 								<label for="broj" class="form-label">Broj mobitela</label>
 								<input type="text" name ="broj" class="form-control" id="broj" placeholder="+385945784244">

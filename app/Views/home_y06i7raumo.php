@@ -11,24 +11,24 @@
 
   <!-- Favicons -->
 	
-  <link href="<?php echo base_url('/assets/img/favicon.png')?>" rel="icon">
-  <link href="<?php echo base_url('/assets/img/apple-touch-icon.png')?>" rel="apple-touch-icon">
+  <link href="<?php echo site_url('/assets/img/favicon.png')?>" rel="icon">
+  <link href="<?php echo site_url('/assets/img/apple-touch-icon.png')?>" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-	<link  rel="stylesheet" type="text/css" href="<?= base_url('/assets/css/style.css');?>">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/aos/aos.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/bootstrap-icons/bootstrap-icons.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/boxicons/css/boxicons.min.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/glightbox/css/glightbox.min.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/remixicon/remixicon.css')?>" rel="stylesheet">
-  <link type="text/css" href="<?php echo base_url('/assets/vendor/swiper/swiper-bundle.min.css')?>" rel="stylesheet">
+	<link  rel="stylesheet" type="text/css" href="<?= site_url('/assets/css/style.css');?>">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/aos/aos.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/bootstrap-icons/bootstrap-icons.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/boxicons/css/boxicons.min.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/glightbox/css/glightbox.min.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/remixicon/remixicon.css')?>" rel="stylesheet">
+  <link type="text/css" href="<?php echo site_url('/assets/vendor/swiper/swiper-bundle.min.css')?>" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="<?php echo base_url('/assets/css/style.css')?>" rel="stylesheet">
+  <link href="<?php echo site_url('/assets/css/style.css')?>" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Premium Rides - v4.3.0
@@ -56,8 +56,8 @@
 			  </a>
 				</li>
 			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-				<li><a class="dropdown-item" href="<?php echo base_url('/index.php/signin')?>">Log in</a></li>
-				<li><a class="dropdown-item" href="<?php echo base_url('/index.php/signup')?>">Register</a></li>
+				<li><a class="dropdown-item" href="<?php echo site_url('signin')?>">Log in</a></li>
+				<li><a class="dropdown-item" href="<?php echo site_url('signup')?>">Register</a></li>
 			  </ul>
 			</div>
         </ul>
@@ -81,7 +81,7 @@
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-          <img src="<?php echo base_url('/assets/img/hero-img.png')?>" class="img-fluid animated" alt="">
+          <img src="<?php echo site_url('/assets/img/hero-img.png')?>" class="img-fluid animated" alt="">
         </div>
       </div>
     </div>
@@ -97,23 +97,23 @@
         <div class="row" data-aos="zoom-in">
 
           <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="<?php echo base_url('/assets/img/clients/connecto-logo.png')?>" class="img-fluid" alt="Connecto Transfers">
+            <img src="<?php echo site_url('/assets/img/clients/connecto-logo.png')?>" class="img-fluid" alt="Connecto Transfers">
           </div>
 
           <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="<?php echo base_url('/assets/img/clients/welcome-logo.png')?>" class="img-fluid" alt="Welcome Pickups">
+            <img src="<?php echo site_url('/assets/img/clients/welcome-logo.png')?>" class="img-fluid" alt="Welcome Pickups">
           </div>
 
           <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="<?php echo base_url('/assets/img/clients/uber-logo.png')?>" class="img-fluid" alt="Uber">
+            <img src="<?php echo site_url('/assets/img/clients/uber-logo.png')?>" class="img-fluid" alt="Uber">
           </div>
 
           <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="<?php echo base_url('/assets/img/clients/bolt-logo.png')?>" class="img-fluid" alt="Bolt">
+            <img src="<?php echo site_url('/assets/img/clients/bolt-logo.png')?>" class="img-fluid" alt="Bolt">
           </div>
 
           <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-            <img src="<?php echo base_url('/assets/img/clients/get-transfer.png')?>" class="img-fluid" alt="GetTransfer.com">
+            <img src="<?php echo site_url('/assets/img/clients/get-transfer.png')?>" class="img-fluid" alt="GetTransfer.com">
           </div>
 
         </div>

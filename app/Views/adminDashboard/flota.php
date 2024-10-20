@@ -1,7 +1,7 @@
 <div class="container">
 	<?php if (session()->has('msgflota')){ ?>
 		<div class="alert <?=session()->getFlashdata('alert-class') ?>">
-			<?=session()->getFlashdata('msgtvrtka') ?>
+			<?=session()->getFlashdata('msgflota') ?>
 		</div>
 	<?php } ?>
 	<?php if (session()->has('msgtvrtka')){ ?>
@@ -10,9 +10,9 @@
 		</div>
 	<?php } ?>
 	
-	<h4>Postavke flote</h4>
 	<div class="row">
-		<form class="row g-3" action="<?php echo base_url('index.php/FlotaController/postavkeFlote');?>" method="post">
+	<h4>Postavke flote</h4>
+		<form class="row g-3" action="<?php echo site_url('FlotaController/postavkeFlote');?>" method="post">
 			<div class="col-md-3">
 				<label for="naziv" class="form-label">Naziv Flote</label>
 				<input type="text" name ="naziv" class="form-control" <?php if(isset($flota)):?> value="<?php echo $flota['naziv'] ?>" <?php else:?> placeholder="Naziv flote"   <?php endif ?> </input>
@@ -89,6 +89,19 @@
 				<input type="text" name ="minimalna_provizija_sezona" class="form-control" <?php if(isset($flota)):?> value="<?php echo $flota['minimalna_provizija_sezona'] ?>" <?php else:?> placeholder="20"   <?php endif ?> </input>
 			</div>
 			<div class="col-md-3">
+				<label for="koristiti_taximetar_whatsapp" class="form-label">Koristiti whatsapp za slanje poruka prema taximetru </label>
+				<select class="form-select" name="koristiti_taximetar_whatsapp" aria-label="Default select example">
+					<option value ="<?php echo $flota['koristiti_taximetar_whatsapp']  ?>" selected ><?php if($flota['koristiti_taximetar_whatsapp'] != '1'){ echo 'NE';} else{ echo 'DA';} ?></option>
+							<?php if($flota['koristiti_taximetar_whatsapp'] != '0'){echo '<option value="0">NE</option>';} 
+								  if($flota['koristiti_taximetar_whatsapp'] != '1'){echo '<option value="1">DA</option>';}
+							?>
+				</select>
+			</div>
+			<div class="col-md-3">
+				<label for="taximetar_whatsapp_broj" class="form-label">Taximetar WhatsApp broj</label>
+				<input type="text" name ="taximetar_whatsapp_broj" class="form-control" <?php if(isset($flota)):?> value="<?php echo $flota['taximetar_whatsapp_broj'] ?>" <?php else:?> placeholder="10"   <?php endif ?> </input>
+			</div>
+			<div class="col-md-3">
 				<label for="tvrtka_id" class="form-label">Tvrtka</label>
 				<select class="form-select" name="tvrtka_id" aria-label="Default select example">
 					<option value="<?php echo $aktivnaTvrtka['id']?>" selected><?php echo $aktivnaTvrtka['naziv']?></option>
@@ -100,12 +113,14 @@
 				</select>
 			</div>
 			<div class="col-md-9"></div>
-			<div class="col-md-3"> <a class="nav-link" href="<?php echo base_url('/index.php/admin/tvrtka')?>">Dodaj tvrtku koja nije na popisu</a></div>
+			<div class="col-md-3"> <a class="nav-link" href="<?php echo site_url('admin/tvrtka')?>">Dodaj tvrtku koja nije na popisu</a></div>
 			<div class="col-12 text-center">
 				<button type="submit" class="btn btn-primary">Spremi promjene</button>
 			  </div>
 		</form>
 	</div>
+	
+
 		<h4>Postavke za slanje WhatsApp poruka</h4>
 	
 	<div class="row">
@@ -116,7 +131,7 @@
 	</div>
 	<?php endif;?>
 
-		<form class="row g-3" action="<?php echo base_url('index.php/FlotaController/UltramsgLibPostavke');?>" method="post">
+		<form class="row g-3" action="<?php echo site_url('FlotaController/UltramsgLibPostavke');?>" method="post">
 			<div class="col-md-3">
 				<label for="api_url" class="form-label">API URL</label>
 				<input type="text" name ="api_url" class="form-control" <?php if(isset($UltramsgLibConf)):?> value="<?php echo $UltramsgLibConf['api_url'] ?>"  <?php elseif(isset($input)): ?> value="<?php echo $input['api_url'] ?>" <?php else: ?> placeholder="api_url"  <?php endif ?></input>
@@ -137,6 +152,63 @@
 			  </div>
 		</form>
 	</div>
+	
+	<div class="row">
+		<h4>Postavke texta poruka</h4>
+		<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Poruka dobrodošlice</button>
+    <button class="nav-link" id="nav-dug1-tab" data-bs-toggle="tab" data-bs-target="#nav-dug1" type="button" role="tab" aria-controls="nav-dug1" aria-selected="false">Dug 1. upozorenje</button>
+    <button class="nav-link" id="nav-dug2-tab" data-bs-toggle="tab" data-bs-target="#nav-dug2" type="button" role="tab" aria-controls="nav-dug2" aria-selected="false">Dug 2. upozorenje</button>
+	  
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active mb-3" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+		<form class="row g-3 mt-3" action="<?php echo site_url('FlotaController/saveMsgTmpl');?>" method="post">
+			<div class="mb-3">
+			  <label for="name" class="form-label">Dobrodošlica</label>
+			  <input type="text" class="form-control" name="name" placeholder="Naziv poruke" required value="<?php if($dobrodoslica){echo $dobrodoslica['name'];}?>">
+				<input type="text" name="id" value="<?php if($dobrodoslica) echo $dobrodoslica['id'] ?>" hidden >
+			</div>
+			<div class="mb-3">
+			  <label for="content" class="form-label">Sadržaj poruke</label>
+			  <textarea class="form-control" name="content" rows="3" placeholder="Sadržaj poruke" required><?php if($dobrodoslica){echo $dobrodoslica['content'];} else{echo 'Sadržaj';} ?></textarea>
+				<div id="contentHelp" class="form-text">{{ime}} - ime, {{dug}} - dug</div>
+			</div>
+			
+			<div class="col-12 text-center">
+				<button type="submit" class="btn btn-primary">Spremi promjene</button>
+			  </div>
+		</form>
+	</div>
+	
+  <div class="tab-pane fade" id="nav-dug1" role="tabpanel" aria-labelledby="nav-dug1-tab">
+		<form class="row g-3 mt-3" action="<?php echo site_url('FlotaController/saveMsgTmpl');?>" method="post">
+			<div class="mb-3">
+			  <label for="name" class="form-label">Naziv poruke</label>
+			  <input type="text" class="form-control" name="name" placeholder="Naziv poruke" required value="dug1">
+				<input type="text" name="id" value="<?php if($dug1) echo $dug1['id'] ?>" hidden >
+			</div>
+			<div class="mb-3">
+			  <label for="content" class="form-label">Sadržaj poruke</label>
+			  <textarea class="form-control" name="content" rows="3" placeholder="Sadržaj poruke" required><?php if($dug1){echo $dug1['content'];}?></textarea>
+				<div id="contentHelp" class="form-text">{{ime}} - ime, {{dug}} - dug</div>
+			</div>
+			
+			<div class="col-12 text-center">
+				<button type="submit" class="btn btn-primary">Spremi promjene</button>
+			  </div>
+		</form>
+	</div>
+	
+  <div class="tab-pane fade" id="nav-dug2" role="tabpanel" aria-labelledby="nav-dug2-tab">
+	  Ovdje će iči drugo upozorenje za dug
+	</div>
+	
+</div>
+	</div>
+	
 
 </div>
 

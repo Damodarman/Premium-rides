@@ -25,6 +25,8 @@ class FlotaModel extends Model{
         'koristi_min_proviziju_sezona',
         'minimalna_provizija_sezona',
         'provizija_fiks_sezona',
+        'taximetar_whatsapp_broj',
+        'koristiti_taximetar_whatsapp',
         'created_at'
     ];
 }

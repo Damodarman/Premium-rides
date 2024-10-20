@@ -13,4 +13,17 @@
 <file name="StringCast.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530500000000" Dst="1" />
 <file name="TimestampCast.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530500000000" Dst="1" />
 <file name="URICast.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170530500000000" Dst="1" />
+<file name="ArrayCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704580000000" Dst="2" />
+<file name="BaseCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704580000000" Dst="2" />
+<file name="BooleanCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704590000000" Dst="2" />
+<file name="CastInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704590000000" Dst="2" />
+<file name="CSVCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704590000000" Dst="2" />
+<file name="DatetimeCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704590000000" Dst="2" />
+<file name="FloatCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704600000000" Dst="2" />
+<file name="IntegerCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704600000000" Dst="2" />
+<file name="JsonCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704600000000" Dst="2" />
+<file name="ObjectCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704610000000" Dst="2" />
+<file name="StringCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704610000000" Dst="2" />
+<file name="TimestampCast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704610000000" Dst="2" />
+<file name="URICast.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708704610000000" Dst="2" />
 </dwsync>

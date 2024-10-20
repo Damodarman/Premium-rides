@@ -66,16 +66,16 @@ class KnjigovodstvoController extends Controller
 		if ($existingData) {
 			$session->setFlashdata('msgProdajnoMjesto', ' Prodajno mjesto već postoji u bazi podataka.');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/addprodajnomjesto');
+			return redirect()->to('addprodajnomjesto');
 		} else {
 			if($PrMjTrModel->save($data)){
 				$session->setFlashdata('msgProdajnoMjesto', ' Uspješno dodano Prodajno mjesto.');
 				session()->setFlashdata('alert-class', 'alert-success');
-				return redirect()->to('/index.php/addprodajnomjesto');
+				return redirect()->to('addprodajnomjesto');
 			} else {
 				$session->setFlashdata('msgProdajnoMjesto', ' Neuspješno dodano Prodajno mjesto.');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/addprodajnomjesto');
+				return redirect()->to('addprodajnomjesto');
 			}
 		}
 	
@@ -120,16 +120,16 @@ class KnjigovodstvoController extends Controller
 		if ($existingData) {
 			$session->setFlashdata('msgTrgovac', ' Trgovac već postoji u bazi podataka.');
 			session()->setFlashdata('alert-class', 'alert-danger');
-			return redirect()->to('/index.php/addTrgovca');
+			return redirect()->to('addTrgovca');
 		} else {
 			if($trgovciModel->save($data)){
 				$session->setFlashdata('msgTrgovac', ' Uspješno dodan trgovac.');
 				session()->setFlashdata('alert-class', 'alert-success');
-				return redirect()->to('/index.php/addTrgovca');
+				return redirect()->to('addTrgovca');
 			} else {
 				$session->setFlashdata('msgTrgovac', ' Neuspješno dodan trgovac.');
 				session()->setFlashdata('alert-class', 'alert-danger');
-				return redirect()->to('/index.php/addTrgovca');
+				return redirect()->to('addTrgovca');
 			}
 		}
 

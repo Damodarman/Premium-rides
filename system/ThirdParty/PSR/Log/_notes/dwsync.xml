@@ -9,4 +9,13 @@
 <file name="LoggerTrait.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531140000000" Dst="1" />
 <file name="LogLevel.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531140000000" Dst="1" />
 <file name="NullLogger.php" server="access941215561.webspace-data.io//" local="133121605870000000" remote="133170531140000000" Dst="1" />
+<file name="AbstractLogger.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706150000000" Dst="2" />
+<file name="InvalidArgumentException.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706150000000" Dst="2" />
+<file name="LICENSE" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706160000000" Dst="2" />
+<file name="LoggerAwareInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706160000000" Dst="2" />
+<file name="LoggerAwareTrait.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706160000000" Dst="2" />
+<file name="LoggerInterface.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706160000000" Dst="2" />
+<file name="LoggerTrait.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706170000000" Dst="2" />
+<file name="LogLevel.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706170000000" Dst="2" />
+<file name="NullLogger.php" server="access941215561.webspace-data.io" local="133121605870000000" remote="133708706170000000" Dst="2" />
 </dwsync>
