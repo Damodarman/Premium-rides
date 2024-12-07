@@ -92,9 +92,20 @@
 <file name="UserModel.php" server="access941215561.webspace-data.io" local="133591431076439638" remote="133708695600000000" Dst="2" />
 <file name="UserTokensModel.php" server="access941215561.webspace-data.io" local="133427431073820999" remote="133708695600000000" Dst="2" />
 <file name="VozilaModel.php" server="access941215561.webspace-data.io" local="133422718216028871" remote="133708695600000000" Dst="2" />
-<file name="DriverModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133725151227085884" remote="133725151230000000" Dst="2" />
-<file name="ObracunModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133725189444937292" remote="133725189450000000" Dst="2" />
-<file name="TvrtkaModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133715871657187536" remote="133715871660000000" Dst="2" />
+<file name="DriverModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133775460882877476" remote="133775460880000000" Dst="1" />
+<file name="ObracunModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133777022737667852" remote="133777022740000000" Dst="1" />
+<file name="TvrtkaModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133742441288819415" remote="133742441290000000" Dst="2" />
 <file name="VehicleModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133723679126124471" remote="133723679140000000" Dst="2" />
 <file name="ObracunFirmaModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133726853005968946" remote="133726853010000000" Dst="2" />
+<file name="BoltReportModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133765882897351520" remote="133765882900000000" Dst="1" />
+<file name="MyPosReportModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133765882744875925" remote="133765882740000000" Dst="1" />
+<file name="TaximetarReportModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133765882366521026" remote="133765882360000000" Dst="1" />
+<file name="UberReportModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133765882399024713" remote="133765882400000000" Dst="1" />
+<file name="TaskModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133775425554467863" remote="133775425550000000" Dst="1" />
+<file name="TaskAssignmentModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133768373167909461" remote="133768373170000000" Dst="1" />
+<file name="TaskPriorityModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133768373696841137" remote="133768373700000000" Dst="1" />
+<file name="TaskStatusHistoryModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133770127861101754" remote="133770127860000000" Dst="1" />
+<file name="UserModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133773580257447790" remote="133773580260000000" Dst="1" />
+<file name="TaskChatMessageModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133774666284939003" remote="133774666280000000" Dst="1" />
+<file name="NotificationModel.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133775317511543006" remote="133775317510000000" Dst="1" />
 </dwsync>

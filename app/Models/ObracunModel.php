@@ -74,4 +74,8 @@ class ObracunModel extends Model{
                 ->findAll();
 	}
 	
+	public function getObracunById($id){
+		return $this->where('id', $id)->first();
+	}
+	
 }

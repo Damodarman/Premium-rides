@@ -55,8 +55,12 @@ class SEPAService
         $pmtInf->addChild('PmtMtd', 'TRF');
         $pmtInf->addChild('NbOfTxs', count($this->transactions));
         $pmtInf->addChild('CtrlSum', array_sum(array_column($this->transactions, 'amount')));
+		$pmtTpInf = $pmtInf->addChild('PmtTpInf');
+		$svcLvl = $pmtTpInf->addChild('SvcLvl');
+		$svcLvl->addChild('Cd', 'SEPA');
         $pmtInf->addChild('ReqdExctnDt', date('Y-m-d', strtotime('+1 day')));
-
+		
+		
         // Debtor Details
         $dbtr = $pmtInf->addChild('Dbtr');
         $dbtr->addChild('Nm', $this->debtorName);

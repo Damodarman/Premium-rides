@@ -54,11 +54,13 @@ class KnjigovodaController extends Controller
 		$driverModel = new DriverModel();
 		
 		$activeDrivers = $driverModel->select('ime, prezime, dob, oib, pocetak_prijave, broj_sati, radno_mjesto')->where('fleet', $fleet)->where('prijava', 1)->where('aktivan', 1)->get()->getResultArray();
+		$activeDrivers1 = $driverModel->where('fleet', $fleet)->where('prijava', 1)->where('aktivan', 1)->get()->getResultArray();
 		
 		$data['page'] = 'Aktivni radnici danas';
 		$data['fleet'] = $fleet;
 		$data['role'] = $role;
 		$data['activeDrivers'] = $activeDrivers;
+		$data['activeDrivers1'] = $activeDrivers1;
 		
 		echo view('adminDashboard/header', $data)
 			.view('adminDashboard/navBar')

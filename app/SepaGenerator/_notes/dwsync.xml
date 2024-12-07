@@ -3,6 +3,6 @@
 <file name="GroupHeader.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133716468127391368" remote="133716468130000000" Dst="2" />
 <file name="PaymentInformation.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133716468499020801" remote="133716468490000000" Dst="2" />
 <file name="CustomerCreditTransferInformation.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133716458869581240" remote="133716458860000000" Dst="2" />
-<file name="SEPAService.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133716484118986810" remote="133716484110000000" Dst="2" />
+<file name="SEPAService.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133752726402951178" remote="133752726410000000" Dst="1" />
 <file name="Transaction.php" server="185.124.108.16//home/premium-rides/htdocs/premium-rides.com/public/appstarter/" local="133716468769641134" remote="133716468760000000" Dst="2" />
 </dwsync>

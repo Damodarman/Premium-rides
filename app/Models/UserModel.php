@@ -19,4 +19,20 @@ class UserModel extends Model{
 		'phone',
 		'role'
     ];
+	
+	public function getAllFleetUsers($fleet){
+		return $this->where('fleet', $fleet)->findAll();
+	}
+	
+	public function getUserById($userId){
+		return $this->where('id', $userId)->first();
+	}
+	public function getUserNameById($userId){
+		$user = $this->where('id', $userId)->first();
+		return $user['name'];
+	}
+	public function getUserPhoneById($userId){
+		$user = $this->where('id', $userId)->first();
+		return $user['phone'];
+	}
 }

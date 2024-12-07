@@ -143,6 +143,68 @@ $lastDay = mktime(0, 0, 0, $currentMonth + 1, 0, $currentYear);
 					</form>
 				</div>
 			</div>
+		</div>
+	<div class="col-md-3 mt-5">
+			<div class="card">
+				<div class="card-header text-center">
+					<strong>Upload multiple Bolt files</strong>
+					<p>Prije uploada nisu potrebne nikakve druge radnje .</br><br>
+<br>
+</p>
+				</div>
+				<div class="card-body">
+				<div class="mt-2">
+					<?php if (session()->has('messageBolt')){ ?>
+						<div class="alert <?=session()->getFlashdata('alert-class') ?>">
+							<?=session()->getFlashdata('messageBolt') ?>
+						</div>
+					<?php } ?>
+					<?php $validation = \Config\Services::validation(); ?>
+				</div>	
+					<form action="<?php echo site_url('ImportController/importMultipleFilesBolt');?>" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+						<div class="form-group mb-3">
+							<div class="mb-3">
+								<input type="file" name="files[]" class="form-control" id="files" required multiple>
+								<div class="invalid-feedback">Niste odabrali datoteku.</div>
+							</div>
+						</div>
+						<div class="d-grid">
+							<input type="submit" name="submit" value="Upload" class="btn btn-dark">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>	
+	<div class="col-md-3 mt-5">
+			<div class="card">
+				<div class="card-header text-center">
+					<strong>Upload multiple Uber files</strong>
+					<p>Prije uploada nisu potrebne nikakve druge radnje .</br><br>
+<br>
+</p>
+				</div>
+				<div class="card-body">
+				<div class="mt-2">
+					<?php if (session()->has('messageUber')){ ?>
+						<div class="alert <?=session()->getFlashdata('alert-class') ?>">
+							<?=session()->getFlashdata('messageUber') ?>
+						</div>
+					<?php } ?>
+					<?php $validation = \Config\Services::validation(); ?>
+				</div>	
+					<form action="<?php echo site_url('ImportController/importMultipleFilesUber');?>" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+						<div class="form-group mb-3">
+							<div class="mb-3">
+								<input type="file" name="files[]" class="form-control" id="files" required multiple>
+								<div class="invalid-feedback">Niste odabrali datoteku.</div>
+							</div>
+						</div>
+						<div class="d-grid">
+							<input type="submit" name="submit" value="Upload" class="btn btn-dark">
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>	
 		<div class="col-md-3 mt-5">
 			<div class="card">

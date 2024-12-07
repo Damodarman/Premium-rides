@@ -642,7 +642,7 @@ public function boltActivityImport()
                     $rowData = array_combine($headers, $row);
 
                  // Check for duplicates
-                    if ($model->where('driver_id', $rowData['Jedinstveni_identifikator_vozaca'])
+                    if ($model->where('driver_id', $rowData['Drivers_Unique_Identifier'])
                                ->where('start_date', $startDate)
                                ->where('end_date', $endDate)
                                ->countAllResults() > 0) {
@@ -653,27 +653,27 @@ public function boltActivityImport()
 //					die();
 					
                 $dataToInsert[] = [
-                'driver_id' => $rowData['Jedinstveni_identifikator_vozaca'],
-                'driver_name' => $rowData['Vozac'],
-                'phone_number' => $rowData['Telefonski_broj_vozaca'],
-                'email' => $rowData['E-mail'],
-                'cash_trips_enabled' => $rowData['Gotovinske_voznje_omogucene'] === 'DA' ? 1 : 0,
-                'driver_success_rate' => $this->cleanDecimalValue($rowData['Uspjesnost_vozaca']),
-                'completed_rides' => (int)$rowData['Dovrsene_voznje'],
-                'total_acceptance' => $this->cleanDecimalValue($rowData['Ukupno_prihvacanje']),
-                'required_acceptance' => $this->cleanDecimalValue($rowData['Potrebno_prihvacanje']),
-                'online_hours' => $this->minutesToHours($rowData['Sati_na_mrezi_min']),
-                'active_driving_hours' => $this->minutesToHours($rowData['Vrijeme_aktivne_voznje_min']),
-                'utilization' => $this->cleanDecimalValue($rowData['Utiliziranost']),
-                'rides_taken_rate' => $this->cleanDecimalValue($rowData['Stopa_odradenih_voznji']),
-                'rides_completed_rate' => $this->cleanDecimalValue($rowData['Stopa_zavrsenih_voznji']),
-                'average_rating' => $this->cleanDecimalValue($rowData['Prosjecna_ocjena_vozaca']),
-                'average_distance' => $this->metersToKilometers($rowData['Prosjecna_udaljenost_voznje_u_metrima']),
-                'fleet' => $fleet,
-                'start_date' => $startDate,
-                'end_date' => $endDate,
-                'personal_code' => $rowData["Jedinstveni_identifikator"]
-            ];
+                    'driver_id' => $rowData["Drivers_Unique_Identifier"],
+                    'driver_name' => $rowData['Driver'],
+                    'phone_number' => $rowData["Drivers_Phone"],
+                    'email' => $rowData['Email_Address'],
+                    'cash_trips_enabled' => $rowData['Cash_rides_enabled'] == 1 ? 1 : 0,
+                    'driver_success_rate' => $this->cleanDecimalValue($rowData['Driver_score']),
+                    'completed_rides' => (int)$rowData['Finished_Orders'],
+                    'total_acceptance' => $this->cleanDecimalValue($rowData['Total_acceptance']),
+                    'required_acceptance' => $this->cleanDecimalValue($rowData['Required_acceptance']),
+                    'online_hours' => $this->minutesToHours($rowData['Online_Hours_min']),
+                    'active_driving_hours' => $this->minutesToHours($rowData['Active_order_time_min']),
+                    'utilization' => $this->cleanDecimalValue($rowData['Utilization']),
+                    'rides_taken_rate' => $this->cleanDecimalValue($rowData['Completion_Rate']),
+                    'rides_completed_rate' => $this->cleanDecimalValue($rowData['Finished_Rate']),
+                    'average_rating' => $this->cleanDecimalValue($rowData['Average_Driver_Rating']),
+                    'average_distance' => $this->metersToKilometers($rowData['Average_Ride_Distance_meters']),
+                    'fleet' => $fleet,
+                    'start_date' => $startDate,
+                    'end_date' => $endDate,
+                    'personal_code' => $rowData["Individual_Identifier"]
+                ];
                   }
 
 				
@@ -916,6 +916,12 @@ public function taximetarImport() {
 }
 	
 	
+public function boltProcess($files, $count){
+	echo $count;
+	echo '<pre>';
+	var_dump($files);
+	die();
+}
 	
 	
 public function boltImport() {
@@ -996,15 +1002,15 @@ public function boltImport() {
 						$report['fleet'] = $fleet;
 						$report['week'] = $week;
 						$taximetarReport1[]= array(
-							'Vozac' 			=> $report['Vozac'],
-							'Bruto_iznos' 	=> $report['Ukupan_prihod'],
-							'Otkazna_naknada'	=> $report['Otkazne_naknade'],
-							'Naknada_za_rezervaciju_placanje' 		=> $report['Naknade_za_rezervaciju'],
-							'Naknada_za_cestarinu' => $report['Cestarine'],
-							'Voznje_placene_gotovinom_prikupljena_gotovina' 		=> $report['Gotovina'],
-							'Bonus' 		=> $report['Bonusi'],
-							'Nadoknade' 		=> $report['Nadoknade'],
-							'Napojnica' 		=> $report['Napojnice'],
+							'Vozac' 			=> $report['Driver'],
+							'Bruto_iznos' 	=> $report['Gross_earnings'],
+							'Otkazna_naknada'	=> $report['Cancellation_fees'],
+							'Naknada_za_rezervaciju_placanje' 		=> $report['Booking_fees'],
+							'Naknada_za_cestarinu' => $report['Toll_roads'],
+							'Voznje_placene_gotovinom_prikupljena_gotovina' => $report['Cash_in_hand'],
+							'Bonus' 		=> $report['Bonuses'],
+							'Nadoknade' 		=> $report['Compensations'],
+							'Napojnica' 		=> $report['Tips'],
 							'fleet' 		=> $report['fleet'],
 							'report_for_week' 			=> $report['week'],
 						);
@@ -1107,14 +1113,325 @@ public function boltImport() {
         }
     }
 }
+public function importMultipleFilesBolt()
+{
+    $session = session();
+    $fleet = session('fleet');
+    $session->set('previous_url', current_url());
 
+    // Validate the uploaded files
+    $input = $this->validate([
+        'files.*' => 'uploaded[files]|max_size[files,10240]|ext_in[files,csv]|mime_in[files,text/csv]',
+    ]);
 
+    if ($this->request->getMethod() === 'post') {
+        $files = $this->request->getFiles('files');
 
+        if ($files) {
+            $uploadedFiles = [];
+            $processedHashes = []; // Track processed files by their content hash
 
+            // Flatten nested arrays if necessary
+            $allFiles = [];
+            foreach ($files as $file) {
+                if (is_array($file)) {
+                    $allFiles = array_merge($allFiles, $file); // Flatten nested arrays
+                } else {
+                    $allFiles[] = $file;
+                }
+            }
+			$count = 0;
+            foreach ($allFiles as $file) {
+                if ($file->isValid() && !$file->hasMoved()) {
+					  $taximetarReport1 = []; // Reset this variable for each file
 
+                    // Generate a hash of the file's content to detect duplicates
+                    $fileHash = hash_file('sha256', $file->getTempName());
 
+                    if (in_array($fileHash, $processedHashes)) {
+                        continue; // Skip processing if this file has already been processed
+                    }
 
+                    $processedHashes[] = $fileHash; // Mark the file as processed
 
+					
+					
+                    $originalFileName = $file->getName();
+                    $pattern = '/(\d{2})_(\d{2})_(\d{4})/';
 
+                    // Perform the regex match
+                    if (preg_match($pattern, $originalFileName, $matches)) {
+                        // Extract the matched date components
+                        $day = $matches[1];
+                        $month = $matches[2];
+                        $year = $matches[3];
+
+                        // Create a DateTime object
+                        $date = new \DateTime("$year-$month-$day");
+
+                        // Format the date as per your requirement
+                        $formatted_date = $date->format('Y-m-d');
+                        $week = $year . date("W", strtotime($formatted_date));
+                    } else {
+                        echo "Date not found in the filename.";
+                        continue;
+                    }
+
+                    $randomFileName = bin2hex(random_bytes(8)) . '.csv';
+                    $file->move('../public/csvfile', $randomFileName);
+                    $filePath = "../public/csvfile/" . $randomFileName;
+
+                    // Process the CSV
+                    $rows = array_map('str_getcsv', file($filePath));
+                    $header_row = array_shift($rows);
+
+                    // Sanitize the header row
+                    $header_row = $this->sanitizeHeaderRow($header_row);
+                    $taximetarReport = [];
+                    foreach ($rows as $row) {
+                        if (!empty($row)) {
+                            $taximetarReport[] = array_combine($header_row, $row);
+                        }
+                    }
+
+                    foreach ($taximetarReport as &$report) {
+                        $report['fleet'] = $fleet;
+                        $report['week'] = $week;
+
+                        $taximetarReport1[] = [
+                            'Vozac' => $report['Driver'],
+                            'Bruto_iznos' => $report['Gross_earnings'] ?? 0,
+                            'Otkazna_naknada' => $report['Cancellation_fees'] ?? 0,
+                            'Naknada_za_rezervaciju_placanje' => $report['Booking_fees'] ?? 0,
+                            'Naknada_za_cestarinu' => $report['Toll_roads'] ?? 0,
+                            'Voznje_placene_gotovinom_prikupljena_gotovina' => $report['Cash_in_hand'] ?? 0,
+                            'Bonus' => $report['Bonuses'] ?? 0,
+                            'Nadoknade' => $report['Compensations'] ?? 0,
+                            'Napojnica' => $report['Tips'] ?? 0,
+                            'fleet' => $report['fleet'],
+                            'report_for_week' => $report['week'],
+                        ];
+                    }
+                    $uploadedFiles[] = $taximetarReport1;
+                }
+            }
+            // Combine arrays by Vozac and sum numeric values
+            $finalCombinedArray = [];
+            foreach ($uploadedFiles as $fileArray) {
+                foreach ($fileArray as $entry) {
+                    $vozacKey = $entry['Vozac'];
+
+                    if (!isset($finalCombinedArray[$vozacKey])) {
+                        // If Vozac doesn't exist in the final array, add it
+                        $finalCombinedArray[$vozacKey] = $entry;
+                    } else {
+                        // Sum the numeric values for existing Vozac
+							$finalCombinedArray[$vozacKey]['Bruto_iznos'] = round($finalCombinedArray[$vozacKey]['Bruto_iznos'] + $entry['Bruto_iznos'], 2);
+							$finalCombinedArray[$vozacKey]['Otkazna_naknada'] = round($finalCombinedArray[$vozacKey]['Otkazna_naknada'] + $entry['Otkazna_naknada'], 2);
+							$finalCombinedArray[$vozacKey]['Naknada_za_rezervaciju_placanje'] = round($finalCombinedArray[$vozacKey]['Naknada_za_rezervaciju_placanje'] + $entry['Naknada_za_rezervaciju_placanje'], 2);
+							$finalCombinedArray[$vozacKey]['Naknada_za_cestarinu'] = round($finalCombinedArray[$vozacKey]['Naknada_za_cestarinu'] + $entry['Naknada_za_cestarinu'], 2);
+							$finalCombinedArray[$vozacKey]['Voznje_placene_gotovinom_prikupljena_gotovina'] = round($finalCombinedArray[$vozacKey]['Voznje_placene_gotovinom_prikupljena_gotovina'] + $entry['Voznje_placene_gotovinom_prikupljena_gotovina'], 2);
+							$finalCombinedArray[$vozacKey]['Bonus'] = round($finalCombinedArray[$vozacKey]['Bonus'] + $entry['Bonus'], 2);
+							$finalCombinedArray[$vozacKey]['Nadoknade'] = round($finalCombinedArray[$vozacKey]['Nadoknade'] + $entry['Nadoknade'], 2);
+							$finalCombinedArray[$vozacKey]['Napojnica'] = round($finalCombinedArray[$vozacKey]['Napojnica'] + $entry['Napojnica'], 2);                    }
+                }
+            }
+
+            // Reset keys to ensure the final array is indexed properly
+            $finalCombinedArray = array_values($finalCombinedArray);
+//			echo '<pre>';
+//			var_dump($finalCombinedArray);
+//			die();
+            // Process final combined data
+				$TaximetarReportModel = new BoltReportModel();
+				$findRecord = $TaximetarReportModel->where('report_for_week', $week)->where('fleet', $fleet)->countAllResults();
+			if($findRecord === 0){
+				$TaximetarReportModel->insertBatch($finalCombinedArray);
+				$session->setFlashdata('messageBolt', 'Files successfully uploaded.');
+				$session->setFlashdata('alert-class', 'alert-success');
+				return redirect()->to("uberImport");
+			}else{
+				$session->setFlashdata('messageBolt', 'Već postoji u bazi.');
+				$session->setFlashdata('alert-class', 'alert-danger');
+				return redirect()->to("uberImport");
+			}
+        } else {
+            $session->setFlashdata('messageBolt', 'No valid files uploaded.');
+            $session->setFlashdata('alert-class', 'alert-danger');
+            return redirect()->to("multipleBoltFileUpload");
+        }
+    }
+}
+public function importMultipleFilesUber()
+{
+    $session = session();
+    $fleet = session('fleet');
+    $session->set('previous_url', current_url());
+
+    // Validate the uploaded files
+    $input = $this->validate([
+        'files.*' => 'uploaded[files]|max_size[files,10240]|ext_in[files,csv]|mime_in[files,text/csv]',
+    ]);
+
+    if ($this->request->getMethod() === 'post') {
+        $files = $this->request->getFiles('files');
+
+        if ($files) {
+            $uploadedFiles = [];
+            $processedHashes = []; // Track processed files by their content hash
+
+            // Flatten nested arrays if necessary
+            $allFiles = [];
+            foreach ($files as $file) {
+                if (is_array($file)) {
+                    $allFiles = array_merge($allFiles, $file); // Flatten nested arrays
+                } else {
+                    $allFiles[] = $file;
+                }
+            }
+			$count = 0;
+            foreach ($allFiles as $file) {
+                if ($file->isValid() && !$file->hasMoved()) {
+					  $taximetarReport1 = []; // Reset this variable for each file
+
+                    // Generate a hash of the file's content to detect duplicates
+                    $fileHash = hash_file('sha256', $file->getTempName());
+
+                    if (in_array($fileHash, $processedHashes)) {
+                        continue; // Skip processing if this file has already been processed
+                    }
+
+                    $processedHashes[] = $fileHash; // Mark the file as processed
+
+					
+					
+                    $original_name = $file->getName();
+						$year = substr($original_name,0,4);
+						$month = substr($original_name,4,2);
+						$day = substr($original_name,6,2);
+						$date = $year.'-'.$month.'-'.$day;
+						$week = date("W", strtotime($date));
+						$week = $year. $week;
+                    } else {
+                        echo "Date not found in the filename.";
+                        continue;
+                    }
+
+                    $randomFileName = bin2hex(random_bytes(8)) . '.csv';
+                    $file->move('../public/csvfile', $randomFileName);
+                    $filePath = "../public/csvfile/" . $randomFileName;
+
+                    // Process the CSV
+                    $rows = array_map('str_getcsv', file($filePath));
+                    $header_row = array_shift($rows);
+
+                    // Sanitize the header row
+    			$header_row = str_replace(['"', '﻿', '<pre>'], '', $header_row);
+				$header_row = str_replace(": ", "", $header_row);
+				$header_row = str_replace("č", "c", $header_row);
+				$header_row = str_replace("ć", "c", $header_row);
+				$header_row = str_replace("š", "s", $header_row);
+				$header_row = str_replace("ž", "z", $header_row);
+				$header_row = str_replace("đ", "d", $header_row);
+				$header_row = str_replace(" ", "_", $header_row);
+				$header_row = str_replace(":", "_", $header_row);
+				
+                    $taximetarReport = [];
+                    foreach ($rows as $row) {
+                        if (!empty($row)) {
+                            $taximetarReport[] = array_combine($header_row, $row);
+                        }
+                    }
+//				echo '<pre>';
+//				var_dump($header_row);
+//				die();
+                    foreach ($taximetarReport as &$report) {
+                        $report['fleet'] = $fleet;
+                        $report['week'] = $week;
+
+						$taximetarReport1[]= array(
+							'UUID_vozaca' => $report['UUID_vozaca'],
+							'Vozac' 			=> $report['Vozacevo_ime'] .' ' .$report['Vozacevo_prezime'],
+							'Vozacevo_ime' 	=> $report['Vozacevo_ime'],
+							'Vozacevo_prezime'	=> $report['Vozacevo_prezime'],
+							'Ukupna_zarada' 	=> floatval($report['Ukupna_zarada']),
+							'Ukupna_zarada_Neto_cijena'	=> floatval($report['Ukupna_zarada_Neto_cijena']),
+							'Povrati_i_troskovi' 	=> floatval($report['Povrati_i_troskovi']),
+							'Isplate'	=> floatval($report['Isplate']),
+							'Isplate_Preneseno_na_bankovni_racun' 	=> floatval($report['Isplate_Preneseno_na_bankovni_racun']),
+							'Isplate_Naplaceni_iznos_u_gotovini'	=> floatval($report['Isplate_Naplaceni_iznos_u_gotovini']),
+							'Povrati_i_troskovi_Povrati_Pristojba_za_zracnu_luku' 	=> floatval($report['Povrati_i_troskovi_Povrati_Pristojba_za_zracnu_luku']),
+							'Ukupna_zarada_Napojnica'	=> floatval($report['Ukupna_zarada_Napojnica']),
+							'Ukupna_zarada_Promocije'	=> floatval($report['Ukupna_zarada_Promocije']),
+							'Povrati_i_troskovi_Povrati_Cestarina'	=> floatval($report['Povrati_i_troskovi_Povrati_Cestarina']),
+							'fleet' 		=> $report['fleet'],
+							'report_for_week' 			=> $report['week'],
+						);
+                    }
+                    $uploadedFiles[] = $taximetarReport1;
+                }
+            }
+            // Combine arrays by Vozac and sum numeric values
+            $finalCombinedArray = [];
+            foreach ($uploadedFiles as $fileArray) {
+                foreach ($fileArray as $entry) {
+                    $vozacKey = $entry['Vozac'];
+
+                    if (!isset($finalCombinedArray[$vozacKey])) {
+                        // If Vozac doesn't exist in the final array, add it
+                        $finalCombinedArray[$vozacKey] = $entry;
+                    } else {
+                        // Sum the numeric values for existing Vozac
+							$finalCombinedArray[$vozacKey]['Ukupna_zarada'] = round($finalCombinedArray[$vozacKey]['Ukupna_zarada'] + $entry['Ukupna_zarada'], 2);
+							$finalCombinedArray[$vozacKey]['Ukupna_zarada_Neto_cijena'] = round($finalCombinedArray[$vozacKey]['Ukupna_zarada_Neto_cijena'] + $entry['Ukupna_zarada_Neto_cijena'], 2);
+							$finalCombinedArray[$vozacKey]['Povrati_i_troskovi'] = round($finalCombinedArray[$vozacKey]['Povrati_i_troskovi'] + $entry['Povrati_i_troskovi'], 2);
+							$finalCombinedArray[$vozacKey]['Isplate'] = round($finalCombinedArray[$vozacKey]['Isplate'] + $entry['Isplate'], 2);
+							$finalCombinedArray[$vozacKey]['Isplate_Preneseno_na_bankovni_racun'] = round($finalCombinedArray[$vozacKey]['Isplate_Preneseno_na_bankovni_racun'] + $entry['Isplate_Preneseno_na_bankovni_racun'], 2);
+							$finalCombinedArray[$vozacKey]['Isplate_Naplaceni_iznos_u_gotovini'] = round($finalCombinedArray[$vozacKey]['Isplate_Naplaceni_iznos_u_gotovini'] + $entry['Isplate_Naplaceni_iznos_u_gotovini'], 2);
+							$finalCombinedArray[$vozacKey]['Povrati_i_troskovi_Povrati_Pristojba_za_zracnu_luku'] = round($finalCombinedArray[$vozacKey]['Povrati_i_troskovi_Povrati_Pristojba_za_zracnu_luku'] + $entry['Povrati_i_troskovi_Povrati_Pristojba_za_zracnu_luku'], 2);
+							$finalCombinedArray[$vozacKey]['Ukupna_zarada_Napojnica'] = round($finalCombinedArray[$vozacKey]['Ukupna_zarada_Napojnica'] + $entry['Ukupna_zarada_Napojnica'], 2);                    
+							$finalCombinedArray[$vozacKey]['Ukupna_zarada_Promocije'] = round($finalCombinedArray[$vozacKey]['Ukupna_zarada_Promocije'] + $entry['Ukupna_zarada_Promocije'], 2);                    
+
+						$finalCombinedArray[$vozacKey]['Povrati_i_troskovi_Povrati_Cestarina'] = round($finalCombinedArray[$vozacKey]['Povrati_i_troskovi_Povrati_Cestarina'] + $entry['Povrati_i_troskovi_Povrati_Cestarina'], 2);                    
+					}
+                }
+            }
+
+            // Reset keys to ensure the final array is indexed properly
+            $finalCombinedArray = array_values($finalCombinedArray);
+            // Process final combined data
+				$TaximetarReportModel = new UberReportModel();
+				$findRecord = $TaximetarReportModel->where('report_for_week', $week)->where('fleet', $fleet)->countAllResults();
+			if($findRecord === 0){
+				$TaximetarReportModel->insertBatch($finalCombinedArray);
+				$session->setFlashdata('messageUber', 'Files successfully uploaded.');
+				$session->setFlashdata('alert-class', 'alert-success');
+				return redirect()->to("uberImport");
+			}else{
+				$session->setFlashdata('messageUber', 'Već postoji u bazi.');
+				$session->setFlashdata('alert-class', 'alert-danger');
+				return redirect()->to("uberImport");
+			}
+        } else {
+            $session->setFlashdata('messageUber', 'No valid files uploaded.');
+            $session->setFlashdata('alert-class', 'alert-danger');
+            return redirect()->to("multipleBoltFileUpload");
+        }
+    }
+
+private function sanitizeHeaderRow($header_row)
+{
+    $header_row = str_replace(['"', '﻿', '<pre>'], '', $header_row);
+    $header_row = str_replace(": ", "", $header_row);
+    $header_row = str_replace("'", "", $header_row);
+    $header_row = str_replace("|", "", $header_row);
+    $header_row = str_replace("- ", "", $header_row);
+    $header_row = str_replace("€", "", $header_row);
+    $header_row = str_replace(["č", "ć", "š", "ž", "đ"], ["c", "c", "s", "z", "d"], $header_row);
+    $header_row = str_replace(" ", "_", $header_row);
+    $header_row = str_replace(":", "_", $header_row);
+    $header_row = preg_replace('/[[:cntrl:]]/', '', $header_row);
+    return $header_row;
+}
 
 }

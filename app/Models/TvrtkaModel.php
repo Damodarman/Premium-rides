@@ -17,6 +17,9 @@ class TvrtkaModel extends Model{
         'IBAN',
         'BIC',
         'pocetak_tvrtke',
-		'fleet'
+		'fleet',
+		'oib_direktora',
+		'MBS',
+		'potpis_pecat'
     ];
 }

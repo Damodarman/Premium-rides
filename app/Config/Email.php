@@ -47,21 +47,21 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPHost = 'mail.agregator.online';
+    public $SMTPHost = 'smtp-relay.brevo.com';
 
     /**
      * SMTP Username
      *
      * @var string
      */
-    public $SMTPUser = 'info@premium-rides.com';
+    public $SMTPUser = '7e40da001@smtp-brevo.com';
 
     /**
      * SMTP Password
      *
      * @var string
      */
-    public $SMTPPass = 'DamoCb4i93G4';
+    public $SMTPPass = 'HmhS8sVpy96QBZM5';
 
     /**
      * SMTP Port

@@ -2,6 +2,7 @@
 namespace App\Controllers;  
 use CodeIgniter\Controller;
 use App\Models\FlotaModel;
+use App\Models\DriverModel;
 use App\Models\TvrtkaModel;
 use App\Models\UltramsgLibConfigModel;
 
@@ -19,9 +20,11 @@ class FlotaController extends Controller
 
 		
 		$flotaModel = new FlotaModel();
+		$driverModel = new DriverModel();
 		$tvrtkaModel = new TvrtkaModel();
 		$ultramsgLibConfigModel = new UltramsgLibConfigModel();
 		
+		$drivers = $driverModel->select('id')->where('fleet', $fleet)->where('aktivan', 1)->get()->getResultArray();
 		$postavkeFlote = $flotaModel->where('naziv', $fleet)->get()->getRowArray();
 		$tvrtke = $tvrtkaModel->where('fleet', $fleet)->get()->getResultArray();
 		$aktivnaTvrtka = $tvrtkaModel->where('id', $postavkeFlote['tvrtka_id'])->get()->getRowArray();
@@ -31,10 +34,15 @@ class FlotaController extends Controller
 		$dobrodoslica = $this->getMsgTmpl('Dobrodošlica');
 		$dug1 = $this->getMsgTmpl('dug1');
 		
+		$activeIDs = array();
+		foreach($drivers as $driver){
+			$activeIDs[] = $driver['id'];
+		}
 		
 		$data['UltramsgLibConf'] = $UltramsgLibConf;
 		$data['flota'] = $postavkeFlote;
 		$data['role'] = $role;
+		$data['activeIDs'] = $activeIDs;
 		$data['tvrtke'] = $tvrtke;
 		$data['allMsgTmpl'] = $allMsgTmpl;
 		$data['dobrodoslica'] = $dobrodoslica;

@@ -29,16 +29,21 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Twilio\Rest\Client;
 use App\Libraries\UltramsgLib;
 use Dompdf\Dompdf;
+use setasign\Fpdi\Fpdi;
+
 
 use App\Services\IbanValidationService;
+use App\Services\TaskService;
 
 
 class AdminController extends BaseController
 {
 	 private $twilio;
+    protected $taskService;
     
     public function __construct()
     {
+        $this->taskService = new TaskService();
 	}
     
     public function sendSms()
@@ -190,7 +195,7 @@ class AdminController extends BaseController
 		$session = session();
 		$fleet = $session->get('fleet');
 		$role = $session->get('role');
-		$contacts = $vozaciModel->select('vozac, mobitel')->where('fleet', $fleet)->where('aktivan', 1)->get()->getResultArray();
+		$contacts = $vozaciModel->select('id, vozac, mobitel')->where('fleet', $fleet)->where('aktivan', 1)->get()->getResultArray();
 		$data['contacts'] = $contacts;
 		$data['page'] = 'Posalji whatsApp poruku';
 		$data['role'] = $role;
@@ -209,7 +214,7 @@ class AdminController extends BaseController
 		$vozaciModel = new DriverModel();
 		$UltramsgLib = new UltramsgLib();
 		
-		$contacts = $vozaciModel->select('vozac, mobitel')->where('fleet', $fleet)->where('aktivan', 1)->get()->getResultArray();
+		$contacts = $vozaciModel->select('id, vozac, mobitel')->where('fleet', $fleet)->where('aktivan', 1)->get()->getResultArray();
 		$vozac = $this->request->getVar('vozac');
 		$msg = $this->request->getVar('poruka');
 		$to = $vozaciModel->select('mobitel')->where('vozac', $vozac)->get()->getRow();
@@ -234,6 +239,52 @@ class AdminController extends BaseController
 			. view('adminDashboard/navBar')
 			. view('adminDashboard/posaljiPoruku')		
 			. view('footer');
+	}
+	
+	public function sendMultipleMsg(){
+		$session = session();
+		$fleet = $session->get('fleet');
+		$role = $session->get('role');
+		$vozaciModel = new DriverModel();
+		$UltramsgLib = new UltramsgLib();
+		
+		$contacts = $vozaciModel->select('id, vozac, mobitel')->where('fleet', $fleet)->where('aktivan', 1)->get()->getResultArray();
+		$driver_ids = $this->request->getVar('driver_ids');
+		$msgs = $this->request->getVar('poruka');
+		$poruka = array();
+		$status = array();
+		$statusOk = array();
+		$countSucces = 0;
+		$countError = 0;
+		foreach($driver_ids as $id){
+			$driver = $vozaciModel->select('vozac, mobitel')->where('id', $id)->get()->getRowArray();
+			$msg = str_replace('{{vozac}}', $driver['vozac'], $msgs);
+			$poruka = array(
+				'to' => $driver['mobitel'],
+				'msg' => $msg
+			);
+			$poslano = $UltramsgLib->sendMsg($poruka);
+			if($poslano['status'] == 'success'){
+				$statusOk[] = 'Vozaču ' .$driver['vozac'] .' uspješno je poslana poruka.';
+				$countSucces += 1;
+			}else{
+				$status[] = 'Vozaču ' .$driver['vozac'] .' nije poslana poruka.';
+				$countError += 1;
+			}
+		}
+		$data['status'] = $status;
+		$data['statusOk'] = $statusOk;
+		$data['countSucces'] = $countSucces;
+		$data['countError'] = $countError;
+		$data['contacts'] = $contacts;
+		$data['page'] = 'Posalji whatsApp poruku';
+		$data['role'] = $role;
+		$data['fleet'] = $fleet;
+		return view('adminDashboard/header', $data)
+			. view('adminDashboard/navBar')
+			. view('adminDashboard/posaljiPoruku')		
+			. view('footer');
+		
 	}
 	
 	public function dugovi(){
@@ -1278,6 +1329,8 @@ public function driverActivity()
 		$driverData = new DriverModel();
 		$UltramsgLib = new UltramsgLib();
 		$flotaModel = new FlotaModel();
+		$priorities = $this->taskService->getAllPriorities();
+
 		$taximetarLogsModel = new TaximetarLogsModel();
 		$postavkeFlote = $flotaModel->where('naziv', $fleet)->get()->getRowArray();
 		$data = $session->get();
@@ -1358,11 +1411,12 @@ public function driverActivity()
 			'zIbanValid' => $zIbanValid,
 			'sIbanValid' => $sIbanValid,
 		);
-
+		$data['users'] =  $this->taskService->getAllUsers(); // Assuming this fetches all users
 		$data['whatsAppTaximetar'] = $whatsAppTaximetar;
 		$data['whatsAppTaximetarBroj'] = $whatsAppTaximetarBroj;
 		$data['whatsApp'] = $whatsApp;
 		$data['aneks'] = $aneks;
+		$data['priorities'] = $priorities;
 		$data['prijave'] = $prijave;
 		$data['koristi_activity'] = $koristi_activity;
 		$data['napomene'] = $napomene;
@@ -1396,6 +1450,209 @@ public function driverActivity()
 			return FALSE;
 		}
 	}
+	
+	public function generatePdfAll(){
+		$session = session();
+		$fleet = $session->get('fleet');
+		$driverModel = new DriverModel();
+		$activeIDs = $driverModel->select('id')->where('fleet', $fleet)->where('aktivan', 1)->findAll();
+		foreach($activeIDs as $active){
+			$id = $active['id'];
+			$this->generateCombinedPdf($id);
+		}
+		
+	}
+	
+	
+public function generateCombinedPdf($id = null)
+{
+	\Kint::$enabled_mode = false;
+	if (isset($_GET['debugbar'])) {
+    unset($_GET['debugbar']);
+}
+if (ob_get_length()) {
+    ob_end_clean();
+}
+
+	$DriverModel = new DriverModel();
+	$driver = $DriverModel->select('ime, prezime')->where('id', $id)->get()->getRowArray();
+	$vozac = $driver['ime'] .'_' .$driver['prezime'];
+	
+    $tempDir = sys_get_temp_dir(); // Use PHP's temporary directory
+
+    // Generate temporary file paths
+    $pdf1Path = '../public/obracuni/ugovoro_radu_' . uniqid() . '.pdf';
+    $pdf2Path = '../public/obracuni/ugovoro_najmu_' . uniqid() . '.pdf';
+    $pdf3Path = '../public/obracuni/blagajnicki_' . uniqid() . '.pdf';
+
+    // Save the generated PDFs to temporary files
+    $file1path = $this->ugovoroRaduPdf($id, $pdf1Path);
+    $file2path = $this->ugovoroNajmuPdf($id, $pdf2Path);
+    $file3path = $this->blagajnickiminmaxPdf($id, $pdf3Path);
+	$files = array($file1path, $file2path, $file1path, $file2path,$file3path);
+//	var_dump($files);
+//	die();
+    // Initialize FPDI to merge PDFs
+	if (ob_get_length()) {
+    ob_end_clean();
+}
+    $fpdi = new Fpdi();
+
+    // Combine PDFs from the temporary files
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf1Path);
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf1Path); // Add first PDF twice
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf2Path);
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf2Path); // Add second PDF twice
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf3Path);
+
+	    foreach ($files as $file) {
+			if (ob_get_length()) {
+    ob_end_clean();
+}
+        $pageCount = $fpdi->setSourceFile($file);
+        for ($i = 1; $i <= $pageCount; $i++) {
+            $tplId = $fpdi->importPage($i);
+            $fpdi->AddPage();
+            $fpdi->useTemplate($tplId);
+        }
+    }
+	if (ob_get_length()) {
+    ob_end_clean();
+}
+	
+    // Output the merged PDF to the client
+    $filename = 'combined_document_' . date('Ymd_His') . '.pdf';
+    header('Content-Type: application/pdf');
+	header("Content-Disposition: attachment; filename=\"$filename\"");
+	header('Content-Transfer-Encoding: binary');
+	header('Accept-Ranges: bytes');
+
+	$fpdi->Output('D', $vozac .'_combined_document.pdf');
+    // Clean up temporary files
+    unlink($pdf1Path);
+    unlink($pdf2Path);
+    unlink($pdf3Path);
+}
+	
+	
+public function generateCombinedPdfSimple($id = null)
+{
+	\Kint::$enabled_mode = false;
+	if (isset($_GET['debugbar'])) {
+    unset($_GET['debugbar']);
+}
+if (ob_get_length()) {
+    ob_end_clean();
+}
+	$DriverModel = new DriverModel();
+	$driver = $DriverModel->select('ime, prezime')->where('id', $id)->get()->getRowArray();
+	$vozac = $driver['ime'] .'_' .$driver['prezime'];
+
+    $tempDir = sys_get_temp_dir(); // Use PHP's temporary directory
+
+    // Generate temporary file paths
+    $pdf1Path = '../public/obracuni/ugovoro_radu_' . uniqid() . '.pdf';
+    $pdf2Path = '../public/obracuni/ugovoro_najmu_' . uniqid() . '.pdf';
+    $pdf3Path = '../public/obracuni/blagajnicki_' . uniqid() . '.pdf';
+
+    // Save the generated PDFs to temporary files
+    $file1path = $this->ugovoroRaduPdf($id, $pdf1Path);
+    $file2path = $this->ugovoroNajmuPdf($id, $pdf2Path);
+    $file3path = $this->blagajnickiminmaxPdf($id, $pdf3Path);
+	$files = array($file1path, $file2path,$file3path);
+//	var_dump($files);
+//	die();
+    // Initialize FPDI to merge PDFs
+	if (ob_get_length()) {
+    ob_end_clean();
+}
+    $fpdi = new Fpdi();
+
+    // Combine PDFs from the temporary files
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf1Path);
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf1Path); // Add first PDF twice
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf2Path);
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf2Path); // Add second PDF twice
+//    $this->addPdfFromFileToFpdi($fpdi, $pdf3Path);
+
+	    foreach ($files as $file) {
+			if (ob_get_length()) {
+    ob_end_clean();
+}
+        $pageCount = $fpdi->setSourceFile($file);
+        for ($i = 1; $i <= $pageCount; $i++) {
+            $tplId = $fpdi->importPage($i);
+            $fpdi->AddPage();
+            $fpdi->useTemplate($tplId);
+        }
+    }
+	if (ob_get_length()) {
+    ob_end_clean();
+}
+	
+    // Output the merged PDF to the client
+    $filename = 'combined_document_' . date('Ymd_His') . '.pdf';
+    header('Content-Type: application/pdf');
+	header("Content-Disposition: attachment; filename=\"$filename\"");
+	header('Content-Transfer-Encoding: binary');
+	header('Accept-Ranges: bytes');
+
+	$fpdi->Output('D', $vozac .'_simple_combined_document.pdf');
+    // Clean up temporary files
+    unlink($pdf1Path);
+    unlink($pdf2Path);
+    unlink($pdf3Path);
+}
+
+
+/**
+ * Saves a PDF string to a temporary file and returns the file path.
+ */
+private function savePdfToFile($pdfContent, $tempFilename)
+{
+    $tempDir = sys_get_temp_dir(); // Use PHP's system temporary directory
+    $filePath = $tempDir . '/' . $tempFilename;
+
+    file_put_contents($filePath, $pdfContent);
+
+    return $filePath;
+}
+
+/**
+ * Adds a PDF from a file to the FPDI object for merging.
+ */
+private function addPdfFromFileToFpdi($fpdi, $filePath)
+{
+    $pageCount = $fpdi->setSourceFile($filePath);
+
+    for ($i = 1; $i <= $pageCount; $i++) {
+        $templateId = $fpdi->importPage($i);
+        $size = $fpdi->getTemplateSize($templateId);
+        $fpdi->AddPage($size['orientation'], [$size['width'], $size['height']]);
+        $fpdi->useTemplate($templateId);
+    }
+}
+/**
+ * Helper function to add a PDF to FPDI
+ */
+private function addPdfToFpdi($fpdi, $pdfContent)
+{
+    $stream = fopen('php://memory', 'r+');
+    fwrite($stream, $pdfContent);
+    rewind($stream);
+
+    $pageCount = $fpdi->setSourceFile($stream);
+
+    for ($i = 1; $i <= $pageCount; $i++) {
+        $templateId = $fpdi->importPage($i);
+        $size = $fpdi->getTemplateSize($templateId);
+        $fpdi->AddPage($size['orientation'], [$size['width'], $size['height']]);
+        $fpdi->useTemplate($templateId);
+    }
+
+    fclose($stream);
+}	
+	
 	
 	public function radniOdnos($id = null){
         $session = session();
@@ -1620,7 +1877,7 @@ public function driverActivity()
 		
 	}
 	
-	public function ugovoroRaduPdf($id = null) {
+	public function ugovoroRaduPdf($id = null, $filePath = null) {
 		helper('dompdf');
         $session = session();
 		$data = $session->get();
@@ -1699,6 +1956,9 @@ public function driverActivity()
 		$data['fleet'] = $driver['fleet'];
 		$data['page'] = $driver['vozac'];
 		$data['svrha'] = 'UgovoroRadu';
+//				echo view('adminDashboard/header', $data)
+//			.view('adminDashboard/ugovoroRaduPrint');
+
  // Initialize Dompdf with UTF-8 support
     $dompdf = new Dompdf();
     $options = $dompdf->getOptions();
@@ -1712,50 +1972,21 @@ public function driverActivity()
     $dompdf->render();
 
     // Output the PDF to the client
-    $filename = 'ugovoro_radu_' . $driver['vozac'] . '.pdf';
-    header('Content-Type: application/pdf');
-    header("Content-Disposition: attachment; filename=\"$filename\"");
-    echo $dompdf->output();		
+     if ($filePath) {
+		header('Content-Type: application/pdf');
+        file_put_contents($filePath, $dompdf->output());
+		 return $filePath;
+    } else {
+		$filename = 'ugovoro_radu_' . $driver['vozac'] . '.pdf';
+		header('Content-Type: application/pdf');
+		header("Content-Disposition: attachment; filename=\"$filename\"");
+        echo $dompdf->output(); // Output to client directly
+    }		
 		
 		
 		
 		
 		
-		
-		
-		
-//		$dompdf = new Dompdf();
-//		$dompdf -> set_option('defaultFontEncoding', 'UTF-8');
-//		$options = $dompdf->getOptions();
-//		$options->setDefaultFont('Courier');
-//		//$options->setDefaultEncoding('UTF-8');
-//		$dompdf->setOptions($options);
-//		//$dompdf->set_option('defaultFont', 'Courier');
-//    // Load DOMPDF library
-//    //$this->load->library('dompdf');
-//    // Load the view and generate HTML content
-//    $html = view('adminDashboard/ugovoroRaduPrint', $data);
-//
-//    // Create a new DOMPDF instance
-//    //$dompdf = new DOMPDF();
-//
-//    // Load the HTML content into the DOMPDF instance
-//    $dompdf->loadHTML($html, 'UTF-8');
-//
-//    // Set page size and orientation
-//    $dompdf->setPaper('A4', 'portrait');
-//
-//    // Render the HTML content to PDF
-//    $dompdf->render();
-//
-//    // Output the PDF content as a file
-//    $output = $dompdf->output();
-//    $filename = 'ugovoro_radu_' . $driver['vozac'] . '.pdf';
-//
-//    // Send PDF headers and output content
-//    header('Content-Type: application/pdf');
-//    header("Content-Disposition: attachment; filename=\"$filename\"");
-//    echo $output;
 }
 	public function aneksUgovoraPdf($id = null){
 		helper('dompdf');
@@ -2006,7 +2237,7 @@ public function driverActivity()
 		
 	}
 	
-	public function blagajnickiminmaxPdf($id = null){
+	public function blagajnickiminmaxPdf($id = null,  $filePath = null){
         $session = session();
 		$data = $session->get();
 		$fleet = $session->get('fleet');
@@ -2067,13 +2298,19 @@ public function driverActivity()
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
+		
+     if ($filePath) {
+		header('Content-Type: application/pdf');
+        file_put_contents($filePath, $dompdf->output());
+		 return $filePath;
+    } else {
     // Output the PDF to the client
     $filename = 'Blagajnički_min_max_' . $driver['vozac'] . '.pdf';
     header('Content-Type: application/pdf');
     header("Content-Disposition: attachment; filename=\"$filename\"");
-    echo $dompdf->output();		
-		
-	}
+        echo $dompdf->output(); // Output to client directly
+    }		
+}
 	
 	public function ugovoroNajmu($id = null){
         $session = session();
@@ -2144,7 +2381,7 @@ public function driverActivity()
 			.view('adminDashboard/ugovoroNajmu');
 	}
 	
-	public function ugovoroNajmuPdf($id = null){
+	public function ugovoroNajmuPdf($id = null,  $filePath = null){
         $session = session();
 		$data = $session->get();
 		$fleet = $session->get('fleet');
@@ -2220,12 +2457,17 @@ public function driverActivity()
     $dompdf->render();
 
     // Output the PDF to the client
-    $filename = 'ugovor_o_najmu_' . $driver['vozac'] . '.pdf';
-    header('Content-Type: application/pdf');
-    header("Content-Disposition: attachment; filename=\"$filename\"");
-    echo $dompdf->output();		
-
-	}
+   if ($filePath) {
+		header('Content-Type: application/pdf');
+        file_put_contents($filePath, $dompdf->output());
+		 return $filePath;
+    } else {
+		$filename = 'ugovor_o_najmu_' . $driver['vozac'] . '.pdf';
+		header('Content-Type: application/pdf');
+		header("Content-Disposition: attachment; filename=\"$filename\"");
+        echo $dompdf->output(); // Output to client directly
+    }
+}
 	public function obracunDriver(){
         $session = session();
 		$fleet = $session->get('fleet');
@@ -2347,6 +2589,11 @@ c
 	
 	public function driverPrijavaUpdate()
 	{
+		$id = $this->request->getVar('id');
+		if(!isset($id)){
+			return redirect()->to('drivers/');
+		}
+		
 		        $session = session();
 		$user_id = $session->get('id');
 		$fleet = $session->get('fleet');
@@ -2355,7 +2602,6 @@ c
 		if ($this->request->getVar('boltCheck')){$boltCheck = 1;}else{$boltCheck = 0;}
 		if ($this->request->getVar('taximetarCheck')){$taximetarCheck = 1;}else{$taximetarCheck = 0;}
 		if ($this->request->getVar('myPosCheck')){$myPosCheck = 1;}else{$myPosCheck = 0;}
-		$id = $this->request->getVar('id');
 		$driverModel = new DriverModel();
 		$zasticeniIBAN = $this->request->getVar('zasticeniIBAN');
 		$IBAN = $this->request->getVar('IBAN');
@@ -2383,6 +2629,7 @@ c
 			];
 		$prijava = $this->request->getVar('prijava');
 		$voz1 = $driverModel->where('id', $id)->get()->getRowArray();
+		if(isset($voz1)){
 			$currentPrijavaData = array(
 				'ime' => $voz1['ime'],
 				'prezime' => $voz1['prezime'],
@@ -2397,6 +2644,7 @@ c
 				'strani_IBAN' => $voz1['strani_IBAN'],
 				'radno_mjesto' => $voz1['radno_mjesto'],		
 			);
+		}
 		
 		$newPrijavaData = array(
 			'ime'					=> $this->request->getVar('ime'), 
@@ -2801,7 +3049,7 @@ c
             'grad' => 'required|max_length[255]|min_length[3]',
             'drzava' => 'required|max_length[255]|min_length[3]',
             'dob' => 'required|max_length[255]|min_length[3]',
-            'oib' => 'required|max_length[11]|min_length[11]',
+            'oib' => 'required|max_length[11]|min_length[11]|is_unique[vozaci.oib]',
             'uberCheck' => 'max_length[255]|min_length[1]',
             'boltCheck' => 'max_length[255]|min_length[1]',
             'myPosCheck' => 'max_length[255]|min_length[1]',
@@ -2904,6 +3152,7 @@ c
 					session()->setFlashdata('alert-class', 'alert-danger');
 					return redirect()->to('drivers/'.$id);
 				}
+				
 				
 				
 				$brojNeobradenih = $prijaveModel->where('obradeno', 0)->where('fleet', $fleet)->countAllResults();
@@ -3589,8 +3838,6 @@ c
 		$UltramsgLib = new UltramsgLib();
 		$count = 0;
 		$result = array();
-//		print_r($poslatiSlike);
-//		die();
 		foreach($poslatiSlike as $obracun){
 			$raspon = $obracun['raspon'];
 			$data['to'] = $obracun['mobitel'];

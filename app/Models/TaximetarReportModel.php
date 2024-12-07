@@ -16,4 +16,18 @@ class TaximetarReportModel extends Model
         'fleet',
         'week',
     ];
+	
+	public function getDriverReports($startWeek, $endWeek, $taximetarUniqueId, $fleet){
+
+
+	return $this->select('Ukupni_promet, week')
+				->where('fleet', $fleet)
+				->where('Email_vozaca', $taximetarUniqueId)
+				->where('week >= ', $startWeek)
+				->where('week <= ', $endWeek)
+				->findAll();
+			
+		
+	}
+
 }

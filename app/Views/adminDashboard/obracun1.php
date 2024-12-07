@@ -179,9 +179,9 @@
 								?>
 								<h4>Troškovi</h4>
 								<ul class="list-group list-group-flush border-danger">
-									<li class="list-group-item fs-6 bg-danger">Računovodstveni troškovi: <?php echo $driver['provizija']; ?> €</li>
+									<li class="list-group-item fs-6 bg-danger border-none">Računovodstveni troškovi: <?php echo $driver['provizija']; ?> €</li>
 									<?php if($driver['taximetar'] !=0): ?>
-									<li class="list-group-item fs-6 bg-danger">Taximetar aplikacija: <?php echo $driver['taximetar']; ?> €</li>
+									<li class="list-group-item fs-6 bg-danger  border-none">Taximetar aplikacija: <?php echo $driver['taximetar']; ?> €</li>
 									<?php
 									$taximetarnum += 1;
 									$taximetarsum += $driver['taximetar'];
@@ -189,16 +189,16 @@
 									?>
 									<?php endif ?>
 									<?php if($driver['dug'] < 0): ?>
-									<li class="list-group-item fs-6 bg-danger">Dug: <?php echo $driver['dug']; ?> €</li>
+									<li class="list-group-item fs-6 bg-danger border-none">Dug: <?php echo $driver['dug']; ?> €</li>
 									<?php endif ?>
 									<?php if($driver['najamVozila'] != 0): ?>
-									<li class="list-group-item fs-6 bg-danger">Najam Auta: <?php echo $driver['najamVozila']; ?> €</li>
+									<li class="list-group-item fs-6 bg-danger border-none">Najam Auta: <?php echo $driver['najamVozila']; ?> €</li>
 									<?php endif ?>
 									<?php if($driver['fiskalizacijaUber'] !=0): ?>
-									<li class="list-group-item fs-6 bg-danger">Fiskalizacija Uber: <?php echo $driver['fiskalizacijaUber']; ?> €</li>
+									<li class="list-group-item fs-6 bg-danger border-none">Fiskalizacija Uber: <?php echo $driver['fiskalizacijaUber']; ?> €</li>
 									<?php endif ?>
 									<?php if($driver['fiskalizacijaBolt'] !=0): ?>
-									<li class="list-group-item fs-6 bg-danger">Fiskalizacija Bolt: <?php echo $driver['fiskalizacijaBolt']; ?> €</li>
+									<li class="list-group-item fs-6 bg-danger border-none">Fiskalizacija Bolt: <?php echo $driver['fiskalizacijaBolt']; ?> €</li>
 									<?php endif ?>
 <!--
 									<?php if($driver['doprinosi'] !=0): ?>
@@ -207,10 +207,10 @@
 -->
 
 									<?php if($driver['doprinosi'] !=0): ?>
-									<li class="list-group-item fs-6 bg-danger">Četvrtina doprinosa: <?php echo $driver['doprinosi']; ?> €</li>
+									<li class="list-group-item fs-6 bg-danger border-none">Četvrtina doprinosa: <?php echo $driver['doprinosi']; ?> €</li>
 									<?php endif ?>
 									<?php if($driver['cetvrtinaNetoPlace'] !=0): ?>
-									<li class="list-group-item fs-6 bg-info">Četvrtina neto plaće koja će se isplatiti početkom mjeseca: <?php echo $driver['cetvrtinaNetoPlace'] ?> €</li>
+									<li class="list-group-item fs-6 bg-info border-none">Četvrtina neto plaće koja će se isplatiti početkom mjeseca: <?php echo $driver['cetvrtinaNetoPlace'] ?> €</li>
 
 									<?php endif ?>
 								</ul>
@@ -226,7 +226,7 @@
 									foreach($referals as $ref){ 
 										;?>
 										<?php if($ref['refered_nagrada'] != 0): ?>
-											<li class="list-group-item fs-6 bg-success"><?php echo $ref['refered_nagrada']; ?> € za <?php echo $ref['refered_vozac']; ?></li>
+											<li class="list-group-item fs-6 bg-success border-none"><?php echo $ref['refered_nagrada']; ?> € za <?php echo $ref['refered_vozac']; ?></li>
 										<?php endif ?>
 									<?php 
 									} ?>
@@ -234,10 +234,10 @@
 									} ?>
 									
 									<?php if($driver['dug'] > 0): ?>
-									<li class="list-group-item fs-6 bg-success">Dug: <?php echo $driver['dug'] ?> €</li>
+									<li class="list-group-item fs-6 bg-success border-none">Dug: <?php echo $driver['dug'] ?> €</li>
 									<?php endif ?>
 									<?php if($driver['boltNaljepnice'] > 0): ?>
-									<li class="list-group-item fs-6 bg-success">Bolt Bonus/Naljepnica: <?php echo $driver['boltNaljepnice'] ?> €</li>
+									<li class="list-group-item fs-6 bg-success border-none">Bolt Bonus/Naljepnica: <?php echo $driver['boltNaljepnice'] ?> €</li>
 									<?php endif ?>
 								</ul>
 							</div>
@@ -294,6 +294,7 @@
 				<h6 class=" border-dark"><a href="<?php echo base_url($driver['slikaObracuna'])?>"><?php echo 'pogledaj obračun vozača ' .$driver['vozac']; ?></a></h6>
 	
 				<?php endif ?>
+				<a class="btn btn-outline-info" href="<?php echo site_url('obracun/view/') .$driver['id']?>" role="button">Pogledaj obračun za tjedan: <?= $driver['raspon']?> vozača: <?= $driver['vozac']?></a>
 
 			</div>
 						<div class="col-2"></div>

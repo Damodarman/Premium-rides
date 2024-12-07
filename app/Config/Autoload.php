@@ -47,6 +47,7 @@ class Autoload extends AutoloadConfig
 		'Dompdf'     => APPPATH . '../vendor/dompdf/dompdf',
 		'App\Services' => APPPATH . 'Services',
 		'App\SepaGenerator' => APPPATH . 'SepaGenerator',
+		'setasign\Fpdi' => ROOTPATH . 'vendor/setasign/fpdi/src',
     ];
 
     /**

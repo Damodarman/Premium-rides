@@ -80,6 +80,12 @@ class DriverModel extends Model
 	public function getInactiveDrivers($fleet){
 		return $this->where('fleet', $fleet)->where('aktivan', 0)->get()->getResultArray();
 	}
-	
+	public function getNameById($id){
+		$driver = $this->where('id', $id)->first();
+		return $driver['vozac'];
+	}
+	public function getDriverById($id){
+		return $this->where('id', $id)->first();
+	}
 	
 }

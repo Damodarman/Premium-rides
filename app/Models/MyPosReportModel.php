@@ -21,4 +21,19 @@ class MyPosReportModel extends Model
 		'fleet',
 		'report_for_week'
     ];
+	
+	public function getDriverReports($startWeek, $endWeek, $myPosUniqueId, $fleet){
+		
+		
+		return $this->select('Date_initiated, Type, Amount, report_for_week')
+					->where('fleet', $fleet)
+					->where('Terminal_name', $myPosUniqueId)
+					->where('report_for_week >= ', $startWeek)
+					->where('report_for_week <= ', $endWeek)
+					->findAll();
+			
+		
+	}
+	
+	
 }

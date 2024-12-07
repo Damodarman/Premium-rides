@@ -31,4 +31,25 @@ class BoltReportModel extends Model
         'fleet',
 		'report_for_week'
     ];
+	
+	
+	
+	
+	public function getDriverReports($startWeek, $endWeek, $boltUniqueId, $fleet){
+		
+		
+		return $this->select('Bruto_iznos, Otkazna_naknada, Naknada_za_cestarinu, Voznje_placene_gotovinom_prikupljena_gotovina, Bonus, Nadoknade, Napojnica, report_for_week')
+					->where('fleet', $fleet)
+					->where('Vozac', $boltUniqueId)
+					->where('report_for_week >= ', $startWeek)
+					->where('report_for_week <= ', $endWeek)
+					->findAll();
+			
+		
+	}
+	
+	
+	
+	
+	
 }

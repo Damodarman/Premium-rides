@@ -40,13 +40,65 @@ $routes->get('logs', 'LogViewerController::index');
 //$routes->post('/admin/driver-activity', 'AdminController::driverActivity');
 $routes->add('/admin/driver-activity', 'AdminController::driverActivity', ['methods' => ['GET', 'POST']]);
 
+// BACKUPS
+$routes->group('backups', ['namespace' => 'App\Controllers'], ['filter' => 'authGuard'], function ($routes) {
+    // View all backups
+    $routes->get('/', 'BackupController::index'); 
+
+    // Create a backup based on type (hourly, daily, etc.)
+    $routes->get('create/(:segment)', 'BackupController::createBackup/$1'); 
+
+    // Rotate backups for a specific type
+    $routes->get('rotate/(:segment)', 'BackupController::rotateBackups/$1'); 
+
+    // Restore a specific backup
+    $routes->get('restore/(:segment)', 'BackupController::restore/$1'); 
+	
+	// Manual backup
+	$routes->get('manual', 'BackupController::manualBackup');
+    // Send email with download links for backups
+    $routes->get('email/(:segment)', 'BackupController::sendBackupLinks/$1'); 
+});
+$routes->get('backups/download/(:any)', 'BackupController::download/$1');
+
+
+
+// TASKS
+$routes->get('tasks', 'Tasks::index',['filter' => 'authGuard']);
+$routes->get('tasks/create', 'Tasks::create',['filter' => 'authGuard']);
+$routes->post('tasks/store', 'Tasks::store',['filter' => 'authGuard']);
+$routes->post('tasks/requestHelp/(:num)', 'Tasks::requestHelp/$1',['filter' => 'authGuard']);
+$routes->get('tasks/edit/(:num)', 'Tasks::edit/$1',['filter' => 'authGuard']);
+$routes->post('tasks/update/(:num)', 'Tasks::update/$1',['filter' => 'authGuard']);
+$routes->get('tasks/markAsCompleted/(:num)', 'Tasks::markAsCompleted/$1',['filter' => 'authGuard']);
+$routes->get('tasks/start/(:num)', 'Tasks::start/$1',['filter' => 'authGuard']);
+$routes->post('tasks/updateStatus/(:num)', 'Tasks::updateStatus/$1',['filter' => 'authGuard']);
+$routes->get('tasks/show/(:num)', 'Tasks::show/$1',['filter' => 'authGuard']);
+$routes->post('tasks/create/obracun/(:num)', 'Tasks::createObracunTask/$1',['filter' => 'authGuard']);
+$routes->post('tasks/create/vozac/(:num)', 'Tasks::createVozacTask/$1',['filter' => 'authGuard']);
+$routes->get('tasks/getChatMessages/(:num)', 'Tasks::getChatMessages/$1');
+$routes->post('tasks/sendMessage', 'Tasks::sendMessage');
+
+
+
+//NOTIFICATIONS
+
+$routes->get('notifications/getNotifications', 'NotificationController::getNotifications');
+$routes->post('notifications/markAsRead', 'NotificationController::markAsRead');
+$routes->post('notifications/markAsDelivered', 'NotificationController::markAsDelivered');
+
 
 
 // API AJAX ROUTES START
 $routes->get('api/vehicle-counts', 'ApiController::getVehicleCounts');
+$routes->post('api/getDriversReports', 'ApiController::getDriversReports');
+$routes->get('api/getDriversReports', 'ApiController::getDriversReports');
+$routes->get('api/getReportWeeks', 'ApiController::getReportWeeks');
 $routes->get('api/drivers-counts', 'ApiController::getDriversCounts'); 
 $routes->get('api/getPlatformRatio', 'ApiController::getPlatformRatio'); 
 $routes->post('api/getPlatformRatio', 'ApiController::getPlatformRatio'); 
+$routes->post('api/getDriverNameById', 'ApiController::getDriverNameById'); 
+$routes->get('api/checkSession', 'ApiController::checkSession'); 
 
 
 // API AJAX ROUTES END
@@ -87,8 +139,12 @@ $routes->get('/driver/create', 'DriversController::create',['filter' => 'authGua
 
 // NEW ROUTES END
 
-
-
+$routes->get('generatePdfAll', 'AdminController::generatePdfAll',['filter' => 'authGuard']);
+$routes->post('editTvrtka/(:num)', 'TvrtkaController::editTvrtka/$1');
+$routes->get('tvrtka/uploadPecat/(:num)', 'TvrtkaController::uploadPecat/$1');
+$routes->post('tvrtka/uploadPecat/(:num)', 'TvrtkaController::uploadPecat/$1');
+$routes->get('generateCombinedPdf/(:num)', 'AdminController::generateCombinedPdf/$1',['filter' => 'authGuard']);
+$routes->get('generateCombinedPdfSimple/(:num)', 'AdminController::generateCombinedPdfSimple/$1',['filter' => 'authGuard']);
 
     $routes->get('/vehicles/step2/(:num)', 'VehicleController::step2/$1',['filter' => 'authGuard']); // Vehicle ID is passed to this route
     $routes->post('/vehicles/storeStep2/(:num)', 'VehicleController::storeStep2/$1',['filter' => 'authGuard']); // Vehicle ID is passed to storeStep2
@@ -135,6 +191,7 @@ $routes->match(['get', 'post'], 'AdminController/raskidUgovora', 'AdminControlle
 $routes->match(['get', 'post'], 'AdminController/addDriverSave', 'AdminController::addDriverSave', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/napomenaSave', 'AdminController::napomenaSave', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/sendmsg', 'AdminController::sendmsg', ['filter' => 'authGuard']);
+$routes->match(['get', 'post'], 'sendMultipleMsg', 'AdminController::sendMultipleMsg', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'FlotaController/UltramsgLibPostavke', 'FlotaController::UltramsgLibPostavke', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'FlotaController/saveMsgTmpl', 'FlotaController::saveMsgTmpl', ['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/driverUpdate', 'AdminController::driverUpdate', ['filter' => 'authGuard']);
@@ -153,6 +210,8 @@ $routes->match(['get', 'post'], 'AdminController/poslatiObracun', 'AdminControll
 $routes->match(['get', 'post'], 'AdminController/boltReportImport', 'AdminController::boltReportImport',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'ImportController/taximetarImport', 'ImportController::taximetarImport',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'ImportController/boltImport', 'ImportController::boltImport',['filter' => 'authGuard']);
+$routes->match(['get', 'post'], 'ImportController/importMultipleFilesBolt', 'ImportController::importMultipleFilesBolt',['filter' => 'authGuard']);
+$routes->match(['get', 'post'], 'ImportController/importMultipleFilesUber', 'ImportController::importMultipleFilesUber',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'ImportController/uberActivityReportImport', 'ImportController::activityUberImport',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'ImportController/boltActivityImport', 'ImportController::boltActivityImport',['filter' => 'authGuard']);
 $routes->match(['get', 'post'], 'AdminController/myPosReportImport', 'AdminController::myPosReportImport',['filter' => 'authGuard']);
@@ -181,7 +240,8 @@ $routes->get('/radniOdnos/(:any)', 'AdminController::radniOdnos/$1',['filter' =>
 $routes->get('/radniOdnosBolt/(:any)', 'AdminController::radniOdnosBolt/$1',['filter' => 'authGuard']);
 $routes->get('/blagajnickiminmax', 'AdminController::blagajnickiminmax',['filter' => 'authGuard']);
 $routes->get('/blagajnickiminmax/(:any)', 'AdminController::blagajnickiminmaxPdf/$1',['filter' => 'authGuard']);
-$routes->get('/obracun/(:any)', 'AdminController::obracun/$1',['filter' => 'authGuard']);
+$routes->get('/obracun/(:num)', 'AdminController::obracun/$1',['filter' => 'authGuard']);
+$routes->get('/obracun/view/(:num)', 'ObracunController::obracunView/$1',['filter' => 'authGuard']);
 $routes->get('/placanjeNajam/(:any)', 'AdminController::obracunNajma/$1',['filter' => 'authGuard']);
 $routes->get('/knjigovodstvo/(:any)', 'AdminController::knjigovodstvo/$1',['filter' => 'authGuard']);
 $routes->get('/drivers', 'AdminController::drivers',['filter' => 'authGuard']);

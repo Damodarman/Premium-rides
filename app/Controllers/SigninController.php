@@ -36,6 +36,8 @@ class SigninController extends Controller
         $password = $this->request->getVar('password');
         
         $data = $userModel->where('email', $email)->first();
+		$userName = $userModel->select('name')->where('email', $email)->first();
+
 		
 		$fleet = $data['fleet'];
 		if(empty($fleet)){
@@ -51,6 +53,8 @@ class SigninController extends Controller
 				if($data['comfirmed'] != 0){
 					$ses_data = [
 						'id' => $data['id'],
+						'userName' => $userName,
+						'userName2' => $userName['name'],
 						'name' => $data['name'],
 						'email' => $data['email'],
 						'phone' => $data['phone'],

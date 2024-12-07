@@ -54,7 +54,6 @@ class TvrtkaController extends Controller
 			'država' => 'required',
 			'OIB' => 'required|regex_match[/^\d{11}$/]',
 			'direktor' => 'required',
-			'fleet' => 'required',
 			'pocetak_tvrtke' => 'required',
 		];
 
@@ -80,20 +79,84 @@ class TvrtkaController extends Controller
 				. view('adminDashboard/navBar')
 				. view('adminDashboard/tvrtka')
 				. view('footer');
-		} else {
-			// If validation succeeds, process the form data and redirect to a success page
-			// Fill the formData array with user input data
-			foreach ($validationRules as $inputName => $rule) {
-				$tvrtka[$inputName] = $request->getPost($inputName);
-			}
+			} else {
+
+				$potpisPecatFile = $this->request->getFile('potpis_pecat');
+				 $newFileName = 'default.png'; // Default image name
+				if ($potpisPecatFile && $potpisPecatFile->isValid()) {
+					$newFileName = $potpisPecatFile->getRandomName();
+					$potpisPecatFile->move('uploads', $newFileName);
+				}
+
+			// Insert new record
+			$tvrtkaData = [
+				'naziv' => $this->request->getPost('naziv'),
+				'adresa' => $this->request->getPost('adresa'),
+				'postanskiBroj' => $this->request->getPost('postanskiBroj'),
+				'grad' => $this->request->getPost('grad'),
+				'država' => $this->request->getPost('država'),
+				'OIB' => $this->request->getPost('OIB'),
+				'direktor' => $this->request->getPost('direktor'),
+				'pocetak_tvrtke' => $this->request->getPost('pocetak_tvrtke'),
+				'fleet' => $fleet,
+				'oib_direktora' => $this->request->getPost('oib_direktora'),
+				'MBS' => $this->request->getPost('MBS'),
+				'IBAN' => $this->request->getPost('IBAN'),
+				'BIC' => $this->request->getPost('BIC'),
+				'potpis_pecat' => $newFileName,
+			];
 			// Process the form data and redirect to a success page
-			if($tvrtkaModel->save($tvrtka)){
+			if($tvrtkaModel->save($tvrtkaData)){
 				$session->setFlashdata('msgtvrtka', ' Uspješno dodana tvrtka.');
 				session()->setFlashdata('alert-class', 'alert-success');
-				return redirect()->to('admin/flota');
+				return redirect()->to('admin/tvrtka');
 			}
 			else{
 				$session->setFlashdata('msgtvrtka', ' Tvrtka nije dodana.');
+				session()->setFlashdata('alert-class', 'alert-danger');
+				return redirect()->to('admin/tvrtka');
+				
+			}
+		}
+	}
+	
+    public function editTvrtka($id)
+    {
+        $model = new TvrtkaModel();
+		$session = session();
+		$fleet = $session->get('fleet');
+
+        $potpisPecatFile = $this->request->getFile('potpis_pecat');
+        $data = [
+            'naziv' => $this->request->getPost('naziv'),
+            'adresa' => $this->request->getPost('adresa'),
+            'postanskiBroj' => $this->request->getPost('postanskiBroj'),
+            'grad' => $this->request->getPost('grad'),
+            'država' => $this->request->getPost('država'),
+            'OIB' => $this->request->getPost('OIB'),
+            'direktor' => $this->request->getPost('direktor'),
+            'pocetak_tvrtke' => $this->request->getPost('pocetak_tvrtke'),
+            'fleet' => $fleet,
+            'oib_direktora' => $this->request->getPost('oib_direktora'),
+            'MBS' => $this->request->getPost('MBS'),
+            'IBAN' => $this->request->getPost('IBAN'),
+            'BIC' => $this->request->getPost('BIC'),
+        ];
+
+        // Handle file upload for potpis_pecat if provided
+        if ($potpisPecatFile && $potpisPecatFile->isValid()) {
+            $newFileName = $potpisPecatFile->getRandomName();
+            $potpisPecatFile->move('uploads', $newFileName);
+            $data['potpis_pecat'] = $newFileName; // Only update if new file is uploaded
+        }
+
+        if($model->update($id, $data)){
+				$session->setFlashdata('msgtvrtka', ' Uspješno editirana tvrtka.');
+				session()->setFlashdata('alert-class', 'alert-success');
+				return redirect()->to('admin/tvrtka');
+		}
+			else{
+				$session->setFlashdata('msgtvrtka', ' Tvrtka nije editirana.');
 				session()->setFlashdata('alert-class', 'alert-danger');
 				echo view('adminDashboard/header', $data)
 					. view('adminDashboard/navBar')
@@ -101,7 +164,37 @@ class TvrtkaController extends Controller
 					. view('footer');
 				
 			}
-		}
-	}
+    }
+	
+	
+    public function uploadPecat($id)
+    {
+        $model = new TvrtkaModel();
+        $tvrtka = $model->find($id);
 
+        if ($this->request->getMethod() === 'post') {
+            $file = $this->request->getFile('potpis_pecat');
+
+            // Check if the file is valid and uploaded
+            if ($file && $file->isValid()) {
+                // Move the file to the uploads directory and generate a new name
+                $newName = $file->getRandomName();
+                $file->move('uploads', $newName);
+
+                // Update the tvrtka with the new file path
+                $model->update($id, ['potpis_pecat' => $newName]);
+
+                // Redirect back to the tvrtka list or show a success message
+                return redirect()->to(site_url('admin/tvrtke'))->with('msgtvrtka', 'Potpis i Pečat uploaded successfully');
+            } else {
+                return redirect()->back()->with('msgtvrtka', 'Failed to upload the image. Please try again.');
+            }
+        }
+
+        // Load the view with tvrtka details
+        return view('adminDashboard/tvrtka_upload_pecat', ['tvrtka' => $tvrtka]);
+    }
+	
+	
+	
 }

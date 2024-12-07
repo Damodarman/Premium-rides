@@ -1114,6 +1114,11 @@ public function skinutiSlike() {
     }
 }
 
+	public function obracunView($id = null){
+    $obracunModel = new ObracunModel();
+		$obracun = $obracunModel->getObracunById($id);
+		return $obracun;
+	}
 
 
 //	public function saveScreenshots() {
@@ -1165,6 +1170,7 @@ public function skinutiSlike() {
         if (file_exists($existingFilePath)) {
             // If the file exists, remove it
             unlink($existingFilePath);
+			$newName = '1_' .$newName;
         }
 
         // Move the new file to the directory

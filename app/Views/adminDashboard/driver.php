@@ -6,7 +6,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-2">
+		<div class="col-2"  style="display: none;">
 			<ul class="list-group  border-danger">
 				<?php
 				$bUId = $driver['bolt_unique_id'];
@@ -38,7 +38,28 @@
 				<?php endforeach ?>
 			</ul>
 	</div>
-		<div class="col-10">
+		<div class="col-12">
+			
+			
+			<div class="row">
+				<div class="d-flex align-items-center mb-3">
+					<input type="text" id="searchBox" class="form-control me-2" placeholder="Ovdje pretraži vozače">
+					<button class="btn btn-outline-secondary" id="toggleList">
+						<i class="bi bi-chevron-down"></i> <!-- Bootstrap Icon -->
+					</button>
+				</div>
+
+				<!-- Hidden List Group -->
+				<ul class="list-group" id="driverList" style="display: none; max-height: 300px; overflow-y: auto;">
+					<?php foreach ($drivers as $dr): ?>
+						<a href="<?php echo site_url('drivers/') . '/' . $dr['id']; ?>" 
+						   class="list-group-item list-group-item-action" 
+						   data-driver-name="<?php echo strtolower($dr['vozac']); ?>">
+							<?php echo $dr['vozac']; ?>
+						</a>
+					<?php endforeach; ?>
+				</ul>			
+			</div>
 												<?php if (session()->has('msgVozilo')){ ?>
 										<div class="alert <?=session()->getFlashdata('alert-class') ?>">
 											<?=session()->getFlashdata('msgVozilo') ?>
@@ -61,6 +82,90 @@
 									<?php } ?>
 
 			<h2><?php echo $driver['vozac'] ?></h2>
+			<div class="col-12">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#driverTaskModal">
+				 Zadatak vezan za vozača <?php echo $driver['vozac'] ?>
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="driverTaskModal" tabindex="-1" aria-labelledby="driverTaskModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<h1 class="modal-title fs-5" id="driverTaskModalLabel">Dodaj novi zadatak za vozača</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					  </div>
+					  <div class="modal-body">
+						<form action="<?= site_url('tasks/store') ?>" method="post" class="needs-validation" novalidate>
+							<!-- Title Field -->
+							<div class="mb-3">
+								<label for="title" class="form-label">Naslov</label>
+								<input type="text" name="title" id="title" class="form-control <?= session('validation') && session('validation')->hasError('title') ? 'is-invalid' : '' ?>" value="<?= old('title') ?>" required>
+								<?php if (session('validation') && session('validation')->hasError('title')): ?>
+									<div class="invalid-feedback">
+										<?= session('validation')->getError('title') ?>
+									</div>
+								<?php endif; ?>
+							</div>
+
+							<!-- Description Field -->
+							<div class="mb-3">
+								<label for="description" class="form-label">Zadatak</label>
+								<textarea name="description" id="description" class="form-control <?= session('validation') && session('validation')->hasError('description') ? 'is-invalid' : '' ?>" rows="4" required><?= old('description') ?></textarea>
+								<?php if (session('validation') && session('validation')->hasError('description')): ?>
+									<div class="invalid-feedback">
+										<?= session('validation')->getError('description') ?>
+									</div>
+								<?php endif; ?>
+							</div>
+
+							<!-- Priority Field -->
+							<div class="mb-3">
+								<label for="priority_id" class="form-label">Prioritet</label>
+								<select name="priority_id" id="priority_id" class="form-select <?= session('validation') && session('validation')->hasError('priority_id') ? 'is-invalid' : '' ?>" required>
+									<option value="" disabled <?= old('priority_id') ? '' : 'selected' ?>>Odaberi prioritet</option>
+									<?php foreach ($priorities as $priority): ?>
+										<option value="<?= $priority['id'] ?>" <?= old('priority_id') == $priority['id'] ? 'selected' : '' ?>><?= esc($priority['name']) ?></option>
+									<?php endforeach; ?>
+								</select>
+								<?php if (session('validation') && session('validation')->hasError('priority_id')): ?>
+									<div class="invalid-feedback">
+										<?= session('validation')->getError('priority_id') ?>
+									</div>
+								<?php endif; ?>
+							</div>
+
+							<!-- Task Type Field -->
+							<input type="hidden" value="vozac_related" name="task_type" id="task_type">
+							<input type="hidden" value="<?php echo $driver['id']  ?>" name="related_entity_id" id="related_entity_id">
+
+							<!-- Assigned Users Field -->
+							<div class="mb-3">
+								<label for="users" class="form-label">Kome dodjeliti zadatak</label>
+								<select name="assigned_users[]" id="users" class="form-select <?= session('validation') && session('validation')->hasError('assigned_users') ? 'is-invalid' : '' ?>" multiple>
+									<?php foreach ($users as $user): ?>
+										<option value="<?= $user['id'] ?>" <?= in_array($user['id'], old('assigned_users') ?? []) ? 'selected' : '' ?>><?= esc($user['name']) ?></option>
+									<?php endforeach; ?>
+								</select>
+								<?php if (session('validation') && session('validation')->hasError('assigned_users')): ?>
+									<div class="invalid-feedback">
+										<?= session('validation')->getError('assigned_users') ?>
+									</div>
+								<?php endif; ?>
+							</div>
+
+							<!-- Submit Button -->
+							<button type="submit" class="btn btn-primary">Kreiraj zadatak</button>
+						</form>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			</div>
 			<div class="accordion accordion-flush" id="accordionFlushExample">
 			<div class="accordion-item">
 
@@ -71,7 +176,10 @@
 			</h2>
 			<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
 			<div class="accordion-body">
-			<?php $VOZACID = $driver['id']; ?>
+			<?php $VOZACID = $driver['id']; 
+				
+				
+				?>
 
 			<form id="form1" class="row g-3 needs-validation" action="<?php echo site_url('AdminController/driverUpdate');?>" method="post" novalidate>
 			  <input type="hidden" class="form-control" name="id"  value ="<?php echo $driver['id']  ?>">
@@ -248,6 +356,15 @@
 				  <input type="text" class="form-control" name="taximetar_unique_id"  value ="<?php echo $driver['taximetar_unique_id']  ?>" required>
 				  <div class="invalid-feedback">Email na taximetru je obavezan.</div>
 			  </div>
+				
+				<?php 
+				$boltUniqueId = $driver['bolt_unique_id'];
+				$uberUniqueId = $driver['uber_unique_id'];
+				$taximetarUniqueId = $driver['taximetar_unique_id'];
+				$myPosUniqueId = $driver['myPos_unique_id'];
+
+				
+				?>
 						<hr class="hr" />
 
 			<div class="col-md-3">
@@ -550,10 +667,23 @@
 			  <div class="accordion-body" style="max-height: 800px; overflow: auto;">
 
 		<?php 
+				  $ukupnoNeto = 0;
+				  $ukupnoGotovina = 0;
+				  $ukupnoBonusZaVozace = 0;
+				  $ukupnoNapojnica = 0;
+				  $ukupnoPovrati = 0;
+				  $ukupnoProvizija = 0;
 			if(isset($driverObracun)): ?>
 				<?php foreach ($driverObracun as $driver):?>
 				  
-			<?php	$driver_slug_id = str_replace(' ','_', $driver['vozac']); 
+			<?php	
+				  $ukupnoNeto += $driver['ukupnoNeto'];
+				  $ukupnoGotovina += $driver['ukupnoGotovina'];
+				  $ukupnoBonusZaVozace += $driver['bonus_ref'];
+				  $ukupnoNapojnica += $driver['ukupnoNapojnica'];
+				  $ukupnoPovrati += $driver['ukupnoPovrat'];
+				  $ukupnoProvizija += $driver['provizija'];
+			$driver_slug_id = str_replace(' ','_', $driver['vozac']); 
 			$driver_slug_id = str_replace('č','c', $driver_slug_id); 
 			$driver_slug_id = str_replace('ć','c', $driver_slug_id); 
 			$driver_slug_id = str_replace('ž','z', $driver_slug_id); 
@@ -567,6 +697,8 @@
 			$raspon_slug = str_replace(' - ','_', $driver['raspon']);
 			$driver_slug_id = $driver_slug_id .'_' .$raspon_slug;
 			$reportIDs[] = $driver_slug_id;
+				  
+			
 			?>
 			<div class="col-2"></div>
 			<div class="col col-xxl-8 col-xl-8 col-lg-12 col-m-12 col-sm-12">
@@ -785,6 +917,110 @@
 			</div>
 			<?php endif ?>
 			<div class ="accordion-item">
+				<h2 class="accordion-header" id="flush-headingSeven">
+			  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
+				Izvještaji
+			  </button>
+			</h2>
+				<div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven" data-bs-parent="#accordionFlushExample">
+			  <div class="accordion-body">
+					<div class="box">
+						<div class="container">
+							<div class="row">
+								<div class="col-5">
+									<label for="startWeek" class="form-label">Start Week:</label>
+									<select id="startWeek"  class="form-select"></select>
+								</div>
+								<div class="col-5">
+									<label for="endWeek" class="form-label">End Week:</label>
+									<select id="endWeek"  class="form-select"></select>
+								</div>
+								<div class="col-2">
+									<button id="fetchReports" class="btn btn-sm btn-primary bottom-50">Fetch Reports</button>
+								</div>
+								</div>
+							</div>
+							<div class="container mt-4">
+								<h1 class="mb-4">Driver Reports</h1>
+								<!-- Bootstrap Tabs -->
+								<ul class="nav nav-tabs" id="reportTabs" role="tablist">
+									<li class="nav-item" role="presentation">
+										<button class="nav-link active" id="uber-tab" data-bs-toggle="tab" data-bs-target="#uberReports" type="button" role="tab">Uber Reports</button>
+									</li>
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="bolt-tab" data-bs-toggle="tab" data-bs-target="#boltReports" type="button" role="tab">Bolt Reports</button>
+									</li>
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="taximetar-tab" data-bs-toggle="tab" data-bs-target="#taximetarReports" type="button" role="tab">Taximetar Reports</button>
+									</li>
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="mypos-tab" data-bs-toggle="tab" data-bs-target="#myPosReports" type="button" role="tab">MyPos Reports</button>
+									</li>
+								</ul>
+								<div class="tab-content mt-3">
+									<!-- Uber Reports -->
+									<div class="tab-pane fade show active" id="uberReports" role="tabpanel">
+										<table id="uberTable" class="display table table-bordered">
+											<thead>
+												<tr>
+													<th>Week</th>
+													<th>Net Earnings</th>
+													<th>Expenses</th>
+													<th>Cash Payments</th>
+													<th>Tips</th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
+									</div>
+									<!-- Bolt Reports -->
+									<div class="tab-pane fade" id="boltReports" role="tabpanel">
+										<table id="boltTable" class="display table table-bordered">
+											<thead>
+												<tr>
+													<th>Gross Amount</th>
+													<th>Cancel Fees</th>
+													<th>Toll Fees</th>
+													<th>Cash Collected</th>
+													<th>Bonus</th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
+									</div>
+									<!-- Taximetar Reports -->
+									<div class="tab-pane fade" id="taximetarReports" role="tabpanel">
+										<table id="taximetarTable" class="display table table-bordered">
+											<thead>
+												<tr>
+													<th>Week</th>
+													<th>Total Revenue</th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
+									</div>
+									<!-- MyPos Reports -->
+									<div class="tab-pane fade" id="myPosReports" role="tabpanel">
+										<table id="myPosTable" class="display table table-bordered">
+											<thead>
+												<tr>
+													<th>Week</th>
+													<th>Amount</th>
+													<th>Type</th>
+													<th>Date Initiated</th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+				  		</div>
+					</div>
+				</div>
+			</div>
+			<div class ="accordion-item">
 				<h2 class="accordion-header" id="flush-headingThree">
 			  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
 				Dokumenti
@@ -811,6 +1047,12 @@
 								</div>
 								<div class="col">
 									<a class="btn btn-outline-info" href="<?php echo site_url('radniOdnosBolt/'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Odnos Bolt</a>
+								</div>
+								<div class="col">
+									<a class="btn btn-outline-info" href="<?php echo site_url('generateCombinedPdf'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Kombinirani dokumenti Dupli</a>
+								</div>
+								<div class="col">
+									<a class="btn btn-outline-info" href="<?php echo site_url('generateCombinedPdfSimple'). '/' .$driverId ?>" target="_blank" rel="noopener noreferrer" role="button">Kombinirani dokumenti</a>
 								</div>
 								<?php if($aneks == TRUE): ?>
 								<div class="col">
@@ -1125,6 +1367,33 @@
 			
 				
 <div class="row">
+	<?php if($role != 'knjigovoda'): ?>
+	<div class="col-12">
+		<table class="table">
+		  <thead>
+			<tr>
+			  <th scope="col">Ukupno Neto</th>
+			  <th scope="col">Ukupno Gotovina</th>
+			  <th scope="col">Ukupno Napojnica</th>
+			  <th scope="col">Ukupno Povrati</th>
+			  <th scope="col">Ukupno Bonusi</th>
+			  <th scope="col">Ukupno Provizija</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td><?=$ukupnoNeto?></td>
+			  <td><?=$ukupnoGotovina ?></td>
+			  <td><?=$ukupnoNapojnica ?></td>
+			  <td><?=$ukupnoPovrati?></td>
+			  <td><?=$ukupnoBonusZaVozace?></td>
+			  <td><?=$ukupnoProvizija?></td>
+			</tr>
+		  </tbody>
+		</table>
+	</div>
+	<?php endif ?>
+	
 	<div class="col-md-12">
 		<label for="daterange" class="form-label">Raspon</label>
         <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
@@ -1182,8 +1451,192 @@
 
 
 
-<!-- Bootstrap 5 JavaScript Bundle with Popper -->
+<script>
+    $(document).ready(function () {
+        // Fetch weeks data via AJAX
+        $.ajax({
+            url: '<?= site_url("/api/getReportWeeks") ?>',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                const weeks = response.uniqueWeeks;
 
+                // Function to convert YYYYWW to date range format (dd.mm.yyyy - dd.mm.yyyy)
+                function getWeekRange(week) {
+                    const year = parseInt(week.substring(0, 4));
+                    const weekNumber = parseInt(week.substring(4));
+                    const firstDay = new Date(Date.UTC(year, 0, (weekNumber - 1) * 7));
+                    const lastDay = new Date(Date.UTC(year, 0, (weekNumber - 1) * 7 + 6));
+                    const formatDate = (date) =>
+                        `${date.getUTCDate().toString().padStart(2, '0')}.${(date.getUTCMonth() + 1)
+                            .toString()
+                            .padStart(2, '0')}.${date.getUTCFullYear()}`;
+                    return `${formatDate(firstDay)} - ${formatDate(lastDay)}`;
+                }
+
+                // Populate dropdowns
+                weeks.forEach((week) => {
+                    const range = getWeekRange(week);
+                    $('#startWeek').append(new Option(range, week));
+                    $('#endWeek').append(new Option(range, week));
+                });
+
+                // Set default values (first and last week)
+                $('#startWeek').val(weeks[0]);
+                $('#endWeek').val(weeks[weeks.length - 1]);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching weeks:", error);
+            }
+        });
+
+        // Fetch reports on button click
+        $('#fetchReports').click(function () {
+            const startWeek = $('#startWeek').val();
+            const endWeek = $('#endWeek').val();
+
+            $.ajax({
+                url: '<?= site_url("/api/getDriversReports") ?>',
+                type: 'POST',
+                data: {
+                    startWeek: startWeek,
+                    endWeek: endWeek,
+                    boltUniqueId: '<?= $boltUniqueId ?>',
+                    uberUniqueId: '<?= $uberUniqueId ?>',
+                    taximetarUniqueId: '<?= $taximetarUniqueId ?>',
+                    myPosUniqueId: '<?= $myPosUniqueId ?>'
+                },
+                dataType: 'json',
+                success: function (response) {
+					 console.log('AJAX Response:', response); 
+                if (response.uberReports) {
+                    // Destroy existing DataTable if it exists
+                    if ($.fn.DataTable.isDataTable('#uberTable')) {
+                        $('#uberTable').DataTable().destroy();
+                    }
+
+                    // Initialize the DataTable with the fetched data
+                    $('#uberTable').DataTable({
+                        data: response.uberReports,
+ 						lengthMenu: [
+							[10, 25, 50, -1],
+							[10, 25, 50, 'All']
+						],
+						"responsive": true, "lengthChange": false, "autoWidth": false,
+						paging: true, // Enable pagination
+						ordering: true, // Enable sorting
+						info: false, // Disable the information display
+						dom: 'Bfrtip', // Show buttons for exporting
+						buttons: [
+							'copy', 'csv', 'excel', 'pdf', 'print','pageLenght'
+						],
+                       columns: [
+                            { title: "Week", data: "report_for_week" },
+                            { title: "Net Earnings", data: "Ukupna_zarada_Neto_cijena" },
+                            { title: "Costs", data: "Povrati_i_troskovi" },
+                            { title: "Cash Paid", data: "Isplate_Naplaceni_iznos_u_gotovini" },
+                            { title: "Tips", data: "Ukupna_zarada_Napojnica" }
+                        ]
+                    });
+                } else {
+                    console.error('No data for Uber Reports');
+                }
+
+                // Repeat the above logic for other tables (Bolt, Taximetar, MyPos)
+                if (response.boltReports) {
+                    if ($.fn.DataTable.isDataTable('#boltTable')) {
+                        $('#boltTable').DataTable().destroy();
+                    }
+                    $('#boltTable').DataTable({
+                        data: response.boltReports,
+						lengthMenu: [
+							[10, 25, 50, -1],
+							[10, 25, 50, 'All']
+						],
+						"responsive": true, "lengthChange": false, "autoWidth": false,
+						paging: true, // Enable pagination
+						ordering: true, // Enable sorting
+						info: false, // Disable the information display
+						dom: 'Bfrtip', // Show buttons for exporting
+						buttons: [
+							'copy', 'csv', 'excel', 'pdf', 'print','pageLenght'
+						],
+                        columns: [
+                            { title: "Gross Amount", data: "Bruto_iznos" },
+                            { title: "Cancellation Fee", data: "Otkazna_naknada" },
+                            { title: "Toll Fee", data: "Naknada_za_cestarinu" },
+                            { title: "Cash Collected", data: "Voznje_placene_gotovinom_prikupljena_gotovina" },
+                            { title: "Bonus", data: "Bonus" }
+                        ]
+                    });
+                } else {
+                    console.error('No data for Bolt Reports');
+                }
+
+                if (response.taximetarReports) {
+                    if ($.fn.DataTable.isDataTable('#taximetarTable')) {
+                        $('#taximetarTable').DataTable().destroy();
+                    }
+                    $('#taximetarTable').DataTable({
+                        data: response.taximetarReports,
+ 						lengthMenu: [
+							[10, 25, 50, -1],
+							[10, 25, 50, 'All']
+						],
+						"responsive": true, "lengthChange": false, "autoWidth": false,
+						paging: true, // Enable pagination
+						ordering: true, // Enable sorting
+						info: false, // Disable the information display
+						dom: 'Bfrtip', // Show buttons for exporting
+						buttons: [
+							'copy', 'csv', 'excel', 'pdf', 'print','pageLenght'
+						],
+                       columns: [
+                            { title: "Week", data: "week" },
+                            { title: "Total Revenue", data: "Ukupni_promet" }
+                        ]
+                    });
+                } else {
+                    console.error('No data for Taximetar Reports');
+                }
+
+                if (response.myPosReports) {
+                    if ($.fn.DataTable.isDataTable('#myPosTable')) {
+                        $('#myPosTable').DataTable().destroy();
+                    }
+                    $('#myPosTable').DataTable({
+                        data: response.myPosReports,
+						lengthMenu: [
+							[10, 25, 50, -1],
+							[10, 25, 50, 'All']
+						],
+						"responsive": true, "lengthChange": false, "autoWidth": false,
+						paging: true, // Enable pagination
+						ordering: true, // Enable sorting
+						info: false, // Disable the information display
+						dom: 'Bfrtip', // Show buttons for exporting
+						buttons: [
+							'copy', 'csv', 'excel', 'pdf', 'print','pageLenght'
+						],
+                        columns: [
+                            { title: "Date Initiated", data: "Date_initiated" },
+                            { title: "Type", data: "Type" },
+                            { title: "Amount", data: "Amount" },
+                            { title: "Week", data: "report_for_week" }
+                        ]
+						
+                    });
+                } else {
+                    console.error('No data for MyPos Reports');
+                }
+            },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
+    });
+</script>
 <!-- Vanilla Datepicker JS -->
 
 		
@@ -1714,6 +2167,59 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });		
 		</script>
+<!--		 DRIVERS SEARCH BOX-->
+    <script>
+        $(document).ready(function () {
+            const searchBox = $('#searchBox');
+            const driverList = $('#driverList');
+            const toggleListButton = $('#toggleList');
+            const listItems = driverList.find('a');
+
+            // Function to show the list and update the arrow icon
+            function showList() {
+                driverList.show(); // Show the list
+                toggleListButton.find('i').removeClass('bi-chevron-down').addClass('bi-chevron-up'); // Update icon
+            }
+
+            // Function to hide the list and update the arrow icon
+            function hideList() {
+                driverList.hide(); // Hide the list
+                toggleListButton.find('i').removeClass('bi-chevron-up').addClass('bi-chevron-down'); // Update icon
+            }
+
+            // Expand/collapse list on button click
+            toggleListButton.on('click', function () {
+                if (driverList.is(':visible')) {
+                    hideList();
+                } else {
+                    showList();
+                }
+            });
+
+            // Expand list when user focuses on the search box or starts typing
+            searchBox.on('focus input', function () {
+                showList(); // Expand the list
+                const query = searchBox.val().trim().toLowerCase();
+
+                // Filter the list dynamically
+                listItems.each(function () {
+                    const driverName = $(this).data('driver-name');
+                    if (query.length === 0 || driverName.includes(query)) {
+                        $(this).show(); // Show matched items or all if no query
+                    } else {
+                        $(this).hide(); // Hide unmatched items
+                    }
+                });
+            });
+
+            // Hide the list when clicking outside the search box or list
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('#searchBox, #driverList, #toggleList').length) {
+                    hideList(); // Hide the list when clicking outside
+                }
+            });
+        });
+    </script>		
 		
 <script>
 document.getElementById('form2').addEventListener('submit', function(event) {

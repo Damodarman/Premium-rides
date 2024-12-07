@@ -24,7 +24,7 @@
   <!-- Vendor CSS Files -->
 <!-- Bootstrap 5 CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-daterangepicker@3.1.0/daterangepicker.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 <link href="<?= base_url('/assets/css/style.css');?>" rel="stylesheet">
 <link type="text/css" href="<?php echo base_url('/assets/vendor/aos/aos.css')?>" rel="stylesheet">
@@ -39,6 +39,7 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"/>
 <link rel="stylesheet" href="https://unpkg.com/tableexport@5.3.0/dist/css/tableexport.min.css">
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
 
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -107,6 +108,38 @@ https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js
 	.fc-day-grid-event .fc-content .both { background-color: green !important; }
 	.fc-day-grid-event .fc-content .bolt-only { background-color: orange !important; }
 	.fc-day-grid-event .fc-content .uber-only { background-color: blue !important; }
+	
+/* Timeline Line */
+.timeline-line {
+    z-index: 1;
+    background-color: #e9ecef;
+}
+
+/* Timeline Badge (Circle) */
+.timeline-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+}
+
+/* Text Box Styling */
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.border {
+    border: 1px solid #ddd;
+}
+
+.p-2 {
+    padding: 10px;
+    max-width: 200px;
+    margin: 0 auto;
+}
+	
+	
 	
     </style>
 	<!-- Template Main CSS File -->

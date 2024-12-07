@@ -58,6 +58,9 @@ public function generateXML()
     $pmtInf->addChild('PmtMtd', 'TRF');
     $pmtInf->addChild('NbOfTxs', count($this->transactions));
     $pmtInf->addChild('CtrlSum', array_sum(array_column($this->transactions, 'amount')));
+	$pmtTpInf = $pmtInf->addChild('PmtTpInf');
+	$svcLvl = $pmtTpInf->addChild('SvcLvl');
+	$svcLvl->addChild('Cd', 'SEPA');
 
     // Required Execution Date
     $reqdExctnDt = $pmtInf->addChild('ReqdExctnDt');

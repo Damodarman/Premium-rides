@@ -191,6 +191,62 @@
                 color: rgba(255, 255, 255, .8);
             }
         }
+		
+		/* Timeline container */
+.timeline {
+    height: 100px;
+    border-top: 2px solid #e9ecef;
+    position: relative;
+}
+
+/* Timeline event */
+.timeline-event {
+    transform: translateX(-50%);
+    position: absolute;
+}
+
+/* Badge for events */
+.timeline-event .badge {
+    width: 20px;
+    height: 20px;
+}
+
+/* Content above the timeline */
+.timeline-event .event-content.up {
+    position: absolute;
+    bottom: 120%;
+    transform: translateY(-50%);
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Content below the timeline */
+.timeline-event .event-content.down {
+    position: absolute;
+    top: 120%;
+    transform: translateY(-50%);
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Align text */
+.timeline-event .event-content p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #495057;
+}
+
+/* Timestamp */
+.timeline-event .event-content small {
+    display: block;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+		
     </style>
 </head>
 <body>

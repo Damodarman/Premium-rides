@@ -25,5 +25,18 @@ class UberReportModel extends Model
 		'report_for_week',
 		'Ukupna_zarada_Ostala_zarada_Povrat_izgubljenih_predmeta'
     ];
+	
+	public function getDriverReports($startWeek, $endWeek, $uberUniqueId, $fleet){
+		
+		
+		return $this->select('Ukupna_zarada_Neto_cijena, Povrati_i_troskovi, Isplate_Naplaceni_iznos_u_gotovini, Ukupna_zarada_Napojnica, report_for_week')
+					->where('fleet', $fleet)
+					->where('Vozac', $uberUniqueId)
+					->where('report_for_week >= ', $startWeek)
+					->where('report_for_week <= ', $endWeek)
+					->findAll();
+			
+		
+	}
 }
 

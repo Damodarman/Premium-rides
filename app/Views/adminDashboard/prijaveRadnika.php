@@ -41,19 +41,34 @@
 				// Create DateTime objects from the date strings with the new format 'd/m/Y'
 				$datePrijave = DateTime::createFromFormat('d/m/Y', $pocetakPrijave);
 				$datePromjene = DateTime::createFromFormat('d/m/Y', $pocetakPromjene);
-				$timestampPromjene = $datePromjene->getTimestamp();
+				//$timestampPromjene = $datePromjene->getTimestamp();
 				
-
-				// Get timestamps from DateTime objects
-				$timestampPrijave = $datePrijave->getTimestamp();
-
-				if ($timestampPrijave < $timestampPromjene) {
 					$colorPrijave = '';
-					$colorPromjene = 'bg-info'; // or any other color for older dates
-				} else {
-					$colorPrijave = 'bg-info';
 					$colorPromjene = '';
-				}
+
+if ($datePrijave && $datePromjene) {
+    // Both dates are valid
+    $timestampPrijave = $datePrijave->getTimestamp();
+    $timestampPromjene = $datePromjene->getTimestamp();
+
+    if ($timestampPrijave < $timestampPromjene) {
+        $colorPrijave = '';
+        $colorPromjene = 'bg-info'; // Highlight older dates
+    } else {
+        $colorPrijave = 'bg-info';
+        $colorPromjene = '';
+    }
+} elseif ($datePrijave) {
+    // Only 'pocetak_prijave' is valid
+    $timestampPrijave = $datePrijave->getTimestamp();
+    $colorPrijave = 'bg-info';
+    $colorPromjene = ''; // Leave promjene without color
+} elseif ($datePromjene) {
+    // Only 'pocetak_promjene' is valid
+    $timestampPromjene = $datePromjene->getTimestamp();
+    $colorPrijave = ''; // Leave prijave without color
+    $colorPromjene = 'bg-info';
+}
 			?>
             <tr>
                 <td><?= $radnik['vozac'] ?></td>

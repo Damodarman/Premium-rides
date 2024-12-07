@@ -11,7 +11,10 @@
 	<?php } ?>
 	
 	<div class="row">
-	<h4>Postavke flote</h4>
+		<a class="btn btn-outline-info" href="<?php echo site_url('admin/tvrtka')?>" role="button">Tvrtke</a>
+		<a class="btn btn-outline-info" href="#" id="generateAllPdf" role="button">Generiraj pdf dokumente za sve vozače</a>
+		
+	<h2>Postavke flote</h2>
 		<form class="row g-3" action="<?php echo site_url('FlotaController/postavkeFlote');?>" method="post">
 			<div class="col-md-3">
 				<label for="naziv" class="form-label">Naziv Flote</label>
@@ -211,6 +214,34 @@
 	
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        var activeIDs = <?= json_encode($activeIDs) ?>; // Driver IDs array from PHP
+
+        // Handle button click
+        $('#generateAllPdf').on('click', function(e) {
+            e.preventDefault();  // Prevent default action of the button
+
+            // Disable the button to prevent multiple clicks
+            $('#generateAllPdf').prop('disabled', true).text('Generating PDFs...');
+
+            // Loop through each driver ID and open a new tab for each one
+            activeIDs.forEach(function(driverID) {
+                var url = "<?= base_url('generateCombinedPdf') ?>/" + driverID;  // URL to generate PDF for each driver
+                window.open(url, '_blank');  // Open the URL in a new tab
+            });
+
+            // Optionally, re-enable the button after all tabs are opened
+            setTimeout(function() {
+                $('#generateAllPdf').prop('disabled', false).text('Generiraj pdf dokumente za sve vozače');
+            }, 2000);  // Adjust the timeout as needed
+        });
+    });
+</script>
 
 
 
