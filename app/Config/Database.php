@@ -33,9 +33,9 @@ class Database extends Config
     public $default = [
         'DSN'      => '',
         'hostname' => '127.0.0.1',
-        'username' => 'premium',
-        'password' => 'DamoCb4i93G4',
-        'database' => 'premiumRides',
+        'username' => '',
+        'password' => '',
+        'database' => '',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
